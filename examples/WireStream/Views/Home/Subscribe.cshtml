@@ -1,0 +1,17 @@
+﻿<turbo-frame id="newsletter">
+    <div style="background-color: azure; padding: 1em; font-weight: bold; border-radius: 1em;">
+        <p>
+            Thanks for subscribing, @Context.Request.Form["name"]
+        </p>
+        <p>
+            We've sent a confirmation email at: @(Context.Request.Form["email"]).
+        </p>
+        <p>
+            Please confirm.
+        </p>
+    </div>
+
+    <p>
+        <a asp-controller="Home" asp-action="Index">Go Back</a>
+    </p>
+</turbo-frame>
