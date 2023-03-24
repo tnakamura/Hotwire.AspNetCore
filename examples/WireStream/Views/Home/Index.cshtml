@@ -22,11 +22,17 @@
     </header>
 
     <main>
-        <div style="width: 50%; margin: 0 auto;">
-            <turbo-frame id="newsletter">
-                <form asp-controller="Home" asp-action="Subscribe" method="post">
+        <p id="subscriber-count" style="padding: 1em; background-color: lightyellow; text-align: center;">
+            You have 2 subscribers
+        </p>
+
+        <hr />
+
+        <div style="width: 50%; margin: 2em auto;">
+            <div id="newsletter">
+                <form asp-controller="Home" asp-action="Subscribe">
                     <div>
-                        <label for="name">Name</label>
+                        <label for="name">Name:</label>
                         <input type="text" name="name" id="name" placeholder="Enter your name" />
                     </div>
 
@@ -40,7 +46,17 @@
                     <br />
                     <button type="submit">Subscribe</button>
                 </form>
-            </turbo-frame>
+            </div>
+        </div>
+
+        <hr />
+
+        <div style="width: 50%; margin: 0 auto;">
+            <h3>Subscriber List</h3>
+            <ul id="subscriber-list">
+                <li>Joel Spolsky</li>
+                <li>Jason Fried</li>
+            </ul>
         </div>
     </main>
 </body>

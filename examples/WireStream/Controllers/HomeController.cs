@@ -21,7 +21,9 @@ namespace WireStream.Controllers
         [HttpPost]
         public IActionResult Subscribe()
         {
-            return View();
+            var result = View();
+            result.ContentType = "text/vnd.turbo-stream.html; charset=utf-8";
+            return result;
         }
 
         public IActionResult Privacy()
