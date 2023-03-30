@@ -1,13 +1,9 @@
-﻿<turbo-stream action="replace" target="subscriber-count">
-    <template>
-        <p id="subscriber-count" style="padding: 1em; background-color: lightyellow; text-align: center;">
-            You have @Random.Shared.Next(100) subscribers.
-        </p>
-    </template>
-</turbo-stream>
+﻿<turbo-stream-replace target="subscriber-count">
+    <p id="subscriber-count" style="padding: 1em; background-color: lightyellow; text-align: center;">
+        You have @Random.Shared.Next(100) subscribers.
+    </p>
+</turbo-stream-replace>
 
-<turbo-stream action="append" target="subscriber-list">
-    <template>
-        <li>@Context.Request.Form["name"]</li>
-    </template>
-</turbo-stream>
+<turbo-stream-append target="subscriber-list">
+    <li>@Context.Request.Form["name"]</li>
+</turbo-stream-append>
