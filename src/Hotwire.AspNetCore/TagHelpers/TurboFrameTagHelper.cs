@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Hotwire.AspNetCore.TagHelpers
+namespace Turbo.AspNetCore.TagHelpers
 {
     public class TurboFrameTagHelper : TagHelper
     {
