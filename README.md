@@ -1,1 +1,1 @@
-# Hotwire.AspNetCore
+# Turbo.AspNetCore
