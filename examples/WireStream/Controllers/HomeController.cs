@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Turbo.AspNetCore;
 using WireStream.Models;
 
 namespace WireStream.Controllers
@@ -21,9 +22,7 @@ namespace WireStream.Controllers
         [HttpPost]
         public IActionResult Subscribe()
         {
-            var result = View();
-            result.ContentType = "text/vnd.turbo-stream.html; charset=utf-8";
-            return result;
+            return this.TurboStream();
         }
 
         public IActionResult Privacy()
