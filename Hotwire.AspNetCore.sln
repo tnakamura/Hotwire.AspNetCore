@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WireFrame", "examples\WireF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WireStream", "examples\WireStream\WireStream.csproj", "{E9A163C9-5381-4919-81BC-EB1123DA9836}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotwire.AspNetCore", "src\Hotwire.AspNetCore\Hotwire.AspNetCore.csproj", "{1006AF48-A061-4D62-94EF-39FBB6B742A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{E9A163C9-5381-4919-81BC-EB1123DA9836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9A163C9-5381-4919-81BC-EB1123DA9836}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9A163C9-5381-4919-81BC-EB1123DA9836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1006AF48-A061-4D62-94EF-39FBB6B742A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1006AF48-A061-4D62-94EF-39FBB6B742A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1006AF48-A061-4D62-94EF-39FBB6B742A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1006AF48-A061-4D62-94EF-39FBB6B742A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +44,7 @@ Global
 		{C3DE610B-365F-40CB-AEA5-2F4394B6012A} = {F2DBCBA9-F7C0-424B-A112-73AE7DA1998E}
 		{A55DABC8-B97B-4257-989C-91C8FA505029} = {0CD50EEE-4BC9-47D8-A5E4-662BA737B461}
 		{E9A163C9-5381-4919-81BC-EB1123DA9836} = {0CD50EEE-4BC9-47D8-A5E4-662BA737B461}
+		{1006AF48-A061-4D62-94EF-39FBB6B742A3} = {F2DBCBA9-F7C0-424B-A112-73AE7DA1998E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B66CD46B-E4E1-4C33-A71E-4499DD101E07}
