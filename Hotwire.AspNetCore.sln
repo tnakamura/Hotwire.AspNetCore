@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotwire.AspNetCore", "src\H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stimulus.AspNetCore", "src\Stimulus.AspNetCore\Stimulus.AspNetCore.csproj", "{97DE1D93-F089-4584-888C-A157D3BFD098}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6EB91D54-6946-4E07-B332-879DB9A39F18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Turbo.AspNetCore.Test", "test\Turbo.AspNetCore.Test\Turbo.AspNetCore.Test.csproj", "{49D9C4E0-8F52-4284-B4FC-3BA4D12B9F0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,10 @@ Global
 		{97DE1D93-F089-4584-888C-A157D3BFD098}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97DE1D93-F089-4584-888C-A157D3BFD098}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97DE1D93-F089-4584-888C-A157D3BFD098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49D9C4E0-8F52-4284-B4FC-3BA4D12B9F0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49D9C4E0-8F52-4284-B4FC-3BA4D12B9F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49D9C4E0-8F52-4284-B4FC-3BA4D12B9F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49D9C4E0-8F52-4284-B4FC-3BA4D12B9F0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +60,7 @@ Global
 		{E9A163C9-5381-4919-81BC-EB1123DA9836} = {0CD50EEE-4BC9-47D8-A5E4-662BA737B461}
 		{1006AF48-A061-4D62-94EF-39FBB6B742A3} = {F2DBCBA9-F7C0-424B-A112-73AE7DA1998E}
 		{97DE1D93-F089-4584-888C-A157D3BFD098} = {F2DBCBA9-F7C0-424B-A112-73AE7DA1998E}
+		{49D9C4E0-8F52-4284-B4FC-3BA4D12B9F0D} = {6EB91D54-6946-4E07-B332-879DB9A39F18}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B66CD46B-E4E1-4C33-A71E-4499DD101E07}
