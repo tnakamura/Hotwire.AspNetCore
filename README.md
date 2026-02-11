@@ -1,77 +1,77 @@
 # Hotwire.AspNetCore
 
-ASP.NET Core 向けの [Hotwire](https://hotwired.dev/) 実装ライブラリです。
+A [Hotwire](https://hotwired.dev/) implementation library for ASP.NET Core.
 
 [![Tests](https://img.shields.io/badge/tests-56%20passing-brightgreen)](test/)
 [![.NET](https://img.shields.io/badge/.NET-Standard%202.0%2B-blue)](https://dotnet.microsoft.com/)
 
-## 概要
+## Overview
 
-Hotwire は、JavaScript を最小限に抑えながら、高速でモダンな Web アプリケーションを構築するためのアプローチです。このライブラリは、ASP.NET Core アプリケーションで Hotwire を簡単に使用できるようにします。
+Hotwire is an approach for building fast, modern web applications while minimizing the use of JavaScript. This library makes it easy to use Hotwire in ASP.NET Core applications.
 
-**Rails パリティ達成**: このライブラリは、Ruby on Rails の turbo-rails、ActionCable、stimulus-rails と同等の機能を提供します。
+**Rails Parity Achieved**: This library provides equivalent functionality to Ruby on Rails' turbo-rails, ActionCable, and stimulus-rails.
 
-## 機能
+## Features
 
 ### ✅ Turbo Drive
-- **高速なページ遷移**: リンクとフォーム送信を AJAX 化し、ページ全体の再読み込みを防ぐ
-- **プログレッシブエンハンスメント**: JavaScript 無効時でも動作
-- **永続的な要素**: ページ遷移しても状態を保持する要素（音楽プレーヤーなど）
-- **Tag Helper サポート**: `<turbo-drive-meta>` や `<turbo-permanent>` など
+- **Fast page transitions**: AJAXifies links and form submissions to prevent full page reloads
+- **Progressive enhancement**: Works even when JavaScript is disabled
+- **Persistent elements**: Elements that maintain state across page transitions (e.g., music players)
+- **Tag Helper support**: `<turbo-drive-meta>`, `<turbo-permanent>`, and more
 
 ### ✅ Turbo Frames
-- **部分的なページ更新**: ページの特定部分のみを更新
-- **遅延読み込み**: 必要に応じてコンテンツを読み込む
-- **Tag Helper サポート**: `<turbo-frame>` でフレームを簡単に定義
+- **Partial page updates**: Update only specific portions of the page
+- **Lazy loading**: Load content on demand
+- **Tag Helper support**: Easily define frames with `<turbo-frame>`
 
 ### ✅ Turbo Streams
-- **リアルタイム更新**: WebSocket や SSE を使用してページを動的に更新
-- **16の標準アクション**: append, prepend, replace, update, remove, before, after, append_all, prepend_all, replace_all, update_all, remove_all, before_all, after_all, morph, refresh
-- **カスタムアクション**: 独自の DOM 操作ロジックを定義可能（Rails パリティ達成）
-- **Tag Helper サポート**: `<turbo-stream>` と `<turbo-stream-custom>` で簡単に Turbo Streams を生成
-- **SignalR 統合**: リアルタイムブロードキャスト機能（下記参照）
+- **Real-time updates**: Dynamically update pages using WebSocket or SSE
+- **16 standard actions**: append, prepend, replace, update, remove, before, after, append_all, prepend_all, replace_all, update_all, remove_all, before_all, after_all, morph, refresh
+- **Custom actions**: Define your own DOM manipulation logic (Rails parity achieved)
+- **Tag Helper support**: Easily generate Turbo Streams with `<turbo-stream>` and `<turbo-stream-custom>`
+- **SignalR integration**: Real-time broadcast functionality (see below)
 
 ### ✅ Stimulus
-完全な Stimulus サポート（別パッケージ `Stimulus.AspNetCore`）:
-- **5つの Tag Helper**: Controller, Action, Target, Value, Class
-- **9つの HTML 拡張メソッド**: プログラムから Stimulus 属性を生成
-- **軽量な JavaScript フレームワーク**: HTML を操作するための最小限の JavaScript
-- **20のテスト**: すべてパス
-- **サンプルアプリ**: WireStimulus で 5 つのコントローラー例を提供
+Full Stimulus support (separate package `Stimulus.AspNetCore`):
+- **5 Tag Helpers**: Controller, Action, Target, Value, Class
+- **9 HTML extension methods**: Programmatically generate Stimulus attributes
+- **Lightweight JavaScript framework**: Minimal JavaScript for HTML manipulation
+- **20 tests**: All passing
+- **Sample app**: WireStimulus provides 5 controller examples
 
-### ✅ SignalR 統合
-SignalR を使用したリアルタイム Turbo Streams:
-- **TurboStreamsHub**: WebSocket 接続を管理する SignalR Hub
-- **ITurboStreamBroadcaster**: ビューをリアルタイムでブロードキャストするサービス
-- **チャネルベースの購読**: 特定のチャネルにのみブロードキャスト
-- **自動再接続**: 接続断時の自動リトライ
-- **turbo-signalr.js**: クライアント側 JavaScript ライブラリ
-- **サンプルアプリ**: WireSignal で通知とチャットのデモを提供
+### ✅ SignalR Integration
+Real-time Turbo Streams using SignalR:
+- **TurboStreamsHub**: SignalR Hub for managing WebSocket connections
+- **ITurboStreamBroadcaster**: Service for broadcasting views in real-time
+- **Channel-based subscriptions**: Broadcast only to specific channels
+- **Automatic reconnection**: Automatic retry on connection loss
+- **turbo-signalr.js**: Client-side JavaScript library
+- **Sample app**: WireSignal provides notification and chat demos
 
-## インストール
+## Installation
 
 ```bash
 dotnet add package Hotwire.AspNetCore
 ```
 
-または、個別のパッケージ:
+Or, individual packages:
 
 ```bash
 dotnet add package Turbo.AspNetCore
 dotnet add package Stimulus.AspNetCore
 ```
 
-## クイックスタート
+## Quick Start
 
-### Turbo Drive の使用
+### Using Turbo Drive
 
-1. **_ViewImports.cshtml に Tag Helper を追加**:
+1. **Add Tag Helpers to _ViewImports.cshtml**:
 
 ```csharp
 @addTagHelper *, Turbo.AspNetCore
 ```
 
-2. **_Layout.cshtml でメタタグを設定**:
+2. **Set meta tags in _Layout.cshtml**:
 
 ```html
 <head>
@@ -79,20 +79,20 @@ dotnet add package Stimulus.AspNetCore
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     
-    @* Turbo Drive を有効化 *@
+    @* Enable Turbo Drive *@
     <turbo-drive-meta enabled="true" transition="fade" />
 </head>
 <body>
     @RenderBody()
     
-    @* Turbo.js を読み込み *@
+    @* Load Turbo.js *@
     <script type="module">
         import * as Turbo from 'https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.12/+esm';
     </script>
 </body>
 ```
 
-3. **永続的な要素を作成** (オプション):
+3. **Create persistent elements** (optional):
 
 ```html
 <turbo-permanent id="music-player">
@@ -102,19 +102,19 @@ dotnet add package Stimulus.AspNetCore
 </turbo-permanent>
 ```
 
-### Turbo Frames の使用
+### Using Turbo Frames
 
 ```html
 <turbo-frame id="messages">
-    <h2>メッセージ</h2>
-    <p>ここに最新のメッセージが表示されます</p>
-    <a href="/messages/1">メッセージを読む</a>
+    <h2>Messages</h2>
+    <p>Latest messages will appear here</p>
+    <a href="/messages/1">Read message</a>
 </turbo-frame>
 ```
 
-### Turbo Streams の使用
+### Using Turbo Streams
 
-**コントローラー**:
+**Controller**:
 
 ```csharp
 using Turbo.AspNetCore;
@@ -123,7 +123,7 @@ public class MessagesController : Controller
 {
     public IActionResult Create(MessageViewModel model)
     {
-        // バリデーション...
+        // Validation...
         
         if (Request.IsTurboStreamRequest())
         {
@@ -135,7 +135,7 @@ public class MessagesController : Controller
 }
 ```
 
-**ビュー (Create.cshtml)**:
+**View (Create.cshtml)**:
 
 ```html
 <turbo-stream action="append" target="messages">
@@ -147,9 +147,9 @@ public class MessagesController : Controller
 </turbo-stream>
 ```
 
-### Turbo カスタムアクションの使用
+### Using Turbo Custom Actions
 
-**JavaScript (カスタムアクションの定義)**:
+**JavaScript (Define custom action)**:
 
 ```javascript
 // wwwroot/js/custom-actions.js
@@ -160,29 +160,29 @@ Turbo.StreamActions.notify = function() {
 }
 ```
 
-**ビュー (Tag Helper)**:
+**View (Tag Helper)**:
 
 ```html
-<turbo-stream-custom action="notify" message="保存しました！" type="success"></turbo-stream-custom>
+<turbo-stream-custom action="notify" message="Saved successfully!" type="success"></turbo-stream-custom>
 ```
 
-**または HTML 拡張メソッド**:
+**Or HTML extension method**:
 
 ```csharp
-@Html.TurboStreamCustom("notify", new { message = "保存しました！", type = "success" })
+@Html.TurboStreamCustom("notify", new { message = "Saved successfully!", type = "success" })
 ```
 
-詳細は [Turbo カスタムアクションガイド](docs/turbo-custom-actions-guide.md) を参照。
+For details, see the [Turbo Custom Actions Guide](docs/turbo-custom-actions-guide.md).
 
-### Stimulus の使用
+### Using Stimulus
 
-**_ViewImports.cshtml に Tag Helper を追加**:
+**Add Tag Helpers to _ViewImports.cshtml**:
 
 ```csharp
 @addTagHelper *, Stimulus.AspNetCore
 ```
 
-**ビュー (Dropdown の例)**:
+**View (Dropdown example)**:
 
 ```html
 <div stimulus-controller="dropdown" 
@@ -191,18 +191,18 @@ Turbo.StreamActions.notify = function() {
     
     <button stimulus-action="click->dropdown#toggle" 
             class="btn btn-primary">
-        ドロップダウンを開く
+        Open Dropdown
     </button>
     
     <div stimulus-target="dropdown.menu" 
          class="dropdown-menu">
-        <a class="dropdown-item" href="#">アクション</a>
-        <a class="dropdown-item" href="#">別のアクション</a>
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
     </div>
 </div>
 ```
 
-**JavaScript (Stimulus コントローラー)**:
+**JavaScript (Stimulus controller)**:
 
 ```javascript
 // wwwroot/js/controllers/dropdown_controller.js
@@ -228,32 +228,32 @@ export default class extends Controller {
 }
 ```
 
-詳細は [Stimulus.AspNetCore README](src/Stimulus.AspNetCore/README.md) を参照。
+For details, see the [Stimulus.AspNetCore README](src/Stimulus.AspNetCore/README.md).
 
-### SignalR によるリアルタイム Turbo Streams
+### Real-time Turbo Streams with SignalR
 
-**Program.cs での設定**:
+**Setup in Program.cs**:
 
 ```csharp
 using Turbo.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// SignalR を追加
+// Add SignalR
 builder.Services.AddSignalR();
 
-// Turbo Stream Broadcaster を追加
+// Add Turbo Stream Broadcaster
 builder.Services.AddScoped<ITurboStreamBroadcaster, TurboStreamBroadcaster>();
 
 var app = builder.Build();
 
-// SignalR Hub をマップ
+// Map SignalR Hub
 app.MapHub<TurboStreamsHub>("/hubs/turbo-streams");
 
 app.Run();
 ```
 
-**コントローラーでのブロードキャスト**:
+**Broadcasting in controller**:
 
 ```csharp
 using Turbo.AspNetCore;
@@ -270,11 +270,11 @@ public class NotificationsController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(Notification notification)
     {
-        // すべての購読者にブロードキャスト
+        // Broadcast to all subscribers
         await _broadcaster.BroadcastViewAsync(
-            "notifications",     // チャネル名
-            "_Notification",     // パーシャルビュー
-            notification         // モデル
+            "notifications",     // Channel name
+            "_Notification",     // Partial view
+            notification         // Model
         );
 
         return this.TurboStream("_Notification", notification);
@@ -282,206 +282,206 @@ public class NotificationsController : Controller
 }
 ```
 
-**クライアント側の接続 (JavaScript)**:
+**Client-side connection (JavaScript)**:
 
 ```javascript
-// turbo-signalr.js を読み込み後
+// After loading turbo-signalr.js
 const turboSignalR = new TurboSignalR();
 await turboSignalR.start();
 await turboSignalR.subscribe('notifications');
 
-// イベントリスナー
+// Event listener
 document.addEventListener('turbo-signalr:streamReceived', (event) => {
-    console.log('リアルタイム更新を受信！');
+    console.log('Real-time update received!');
 });
 ```
 
-詳細は [SignalR 統合ガイド](docs/turbo-streams-signalr-guide.md) と [WireSignal サンプル](examples/WireSignal/README.md) を参照。
+For details, see the [SignalR Integration Guide](docs/turbo-streams-signalr-guide.md) and [WireSignal Sample](examples/WireSignal/README.md).
 
-## サンプルアプリケーション
+## Sample Applications
 
-このリポジトリには、Hotwire の各機能を実演する 5 つのサンプルアプリケーションが含まれています。
+This repository contains 5 sample applications demonstrating each Hotwire feature.
 
-### 1. WireDrive - Turbo Drive デモ
-高速なページ遷移と永続的な要素のデモ。
+### 1. WireDrive - Turbo Drive Demo
+Demo of fast page transitions and persistent elements.
 
 ```bash
 cd examples/WireDrive
 dotnet run
 ```
 
-**主な機能**:
-- 高速なページ遷移（リロード不要）
-- 永続的な要素（音楽プレーヤーなど）
-- プログレッシブエンハンスメント
+**Key features**:
+- Fast page transitions (no reload required)
+- Persistent elements (e.g., music player)
+- Progressive enhancement
 
-詳細は [WireDrive README](examples/WireDrive/README.md) を参照。
+For details, see the [WireDrive README](examples/WireDrive/README.md).
 
-### 2. WireFrame - Turbo Frames デモ
-部分的なページ更新のデモ。
+### 2. WireFrame - Turbo Frames Demo
+Demo of partial page updates.
 
 ```bash
 cd examples/WireFrame
 dotnet run
 ```
 
-**主な機能**:
-- 部分的なページ更新
-- 遅延読み込み
-- ネストされたフレーム
+**Key features**:
+- Partial page updates
+- Lazy loading
+- Nested frames
 
-### 3. WireStream - Turbo Streams デモ
-リアルタイム更新とカスタムアクションのデモ。
+### 3. WireStream - Turbo Streams Demo
+Demo of real-time updates and custom actions.
 
 ```bash
 cd examples/WireStream
 dotnet run
-# http://localhost:5000/CustomActions にアクセス
+# Navigate to http://localhost:5000/CustomActions
 ```
 
-**主な機能**:
-- 16 の標準 Turbo Stream アクション
-- 5 つのカスタムアクション（set_title, notify, slide_in, highlight, console_log）
-- DOM 操作のデモ
+**Key features**:
+- 16 standard Turbo Stream actions
+- 5 custom actions (set_title, notify, slide_in, highlight, console_log)
+- DOM manipulation demo
 
-### 4. WireStimulus - Stimulus デモ
-Stimulus コントローラーの包括的なデモ。
+### 4. WireStimulus - Stimulus Demo
+Comprehensive Stimulus controller demo.
 
 ```bash
 cd examples/WireStimulus
 dotnet run
 ```
 
-**主な機能**:
-- 5 つの実用的な Stimulus コントローラー
-  - **Dropdown**: トグル＋自動クローズ
-  - **Clipboard**: クリップボードコピー＋フィードバック
-  - **Counter**: インクリメント/デクリメント
-  - **Form**: リアルタイムバリデーション
-  - **Slideshow**: 画像カルーセル＋オートプレイ
+**Key features**:
+- 5 practical Stimulus controllers
+  - **Dropdown**: Toggle + auto-close
+  - **Clipboard**: Copy to clipboard + feedback
+  - **Counter**: Increment/decrement
+  - **Form**: Real-time validation
+  - **Slideshow**: Image carousel + autoplay
 
-詳細は [WireStimulus README](examples/WireStimulus/README.md) を参照。
+For details, see the [WireStimulus README](examples/WireStimulus/README.md).
 
-### 5. WireSignal - SignalR 統合デモ
-SignalR を使用したリアルタイム Turbo Streams のデモ。
+### 5. WireSignal - SignalR Integration Demo
+Demo of real-time Turbo Streams using SignalR.
 
 ```bash
 cd examples/WireSignal
 dotnet run
 ```
 
-**主な機能**:
-- リアルタイム通知システム
-- ライブチャット
-- SignalR による WebSocket 接続
-- チャネルベースの購読
+**Key features**:
+- Real-time notification system
+- Live chat
+- WebSocket connection via SignalR
+- Channel-based subscriptions
 
-詳細は [WireSignal README](examples/WireSignal/README.md) を参照。
+For details, see the [WireSignal README](examples/WireSignal/README.md).
 
-## ドキュメント
+## Documentation
 
-### ガイド
-- [Turbo Drive ガイド](docs/turbo-drive-guide.md) - Turbo Drive の使い方
-- [Turbo カスタムアクションガイド](docs/turbo-custom-actions-guide.md) - カスタムアクションの実装方法
-- [SignalR 統合ガイド](docs/turbo-streams-signalr-guide.md) - SignalR によるリアルタイム Turbo Streams
+### Guides
+- [Turbo Drive Guide](docs/turbo-drive-guide.md) - How to use Turbo Drive
+- [Turbo Custom Actions Guide](docs/turbo-custom-actions-guide.md) - How to implement custom actions
+- [SignalR Integration Guide](docs/turbo-streams-signalr-guide.md) - Real-time Turbo Streams with SignalR
 
-### 実装ドキュメント
-- [Hotwire 調査レポート](docs/hotwire-investigation-report.md) - 詳細な実装状況と Rails パリティの評価
-- [Turbo カスタムアクション実装プラン](docs/turbo-custom-actions-plan.md) - カスタムアクションの設計と実装計画
-- [Stimulus.AspNetCore README](src/Stimulus.AspNetCore/README.md) - Stimulus Tag Helper の完全なドキュメント
+### Implementation Documents
+- [Hotwire Investigation Report](docs/hotwire-investigation-report.md) - Detailed implementation status and Rails parity evaluation
+- [Turbo Custom Actions Implementation Plan](docs/turbo-custom-actions-plan.md) - Design and implementation plan for custom actions
+- [Stimulus.AspNetCore README](src/Stimulus.AspNetCore/README.md) - Complete documentation for Stimulus Tag Helpers
 
-### サンプルアプリケーション
-- [WireDrive README](examples/WireDrive/README.md) - Turbo Drive の例
-- [WireStimulus README](examples/WireStimulus/README.md) - Stimulus の包括的な例（5 つのコントローラー）
-- [WireSignal README](examples/WireSignal/README.md) - SignalR 統合の例
+### Sample Applications
+- [WireDrive README](examples/WireDrive/README.md) - Turbo Drive examples
+- [WireStimulus README](examples/WireStimulus/README.md) - Comprehensive Stimulus examples (5 controllers)
+- [WireSignal README](examples/WireSignal/README.md) - SignalR integration examples
 
-## 要件
+## Requirements
 
-- .NET Standard 2.0+ (ライブラリ)
-- .NET 6.0+ (サンプルアプリ)
+- .NET Standard 2.0+ (library)
+- .NET 6.0+ (sample apps)
 
-## パッケージ
+## Packages
 
-このリポジトリには 3 つのパッケージが含まれています:
+This repository contains 3 packages:
 
 ### 1. Hotwire.AspNetCore
-すべての機能を含む統合パッケージ（Turbo + Stimulus）
+Integrated package with all features (Turbo + Stimulus)
 
 ```bash
 dotnet add package Hotwire.AspNetCore
 ```
 
 ### 2. Turbo.AspNetCore
-Turbo Drive/Frames/Streams の実装
+Implementation of Turbo Drive/Frames/Streams
 
 ```bash
 dotnet add package Turbo.AspNetCore
 ```
 
 ### 3. Stimulus.AspNetCore
-Stimulus Tag Helper と HTML 拡張
+Stimulus Tag Helpers and HTML extensions
 
 ```bash
 dotnet add package Stimulus.AspNetCore
 ```
 
-## ビルド
+## Build
 
 ```bash
 dotnet build
 ```
 
-## テスト
+## Tests
 
 ```bash
 dotnet test
 ```
 
-**テスト結果**: 56 テスト（36 Turbo + 20 Stimulus）すべてパス ✅
+**Test results**: All 56 tests (36 Turbo + 20 Stimulus) passing ✅
 
-## プロジェクト構成
+## Project Structure
 
 ```
 Hotwire.AspNetCore/
 ├── src/
-│   ├── Hotwire.AspNetCore/      # 統合パッケージ
-│   ├── Turbo.AspNetCore/         # Turbo 実装
-│   │   ├── TagHelpers/           # Turbo Tag Helper (6個)
+│   ├── Hotwire.AspNetCore/      # Integrated package
+│   ├── Turbo.AspNetCore/         # Turbo implementation
+│   │   ├── TagHelpers/           # Turbo Tag Helpers (6)
 │   │   ├── Hubs/                 # SignalR Hub
 │   │   └── wwwroot/js/           # turbo-signalr.js
-│   └── Stimulus.AspNetCore/      # Stimulus 実装
-│       └── TagHelpers/           # Stimulus Tag Helper (5個)
+│   └── Stimulus.AspNetCore/      # Stimulus implementation
+│       └── TagHelpers/           # Stimulus Tag Helpers (5)
 ├── test/
-│   ├── Turbo.AspNetCore.Test/    # Turbo テスト (36)
-│   └── Stimulus.AspNetCore.Test/ # Stimulus テスト (20)
+│   ├── Turbo.AspNetCore.Test/    # Turbo tests (36)
+│   └── Stimulus.AspNetCore.Test/ # Stimulus tests (20)
 ├── examples/
-│   ├── WireDrive/                # Turbo Drive デモ
-│   ├── WireFrame/                # Turbo Frames デモ
-│   ├── WireStream/               # Turbo Streams デモ
-│   ├── WireStimulus/             # Stimulus デモ
-│   └── WireSignal/               # SignalR デモ
-└── docs/                         # ドキュメント
+│   ├── WireDrive/                # Turbo Drive demo
+│   ├── WireFrame/                # Turbo Frames demo
+│   ├── WireStream/               # Turbo Streams demo
+│   ├── WireStimulus/             # Stimulus demo
+│   └── WireSignal/               # SignalR demo
+└── docs/                         # Documentation
 ```
 
-## 機能比較
+## Feature Comparison
 
-| 機能 | Rails (turbo-rails) | Hotwire.AspNetCore | 状態 |
-|------|---------------------|-------------------|------|
-| Turbo Drive | ✅ | ✅ | 完全実装 |
-| Turbo Frames | ✅ | ✅ | 完全実装 |
-| Turbo Streams (標準アクション) | ✅ 16アクション | ✅ 16アクション | Rails パリティ |
-| Turbo Streams (カスタムアクション) | ✅ turbo_stream.action() | ✅ TurboStreamCustom | Rails パリティ |
-| Turbo 8 (morph/refresh) | ✅ | ✅ | 完全実装 |
-| リアルタイムストリーム | ✅ ActionCable | ✅ SignalR | Rails パリティ |
-| Stimulus | ✅ stimulus-rails | ✅ Stimulus.AspNetCore | Rails パリティ |
-| Tag Helpers | ✅ Rails Helpers | ✅ ASP.NET Tag Helpers | ASP.NET 最適化 |
+| Feature | Rails (turbo-rails) | Hotwire.AspNetCore | Status |
+|---------|---------------------|-------------------|--------|
+| Turbo Drive | ✅ | ✅ | Fully implemented |
+| Turbo Frames | ✅ | ✅ | Fully implemented |
+| Turbo Streams (standard actions) | ✅ 16 actions | ✅ 16 actions | Rails parity |
+| Turbo Streams (custom actions) | ✅ turbo_stream.action() | ✅ TurboStreamCustom | Rails parity |
+| Turbo 8 (morph/refresh) | ✅ | ✅ | Fully implemented |
+| Real-time streams | ✅ ActionCable | ✅ SignalR | Rails parity |
+| Stimulus | ✅ stimulus-rails | ✅ Stimulus.AspNetCore | Rails parity |
+| Tag Helpers | ✅ Rails Helpers | ✅ ASP.NET Tag Helpers | ASP.NET optimized |
 
-## ライセンス
+## License
 
 MIT License
 
-## 参考資料
+## References
 
-- [Hotwire 公式サイト](https://hotwired.dev/)
+- [Hotwire Official Site](https://hotwired.dev/)
 - [Turbo Handbook](https://turbo.hotwired.dev/handbook/introduction)
 - [Stimulus Handbook](https://stimulus.hotwired.dev/handbook/introduction)
