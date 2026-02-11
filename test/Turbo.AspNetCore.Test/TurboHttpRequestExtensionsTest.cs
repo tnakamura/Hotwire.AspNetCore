@@ -26,4 +26,109 @@ public class TurboHttpRequestExtensionsTest
 
         Assert.Equal(expected, context.Request.IsTurboStreamRequest());
     }
+
+    [Fact]
+    public void IsTurboDriveRequest_WithoutTurboFrameHeader_ReturnsTrue()
+    {
+        // Arrange
+        var context = new DefaultHttpContext();
+        var header = new MediaTypeHeaderValue("text/html");
+        context.Request.GetTypedHeaders().Accept = [header];
+
+        // Act
+        var result = context.Request.IsTurboDriveRequest();
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void IsTurboDriveRequest_WithTurboFrameHeader_ReturnsFalse()
+    {
+        // Arrange
+        var context = new DefaultHttpContext();
+        var header = new MediaTypeHeaderValue("text/html");
+        context.Request.GetTypedHeaders().Accept = [header];
+        context.Request.Headers["turbo-frame"] = "gallery";
+
+        // Act
+        var result = context.Request.IsTurboDriveRequest();
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsTurboDriveRequest_WithoutHtmlAccept_ReturnsFalse()
+    {
+        // Arrange
+        var context = new DefaultHttpContext();
+        var header = new MediaTypeHeaderValue("application/json");
+        context.Request.GetTypedHeaders().Accept = [header];
+
+        // Act
+        var result = context.Request.IsTurboDriveRequest();
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsTurboRequest_WithTurboDriveRequest_ReturnsTrue()
+    {
+        // Arrange
+        var context = new DefaultHttpContext();
+        var header = new MediaTypeHeaderValue("text/html");
+        context.Request.GetTypedHeaders().Accept = [header];
+
+        // Act
+        var result = context.Request.IsTurboRequest();
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void IsTurboRequest_WithTurboFrameRequest_ReturnsTrue()
+    {
+        // Arrange
+        var context = new DefaultHttpContext();
+        context.Request.Headers["turbo-frame"] = "gallery";
+
+        // Act
+        var result = context.Request.IsTurboRequest();
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void IsTurboRequest_WithTurboStreamRequest_ReturnsTrue()
+    {
+        // Arrange
+        var context = new DefaultHttpContext();
+        var header = new MediaTypeHeaderValue("text/vnd.turbo-stream.html");
+        context.Request.GetTypedHeaders().Accept = [header];
+
+        // Act
+        var result = context.Request.IsTurboRequest();
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void IsTurboRequest_WithNonTurboRequest_ReturnsFalse()
+    {
+        // Arrange
+        var context = new DefaultHttpContext();
+        var header = new MediaTypeHeaderValue("application/json");
+        context.Request.GetTypedHeaders().Accept = [header];
+
+        // Act
+        var result = context.Request.IsTurboRequest();
+
+        // Assert
+        Assert.False(result);
+    }
 }
