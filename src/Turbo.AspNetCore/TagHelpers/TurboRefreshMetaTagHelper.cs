@@ -13,7 +13,7 @@ namespace Turbo.AspNetCore.TagHelpers
     public class TurboRefreshMethodMetaTagHelper : TagHelper
     {
         /// <summary>
-        /// The refresh method: "replace" (default) or "morph".
+        /// The refresh method: "morph" (default) or "replace".
         /// </summary>
         public string Content { get; set; } = "morph";
 
@@ -37,7 +37,7 @@ namespace Turbo.AspNetCore.TagHelpers
     public class TurboRefreshScrollMetaTagHelper : TagHelper
     {
         /// <summary>
-        /// The scroll behavior: "reset" (default) or "preserve".
+        /// The scroll behavior: "preserve" (default) or "reset".
         /// </summary>
         public string Content { get; set; } = "preserve";
 
