@@ -83,7 +83,9 @@ public class TurboDriveMetaTagHelper : TagHelper
         var sb = new StringBuilder();
         
         // Turbo Drive の有効/無効
-        sb.AppendLine($"<meta name=\"turbo-visit-control\" content=\"{(Enabled ? "reload" : "advance")}\">");
+        // "advance": Turbo Drive を有効化（デフォルト）
+        // "reload": 完全なページリロードを強制
+        sb.AppendLine($"<meta name=\"turbo-visit-control\" content=\"{(Enabled ? "advance" : "reload")}\">");
         
         // Turbo 8 の新機能: Page Refresh Method
         sb.AppendLine("<meta name=\"turbo-refresh-method\" content=\"morph\">");
@@ -152,23 +154,40 @@ public class TurboPermanentTagHelper : TagHelper
 public static class TurboControllerExtensions
 {
     /// <summary>
-    /// Turbo Drive リクエストの場合は部分ビューを、
-    /// それ以外の場合は完全なページを返す
+    /// Turbo Drive 対応のビューを返す
+    /// 注: Turbo Drive は自動的に <body> の内容のみを抽出して置換するため、
+    /// サーバー側は通常のビュー（レイアウト付き）を返すだけで良い
     /// </summary>
-    public static IActionResult ViewOrPartial(
+    public static IActionResult TurboDriveView(
         this Controller controller,
         string viewName = null,
         object model = null)
     {
+        // Turbo Drive でも通常のリクエストでも、同じビューを返す
+        // クライアント側の Turbo.js が適切に処理する
+        return controller.View(viewName, model);
+    }
+    
+    /// <summary>
+    /// Turbo Drive リクエストかどうかに応じて、異なる動作が必要な場合に使用
+    /// （通常は不要。レガシーコードとの互換性のため）
+    /// </summary>
+    public static IActionResult ViewOrRedirect(
+        this Controller controller,
+        string viewName,
+        string redirectUrl,
+        object model = null)
+    {
         if (controller.Request.IsTurboDriveRequest())
         {
-            // Turbo Drive の場合は通常のビューを返す
-            // （Turbo が自動的に <body> の内容のみを置換する）
+            // Turbo Drive の場合は直接ビューをレンダリング
             return controller.View(viewName, model);
         }
-        
-        // 通常のリクエストの場合も同じビューを返す
-        return controller.View(viewName, model);
+        else
+        {
+            // 通常のリクエストの場合はリダイレクト
+            return controller.Redirect(redirectUrl);
+        }
     }
 }
 ```
