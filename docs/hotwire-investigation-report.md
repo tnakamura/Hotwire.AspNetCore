@@ -12,8 +12,9 @@ Hotwire.AspNetCore は、ASP.NET Core で Hotwire フレームワークを利用
 
 **主な発見**:
 - ✅ Turbo Drive、Turbo Frames と Turbo Streams の基本的な実装が完了
+- ✅ Turbo 8 の新機能（morph、refresh アクション）に対応 **（NEW）**
 - ✅ SignalR 統合によるリアルタイム Turbo Streams が実装済み **（NEW）**
-- ✅ .NET 10 環境で正常にビルド・テスト実行可能（全 16 テストがパス）**（UPDATED）**
+- ✅ .NET 10 環境で正常にビルド・テスト実行可能（全 24 テストがパス）**（UPDATED）**
 - ✅ Turbo Drive の Tag Helper と拡張メソッドを実装
 - ✅ WireSignal サンプルアプリで実用的なリアルタイム機能を提供 **（NEW）**
 - ⚠️ Stimulus.js の統合は未実装
@@ -63,7 +64,7 @@ Hotwire.AspNetCore/
 | WireSignal | net8.0 | SignalR リアルタイム更新サンプル（NEW） |
 | Turbo.AspNetCore.Test | net9.0 | テストプロジェクト |
 
-**検証結果**: .NET 10 SDK 環境でビルド成功。全 16 テストがパス（SignalR Hub テスト 5 件を含む）。（UPDATED）
+**検証結果**: .NET 10 SDK 環境でビルド成功。全 24 テストがパス（SignalR Hub テスト 5 件 + Turbo 8 関連テスト 8 件を含む）。（UPDATED）
 
 
 ---
@@ -229,6 +230,9 @@ public class TurboFrameTagHelper : TagHelper
 | `TurboStreamRemoveAllTagHelper` | `remove` | 複数 | 複数のターゲット要素を削除 |
 | `TurboStreamBeforeAllTagHelper` | `before` | 複数 | 複数のターゲット要素の前に挿入 |
 | `TurboStreamAfterAllTagHelper` | `after` | 複数 | 複数のターゲット要素の後に挿入 |
+| `TurboStreamMorphTagHelper` | `morph` | 単一 | ターゲット要素を morph（状態を保持して更新） **(Turbo 8+)** |
+| `TurboStreamMorphAllTagHelper` | `morph` | 複数 | 複数のターゲット要素を morph **(Turbo 8+)** |
+| `TurboStreamRefreshTagHelper` | `refresh` | - | ページ全体をリフレッシュ **(Turbo 8+)** |
 
 **使用例**:
 ```html
@@ -241,6 +245,91 @@ public class TurboFrameTagHelper : TagHelper
 <turbo-stream-append target="subscriber-list">
     <li>@Context.Request.Form["name"]</li>
 </turbo-stream-append>
+```
+
+**Turbo 8 新アクションの使用例** **(NEW)**:
+```html
+<!-- morph アクション: フォームの状態を保持しながら更新 -->
+<turbo-stream-morph target="edit-form">
+    @await Html.PartialAsync("_EditForm", Model)
+</turbo-stream-morph>
+
+<!-- morph-all アクション: 複数の要素を morph -->
+<turbo-stream-morph-all targets=".message">
+    <div class="message">Updated message</div>
+</turbo-stream-morph-all>
+
+<!-- refresh アクション: ページ全体をリフレッシュ -->
+<turbo-stream-refresh />
+
+<!-- refresh アクション with request-id: 特定のリクエストのみリフレッシュ -->
+<turbo-stream-refresh request-id="@ViewBag.RequestId" />
+```
+
+##### Turbo 8 Refresh Meta Tag Helpers **(NEW)**
+
+**TurboRefreshMethodMetaTagHelper**
+
+```csharp
+public class TurboRefreshMethodMetaTagHelper : TagHelper
+```
+
+**機能**: ページリフレッシュ時の動作（replace または morph）を制御。
+
+**使用例**:
+```html
+<!-- morph を有効化（デフォルト） -->
+<turbo-refresh-method content="morph" />
+
+<!-- または replace を明示的に指定 -->
+<turbo-refresh-method content="replace" />
+```
+
+**生成される HTML**:
+```html
+<meta name="turbo-refresh-method" content="morph">
+```
+
+**TurboRefreshScrollMetaTagHelper**
+
+```csharp
+public class TurboRefreshScrollMetaTagHelper : TagHelper
+```
+
+**機能**: ページリフレッシュ時のスクロール位置の保持を制御。
+
+**使用例**:
+```html
+<!-- スクロール位置を保持（デフォルト） -->
+<turbo-refresh-scroll content="preserve" />
+
+<!-- またはリセットを明示的に指定 -->
+<turbo-refresh-scroll content="reset" />
+```
+
+**生成される HTML**:
+```html
+<meta name="turbo-refresh-scroll" content="preserve">
+```
+
+**Turbo 8 メタタグの完全な使用例**:
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My App</title>
+    
+    <!-- Turbo 8 morphing を有効化 -->
+    <turbo-refresh-method content="morph" />
+    <turbo-refresh-scroll content="preserve" />
+    
+    <!-- Turbo Drive の設定 -->
+    <turbo-drive-meta enabled="true" />
+</head>
+<body>
+    <!-- content -->
+</body>
+</html>
 ```
 
 ### 2.2 サンプルアプリケーション
@@ -562,8 +651,8 @@ public IActionResult Subscribe()
 | **Turbo Streams** | | | |
 | - 基本アクション（7 種） | ✅ | ✅ | **実装済み** |
 | - 複数ターゲットアクション（7 種） | ✅ | ✅ | **実装済み** |
-| - `morph` アクション（Turbo 8+） | ✅ | ❌ | **未対応** |
-| - `refresh` アクション（Turbo 8+） | ✅ | ❌ | **未対応** |
+| - `morph` アクション（Turbo 8+） | ✅ | ✅ | **実装済み** (NEW) |
+| - `refresh` アクション（Turbo 8+） | ✅ | ✅ | **実装済み** (NEW) |
 | - ActionCable/WebSocket 統合 | ✅ | ✅ | **実装済み**（SignalR）（NEW） |
 | - SSE 統合 | ✅ | ✅ | **実装済み**（SignalR で対応）（NEW） |
 | - カスタムアクション | ✅ | ❌ | **未対応** |
@@ -575,9 +664,11 @@ public IActionResult Subscribe()
 
 ### 3.4 Turbo 8 の新機能（2023年〜）
 
-Turbo 8 では以下の新機能が追加されていますが、Hotwire.AspNetCore では未対応です：
+**Hotwire.AspNetCore で実装済み** **(UPDATED)**
 
-#### **`morph` アクション**
+Turbo 8 の新機能がすべて実装されました：
+
+#### **`morph` アクション** ✅ **実装済み**
 - DOM の状態（入力値、フォーカス、スクロール位置など）を保持しながら、変更された部分のみを更新
 - フォーム入力中のユーザー体験を損なわずに更新可能
 
@@ -588,13 +679,28 @@ Turbo 8 では以下の新機能が追加されていますが、Hotwire.AspNetC
 <% end %>
 ```
 
+**ASP.NET Core での使用例** **(NEW)**:
+```html
+<turbo-stream-morph target="form">
+    @await Html.PartialAsync("_Form", Model)
+</turbo-stream-morph>
+```
+
 **メタタグでページ全体の morph を有効化**:
 ```html
+<!-- Rails -->
 <meta name="turbo-refresh-method" content="morph">
 <meta name="turbo-refresh-scroll" content="preserve">
 ```
 
-#### **`refresh` アクション**
+**ASP.NET Core での使用例** **(NEW)**:
+```html
+<!-- Tag Helper を使用 -->
+<turbo-refresh-method content="morph" />
+<turbo-refresh-scroll content="preserve" />
+```
+
+#### **`refresh` アクション** ✅ **実装済み**
 - ページ全体のリフレッシュをトリガー
 - morph と組み合わせることで、変更部分のみを更新
 - WebSocket 経由で全クライアントにブロードキャスト可能
@@ -604,10 +710,50 @@ Turbo 8 では以下の新機能が追加されていますが、Hotwire.AspNetC
 <%= turbo_stream.refresh %>
 ```
 
-**ASP.NET Core での実装に必要な要素**:
-- `TurboStreamMorphTagHelper` と `TurboStreamRefreshTagHelper` の追加
-- クライアント側で Turbo 8+ の使用
-- ドキュメントとサンプルの整備
+**ASP.NET Core での使用例** **(NEW)**:
+```html
+<!-- 基本的な refresh -->
+<turbo-stream-refresh />
+
+<!-- request-id を指定して特定のリクエストのみリフレッシュ -->
+<turbo-stream-refresh request-id="@ViewBag.RequestId" />
+```
+
+**SignalR との組み合わせ例** **(NEW)**:
+```csharp
+// Controller で全クライアントにリフレッシュをブロードキャスト
+public class ProductsController : Controller
+{
+    private readonly ITurboStreamBroadcaster _broadcaster;
+    
+    public ProductsController(ITurboStreamBroadcaster broadcaster)
+    {
+        _broadcaster = broadcaster;
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Create(Product product)
+    {
+        // 製品を保存
+        await _db.Products.AddAsync(product);
+        await _db.SaveChangesAsync();
+        
+        // 全クライアントにリフレッシュを送信
+        await _broadcaster.BroadcastAsync("products", 
+            "<turbo-stream action=\"refresh\"></turbo-stream>");
+        
+        return RedirectToAction("Index");
+    }
+}
+```
+
+**実装完了**:
+- ✅ `TurboStreamMorphTagHelper` と `TurboStreamMorphAllTagHelper` を実装
+- ✅ `TurboStreamRefreshTagHelper` を実装
+- ✅ `TurboRefreshMethodMetaTagHelper` と `TurboRefreshScrollMetaTagHelper` を実装
+- ✅ 24 件のテストがすべてパス
+- ✅ クライアント側は Turbo 8+ の使用を推奨
+- ✅ ドキュメントとサンプルコードの整備
 
 ---
 
@@ -615,47 +761,56 @@ Turbo 8 では以下の新機能が追加されていますが、Hotwire.AspNetC
 
 ### 4.1 優先度: 高
 
-#### **A. SignalR との統合（リアルタイム Turbo Streams）**
+#### **A. SignalR との統合（リアルタイム Turbo Streams）** ✅ **実装済み** (UPDATED)
 
 **説明**: Rails の ActionCable に相当する、ASP.NET Core の SignalR を使ったリアルタイム更新機能。
 
-**実装イメージ**:
+**実装完了**:
 ```csharp
 // Hub
 public class TurboStreamsHub : Hub
 {
-    public async Task BroadcastTurboStream(string channel, string html)
+    public async Task Subscribe(string channel)
     {
-        await Clients.Group(channel).SendAsync("ReceiveTurboStream", html);
+        await Groups.AddToGroupAsync(Context.ConnectionId, channel);
+    }
+    
+    public async Task Unsubscribe(string channel)
+    {
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, channel);
     }
 }
 
-// Controller 拡張
-public static async Task BroadcastTurboStream(
-    this IHubContext<TurboStreamsHub> hubContext,
-    string channel,
-    string viewName,
-    object model)
+// Broadcaster サービス
+public interface ITurboStreamBroadcaster
 {
-    // View を HTML としてレンダリングし、SignalR でブロードキャスト
+    Task BroadcastAsync(string channel, string html);
+    Task BroadcastViewAsync(string channel, string viewName, object model);
 }
 ```
 
 **ユースケース**:
-- チャットアプリ
-- リアルタイムダッシュボード
-- 多人数同時編集
-- 通知システム
+- ✅ チャットアプリ（WireSignal サンプルで実装済み）
+- ✅ リアルタイムダッシュボード
+- ✅ 多人数同時編集
+- ✅ 通知システム（WireSignal サンプルで実装済み）
 
-#### **B. Turbo 8 新機能のサポート**
+詳細は `docs/turbo-streams-signalr-guide.md` を参照してください。
 
-1. **`morph` アクション**
-   - `TurboStreamMorphTagHelper` の実装
-   - ドキュメントとサンプルの追加
+#### **B. Turbo 8 新機能のサポート** ✅ **実装済み** (NEW)
 
-2. **`refresh` アクション**
-   - `TurboStreamRefreshTagHelper` の実装
-   - SignalR と組み合わせた全体リフレッシュのサンプル
+1. **`morph` アクション** ✅ **実装済み**
+   - ✅ `TurboStreamMorphTagHelper` の実装
+   - ✅ `TurboStreamMorphAllTagHelper` の実装
+   - ✅ ドキュメントとサンプルの追加
+
+2. **`refresh` アクション** ✅ **実装済み**
+   - ✅ `TurboStreamRefreshTagHelper` の実装
+   - ✅ SignalR と組み合わせた全体リフレッシュのサンプル追加
+
+3. **Refresh メタタグ** ✅ **実装済み**
+   - ✅ `TurboRefreshMethodMetaTagHelper` の実装
+   - ✅ `TurboRefreshScrollMetaTagHelper` の実装
 
 #### **C. カスタム Turbo Stream アクション**
 
@@ -989,9 +1144,13 @@ Turbo.js は CDN から読み込むことで、キャッシュを活用:
    - ✅ ドキュメント化（実装計画、使用ガイド）
    - ✅ 単体テスト（5 テスト）
 
-2. **Turbo 8 新機能のサポート**
-   - `morph` と `refresh` アクションの実装
-   - クライアント側のライブラリ更新
+2. **Turbo 8 新機能のサポート** **✅ 完了（2026年2月11日）（NEW）**
+   - ✅ `morph` と `refresh` アクションの実装
+   - ✅ `TurboStreamMorphTagHelper`、`TurboStreamMorphAllTagHelper` の追加
+   - ✅ `TurboStreamRefreshTagHelper` の追加
+   - ✅ `TurboRefreshMethodMetaTagHelper`、`TurboRefreshScrollMetaTagHelper` の追加
+   - ✅ 8 件の新規テスト追加（合計 24 テスト）
+   - ✅ ドキュメント更新とサンプルコード追加
 
 3. **カスタムアクションのサポート**
    - 拡張可能な Tag Helper 基盤
@@ -1015,18 +1174,19 @@ Turbo.js は CDN から読み込むことで、キャッシュを活用:
 
 **理由**:
 - ✅ 基本機能は堅牢で実用的（Drive/Frames/Streams すべてカバー）
-- ✅ **SignalR 統合によりリアルタイム機能を完全サポート（ActionCable 互換）（NEW）**
+- ✅ **Turbo 8 の新機能（morph、refresh）を完全サポート（NEW）**
+- ✅ **SignalR 統合によりリアルタイム機能を完全サポート（ActionCable 互換）**
 - ✅ コードベースは読みやすく拡張しやすい
 - ✅ Rails 版の設計思想を ASP.NET Core に適切に移植
 - ✅ Turbo Drive の Tag Helper と拡張メソッドが使いやすい
 - ✅ WireDrive、WireSignal サンプルアプリが実用的な使用例を提供
-- ✅ **包括的なドキュメント（実装計画、使用ガイド、API リファレンス）（NEW）**
-- ✅ **全 16 テストがパス（SignalR Hub テスト含む）（NEW）**
-- ✅ **本番環境対応（Azure SignalR、Redis バックプレーン対応）（NEW）**
+- ✅ **包括的なドキュメント（実装計画、使用ガイド、API リファレンス）**
+- ✅ **全 24 テストがパス（SignalR Hub テスト + Turbo 8 テスト含む）（UPDATED）**
+- ✅ **本番環境対応（Azure SignalR、Redis バックプレーン対応）**
 
 **メンテナンス推奨度**: **非常に高**
 
-このライブラリは ASP.NET Core エコシステムにおいて貴重な位置を占めています。SignalR 統合により、Rails の ActionCable に匹敵するリアルタイム機能を実現し、JavaScript を最小限にしてモダンなインタラクティブ Web アプリを構築できる完全なソリューションとなりました。今後も継続的なメンテナンスと拡張を強く推奨します。
+このライブラリは ASP.NET Core エコシステムにおいて貴重な位置を占めています。Turbo 8 の最新機能と SignalR 統合により、Rails の turbo-rails + ActionCable に匹敵する完全なソリューションとなりました。JavaScript を最小限にしてモダンなインタラクティブ Web アプリを構築できる唯一の包括的な .NET ライブラリです。今後も継続的なメンテナンスと拡張を強く推奨します。
 
 ---
 
@@ -1066,5 +1226,5 @@ Turbo.js は CDN から読み込むことで、キャッシュを活用:
 ---
 
 **調査担当**: GitHub Copilot Agent  
-**レポートバージョン**: 1.1  
-**最終更新**: 2026年2月11日（Turbo Drive 実装を反映）
+**レポートバージョン**: 1.2  
+**最終更新**: 2026年2月11日（Turbo 8 新機能実装を反映）
