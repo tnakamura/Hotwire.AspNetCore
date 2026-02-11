@@ -110,4 +110,30 @@ namespace Turbo.AspNetCore.TagHelpers
     {
         private protected override string Action => "remove";
     }
+
+    // Turbo 8 new actions
+    public sealed class TurboStreamMorphTagHelper : TurboStreamActionTagHelper
+    {
+        private protected override string Action => "morph";
+    }
+
+    public sealed class TurboStreamMorphAllTagHelper : TurboStreamActionAllTagHelper
+    {
+        private protected override string Action => "morph";
+    }
+
+    public sealed class TurboStreamRefreshTagHelper : TurboStreamTagHelper
+    {
+        public string RequestId { get; set; }
+
+        public override void Process(TagHelperContext context, TagHelperOutput output)
+        {
+            output.Attributes.SetAttribute("action", "refresh");
+            if (!string.IsNullOrEmpty(RequestId))
+            {
+                output.Attributes.SetAttribute("request-id", RequestId);
+            }
+            base.Process(context, output);
+        }
+    }
 }
