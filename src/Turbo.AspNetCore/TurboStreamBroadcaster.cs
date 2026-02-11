@@ -126,23 +126,25 @@ namespace Turbo.AspNetCore
                 throw new InvalidOperationException($"Could not find view '{viewName}'. Searched locations: {string.Join(", ", viewResult.SearchedLocations)}");
             }
 
-            await using var sw = new StringWriter();
-            var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+            using (var sw = new StringWriter())
             {
-                Model = model
-            };
+                var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+                {
+                    Model = model
+                };
 
-            var viewContext = new ViewContext(
-                actionContext,
-                viewResult.View,
-                viewDictionary,
-                new TempDataDictionary(actionContext.HttpContext, _tempDataProvider),
-                sw,
-                new HtmlHelperOptions()
-            );
+                var viewContext = new ViewContext(
+                    actionContext,
+                    viewResult.View,
+                    viewDictionary,
+                    new TempDataDictionary(actionContext.HttpContext, _tempDataProvider),
+                    sw,
+                    new HtmlHelperOptions()
+                );
 
-            await viewResult.View.RenderAsync(viewContext);
-            return sw.ToString();
+                await viewResult.View.RenderAsync(viewContext);
+                return sw.ToString();
+            }
         }
     }
 }

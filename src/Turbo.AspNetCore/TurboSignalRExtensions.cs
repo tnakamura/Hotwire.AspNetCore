@@ -64,28 +64,23 @@ namespace Turbo.AspNetCore
         }
 
         /// <summary>
-        /// Broadcasts a Turbo Stream view to all connected clients.
+        /// Broadcasts raw Turbo Stream HTML to all connected clients.
         /// </summary>
         /// <param name="controller">The controller instance</param>
         /// <param name="broadcaster">Turbo Stream broadcaster service</param>
-        /// <param name="viewName">View name to render</param>
-        /// <param name="model">Model for the view</param>
+        /// <param name="turboStreamHtml">Turbo Stream HTML content</param>
         /// <returns>A task representing the asynchronous broadcast operation</returns>
         public static async Task BroadcastTurboStreamToAllAsync(
             this Controller controller,
             ITurboStreamBroadcaster broadcaster,
-            string viewName,
-            object model = null)
+            string turboStreamHtml)
         {
             if (broadcaster == null)
             {
                 throw new ArgumentNullException(nameof(broadcaster));
             }
 
-            var html = await broadcaster.BroadcastViewAsync("__temp__", viewName, model);
-            // Note: This is a workaround - we should refactor BroadcastViewAsync to return HTML
-            // For now, we'll use the hub context directly
-            throw new NotImplementedException("Use ITurboStreamBroadcaster.BroadcastToAllAsync directly");
+            await broadcaster.BroadcastToAllAsync(turboStreamHtml);
         }
     }
 }
