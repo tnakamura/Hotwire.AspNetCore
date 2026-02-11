@@ -871,7 +871,7 @@ public IActionResult Subscribe()
 - Rails: `format.turbo_stream` で自動的にビューを選択
 - ASP.NET Core: 明示的に `TurboStream()` を呼び出し、ビュー名は通常の規約に従う
 - Rails: ActionCable との統合が標準装備（`turbo_stream_from`）
-- ASP.NET Core: WebSocket/SSE の統合は未実装（SignalR との統合が今後の拡張ポイント）
+- ASP.NET Core: SignalR との統合が完了（`ITurboStreamBroadcaster` サービス） **（UPDATED）**
 
 ### 3.3 機能の実装状況比較
 
@@ -1050,9 +1050,19 @@ public interface ITurboStreamBroadcaster
    - ✅ `TurboRefreshMethodMetaTagHelper` の実装
    - ✅ `TurboRefreshScrollMetaTagHelper` の実装
 
-#### **C. カスタム Turbo Stream アクション**
+#### **C. カスタム Turbo Stream アクション** ✅ **実装済み** (NEW)
 
-**説明**: ユーザー定義のカスタムアクションをサポート。
+**実装日**: 2026年2月11日  
+**現状**: カスタムアクションは完全に実装されました。
+
+**説明**: ユーザー定義のカスタムアクションをサポート。Rails の `turbo_stream.action(:custom_action, ...)` と完全なパリティを実現。
+
+**実装された機能**:
+- ✅ `TurboStreamCustomActionTagHelper` の実装
+- ✅ `TurboStreamCustomHtmlExtensions` の実装（`@Html.TurboStreamCustom`）
+- ✅ 12 件の単体テスト（Tag Helper 5 件 + 拡張メソッド 7 件）
+- ✅ WireStream サンプルアプリに5つの実用例
+- ✅ 包括的なドキュメント（`docs/turbo-custom-actions-guide.md`）
 
 **Rails での例**:
 ```javascript
@@ -1066,19 +1076,16 @@ Turbo.StreamActions.set_title = function() {
 <%= turbo_stream.action(:set_title, title: "New Title") %>
 ```
 
-**ASP.NET Core での実装案**:
-```csharp
-public class TurboStreamCustomActionTagHelper : TurboStreamTagHelper
-{
-    public string Action { get; set; }
-    
-    public override void Process(TagHelperContext context, TagHelperOutput output)
-    {
-        output.Attributes.SetAttribute("action", Action);
-        base.Process(context, output);
-    }
-}
+**ASP.NET Core での実装**:
+```html
+<!-- Tag Helper -->
+<turbo-stream-custom action="set_title" title="New Title"></turbo-stream-custom>
+
+<!-- HTML 拡張メソッド -->
+@Html.TurboStreamCustom("set_title", new { title = "New Title" })
 ```
+
+詳細は「4.5 カスタムアクション（Custom Actions）」セクションを参照してください。
 
 ### 4.2 優先度: 中
 
