@@ -1,0 +1,178 @@
+@{
+    ViewData["Title"] = "Custom Actions Demo";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="module">
+        import * as Turbo from '@("https://cdn.skypack.dev/@hotwired/turbo")';
+    </script>
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Hotwire.AspNetCore</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="CustomActions" asp-action="Index">Custom Actions</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div class="container mt-4">
+    <h1>Turbo Custom Actions Demo</h1>
+    <p class="lead">
+        This page demonstrates custom Turbo Stream actions that go beyond the standard actions.
+    </p>
+
+    <!-- Example 1: Set Title -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Example 1: Set Page Title</h5>
+        </div>
+        <div class="card-body">
+            <p>Change the browser tab title dynamically.</p>
+            <form asp-action="SetTitle" method="post" data-turbo-stream>
+                <div class="mb-3">
+                    <label for="titleInput" class="form-label">New Title:</label>
+                    <input type="text" class="form-control" id="titleInput" name="title" 
+                           value="Custom Actions - Updated!" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Set Title</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Example 2: Show Notification -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Example 2: Show Notification</h5>
+        </div>
+        <div class="card-body">
+            <p>Display a Bootstrap alert notification using custom action.</p>
+            <form asp-action="ShowNotification" method="post" data-turbo-stream class="row g-3">
+                <div class="col-md-8">
+                    <label for="messageInput" class="form-label">Message:</label>
+                    <input type="text" class="form-control" id="messageInput" name="message" 
+                           value="Operation completed successfully!" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="typeSelect" class="form-label">Type:</label>
+                    <select class="form-select" id="typeSelect" name="type">
+                        <option value="success">Success</option>
+                        <option value="info">Info</option>
+                        <option value="warning">Warning</option>
+                        <option value="danger">Danger</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Show Notification</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Example 3: Slide In Animation -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Example 3: Slide In Animation</h5>
+        </div>
+        <div class="card-body">
+            <p>Add items to a list with a smooth slide-in animation.</p>
+            <form asp-action="AddItemWithAnimation" method="post" data-turbo-stream class="mb-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="itemText" 
+                           placeholder="Enter item text..." required>
+                    <button type="submit" class="btn btn-primary">Add Item</button>
+                </div>
+            </form>
+            <div id="animated-items" class="list-group">
+                <!-- Items will be added here with animation -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Example 4: Highlight Element -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Example 4: Highlight Element</h5>
+        </div>
+        <div class="card-body">
+            <p>Highlight an element temporarily to draw attention.</p>
+            <div class="mb-3">
+                <div id="item-1" class="alert alert-secondary" role="alert">
+                    Item 1 - Click button to highlight
+                </div>
+                <div id="item-2" class="alert alert-secondary" role="alert">
+                    Item 2 - Click button to highlight
+                </div>
+                <div id="item-3" class="alert alert-secondary" role="alert">
+                    Item 3 - Click button to highlight
+                </div>
+            </div>
+            <form asp-action="HighlightItem" method="post" data-turbo-stream class="d-inline me-2">
+                <input type="hidden" name="itemId" value="item-1">
+                <button type="submit" class="btn btn-outline-primary">Highlight Item 1</button>
+            </form>
+            <form asp-action="HighlightItem" method="post" data-turbo-stream class="d-inline me-2">
+                <input type="hidden" name="itemId" value="item-2">
+                <button type="submit" class="btn btn-outline-primary">Highlight Item 2</button>
+            </form>
+            <form asp-action="HighlightItem" method="post" data-turbo-stream class="d-inline">
+                <input type="hidden" name="itemId" value="item-3">
+                <button type="submit" class="btn btn-outline-primary">Highlight Item 3</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Example 5: Console Log -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Example 5: Console Log (Debug)</h5>
+        </div>
+        <div class="card-body">
+            <p>Send a message to the browser console for debugging. Check the browser's developer console.</p>
+            <form asp-action="DebugLog" method="post" data-turbo-stream>
+                <div class="mb-3">
+                    <label for="logMessage" class="form-label">Log Message:</label>
+                    <input type="text" class="form-control" id="logMessage" name="message" 
+                           value="Hello from Turbo Custom Action!" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Log to Console</button>
+            </form>
+            <div class="alert alert-info mt-3">
+                <strong>Tip:</strong> Open your browser's developer console (F12) to see the logged messages.
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info">
+        <h6>About Custom Actions</h6>
+        <p class="mb-0">
+            Custom Turbo Stream actions allow you to define your own actions beyond the standard ones
+            (append, prepend, replace, etc.). Define actions in JavaScript using <code>Turbo.StreamActions.your_action</code>
+            and trigger them from the server using <code>&lt;turbo-stream-custom action="your_action"&gt;</code> tag helper
+            or <code>@@Html.TurboStreamCustom("your_action", attributes)</code>.
+        </p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/turbo-custom-actions.js"></script>
+</body>
+</html>

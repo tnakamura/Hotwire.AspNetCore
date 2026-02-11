@@ -20,7 +20,8 @@ Hotwire は、JavaScript を最小限に抑えながら、高速でモダンな 
 
 ### ✅ Turbo Streams
 - **リアルタイム更新**: WebSocket や SSE を使用してページを動的に更新
-- **7つの基本アクション**: append, prepend, replace, update, remove, before, after
+- **16の標準アクション**: append, prepend, replace, update, remove, before, after, append_all, prepend_all, replace_all, update_all, remove_all, before_all, after_all, morph, refresh
+- **カスタムアクション**: 独自の DOM 操作ロジックを定義可能（Rails パリティ達成）
 
 ### ✅ Stimulus (別パッケージ)
 - **軽量な JavaScript フレームワーク**: HTML を操作するための最小限の JavaScript
@@ -124,6 +125,33 @@ public class MessagesController : Controller
 </turbo-stream>
 ```
 
+### Turbo カスタムアクションの使用
+
+**JavaScript (カスタムアクションの定義)**:
+
+```javascript
+// wwwroot/js/custom-actions.js
+Turbo.StreamActions.notify = function() {
+  const message = this.getAttribute("message");
+  const type = this.getAttribute("type") || "info";
+  alert(`[${type}] ${message}`);
+}
+```
+
+**ビュー (Tag Helper)**:
+
+```html
+<turbo-stream-custom action="notify" message="保存しました！" type="success"></turbo-stream-custom>
+```
+
+**または HTML 拡張メソッド**:
+
+```csharp
+@Html.TurboStreamCustom("notify", new { message = "保存しました！", type = "success" })
+```
+
+詳細は [Turbo カスタムアクションガイド](docs/turbo-custom-actions-guide.md) を参照。
+
 ## サンプルアプリケーション
 
 ### WireDrive (Turbo Drive デモ)
@@ -145,16 +173,18 @@ dotnet run
 ```
 
 ### WireStream (Turbo Streams デモ)
-リアルタイム更新のデモ。
+リアルタイム更新とカスタムアクションのデモ。
 
 ```bash
 cd examples/WireStream
 dotnet run
+# http://localhost:5000/CustomActions にアクセス
 ```
 
 ## ドキュメント
 
 - [Turbo Drive 実装プラン](docs/turbo-drive-implementation-plan.md)
+- [Turbo カスタムアクションガイド](docs/turbo-custom-actions-guide.md) **（NEW）**
 - [Hotwire 調査レポート](docs/hotwire-investigation-report.md)
 
 ## 要件
