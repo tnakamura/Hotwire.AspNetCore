@@ -1,0 +1,47 @@
+@model WireDrive.Models.OrderConfirmationViewModel
+@{
+    ViewData["Title"] = "注文確認";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-success">
+                <h4 class="alert-heading">✅ ご注文ありがとうございます！</h4>
+                <p>ご注文を受け付けました。確認メールをお送りしましたので、ご確認ください。</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5>注文詳細</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">注文番号:</dt>
+                        <dd class="col-sm-8"><strong>#@Model.OrderId</strong></dd>
+                        
+                        <dt class="col-sm-4">お名前:</dt>
+                        <dd class="col-sm-8">@Model.CustomerName</dd>
+                        
+                        <dt class="col-sm-4">メールアドレス:</dt>
+                        <dd class="col-sm-8">@Model.Email</dd>
+                        
+                        <dt class="col-sm-4">ステータス:</dt>
+                        <dd class="col-sm-8"><span class="badge bg-success">処理中</span></dd>
+                    </dl>
+                </div>
+            </div>
+            
+            <div class="alert alert-info mt-4">
+                <strong>🎉 Turbo Drive が動作しました!</strong> 
+                フォーム送信からリダイレクトまで、Turbo Drive により高速化されました。
+                音楽プレーヤーの再生も継続されています。
+            </div>
+            
+            <div class="mt-4">
+                <a class="btn btn-primary" asp-controller="Home" asp-action="Index">ホームに戻る</a>
+                <a class="btn btn-outline-primary" asp-controller="Products" asp-action="Index">他の製品を見る</a>
+            </div>
+        </div>
+    </div>
+</div>
