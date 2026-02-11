@@ -167,7 +167,7 @@
 
   validateEmail(event) {
     const input = event.target
-    const emailPattern = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/
+    const emailPattern = /^[^\s&#64;]+&#64;[^\s&#64;]+\.[^\s&#64;]+$/
     
     let errorMessage = ""
     if (!emailPattern.test(input.value)) {
@@ -196,9 +196,9 @@
 
     <h3>Razor View (Tag Helpers)</h3>
     <pre><code>&lt;div stimulus-controller="form"&gt;
-    &lt;form stimulus-action="submit-&gt;form#submit"&gt;
+    &lt;form stimulus-action="submit->form#submit"&gt;
         &lt;input stimulus-target="form.input"
-               stimulus-action="blur-&gt;form#validate"
+               stimulus-action="blur->form#validate"
                type="text" 
                name="name"
                class="form-control" /&gt;

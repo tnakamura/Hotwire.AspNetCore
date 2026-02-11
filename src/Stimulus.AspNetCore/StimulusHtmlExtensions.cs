@@ -100,7 +100,7 @@ namespace Stimulus.AspNetCore
         {
             return new Dictionary<string, object>
             {
-                { $"data-{controller}-{name}-value", value.ToString() }
+                { $"data-{controller}-{name}-value", value?.ToString() ?? string.Empty }
             };
         }
 
