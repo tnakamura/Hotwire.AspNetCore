@@ -402,11 +402,28 @@ dotnet run
 
 ## パッケージ
 
-このリポジトリには 3 つの NuGet パッケージが含まれています:
+このリポジトリには 3 つのパッケージが含まれています:
 
-1. **Hotwire.AspNetCore** - すべての機能を含む統合パッケージ（Turbo + Stimulus）
-2. **Turbo.AspNetCore** - Turbo Drive/Frames/Streams の実装
-3. **Stimulus.AspNetCore** - Stimulus Tag Helper と HTML 拡張
+### 1. Hotwire.AspNetCore
+すべての機能を含む統合パッケージ（Turbo + Stimulus）
+
+```bash
+dotnet add package Hotwire.AspNetCore
+```
+
+### 2. Turbo.AspNetCore
+Turbo Drive/Frames/Streams の実装
+
+```bash
+dotnet add package Turbo.AspNetCore
+```
+
+### 3. Stimulus.AspNetCore
+Stimulus Tag Helper と HTML 拡張
+
+```bash
+dotnet add package Stimulus.AspNetCore
+```
 
 ## ビルド
 
