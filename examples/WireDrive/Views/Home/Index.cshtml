@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to WireDrive</h1>
+    <p class="lead">Turbo Drive for ASP.NET Core のデモアプリケーション</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">🚀 高速なページ遷移</h5>
+                <p class="card-text">
+                    Turbo Drive により、ページ遷移が高速化されます。
+                    SPA のような UX を実現できます。
+                </p>
+                <a class="btn btn-primary" asp-action="About">詳しく見る</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">🛍️ 製品カタログ</h5>
+                <p class="card-text">
+                    製品一覧と詳細ページのデモ。
+                    ページ遷移がスムーズに動作します。
+                </p>
+                <a class="btn btn-primary" asp-controller="Products" asp-action="Index">製品を見る</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">📝 フォーム送信</h5>
+                <p class="card-text">
+                    Turbo Drive はフォーム送信も高速化します。
+                    注文フォームで試してみましょう。
+                </p>
+                <a class="btn btn-primary" asp-controller="Orders" asp-action="New">注文する</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <h2>使い方</h2>
+    <ol>
+        <li>音楽プレーヤーで再生を開始してください</li>
+        <li>ナビゲーションバーのリンクをクリックしてページを移動してください</li>
+        <li>音楽の再生が継続されることを確認してください</li>
+        <li>ブラウザの開発者ツールでネットワークアクティビティを確認してください</li>
+    </ol>
+</div>
