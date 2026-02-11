@@ -1,0 +1,11 @@
+@model WireSignal.Models.ChatMessage
+
+<turbo-stream action="append" target="messages">
+    <template>
+        <div class="chat-message">
+            <strong>@Model.Username</strong>
+            <span class="chat-time">@Model.Timestamp.ToString("HH:mm")</span>
+            <p>@Model.Message</p>
+        </div>
+    </template>
+</turbo-stream>

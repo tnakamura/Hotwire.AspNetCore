@@ -1,0 +1,15 @@
+@model WireSignal.Models.Notification
+
+<turbo-stream action="append" target="notifications">
+    <template>
+        <div class="notification notification-@Model.Type">
+            <div class="notification-header">
+                <strong>@Model.Title</strong>
+                <span class="notification-time">@Model.CreatedAt.ToString("HH:mm:ss")</span>
+            </div>
+            <div class="notification-body">
+                @Model.Message
+            </div>
+        </div>
+    </template>
+</turbo-stream>

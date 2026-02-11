@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="hero">
+    <h1>Welcome to WireSignal</h1>
+    <p class="lead">Real-time Turbo Streams with SignalR</p>
+    <p>Experience the power of Hotwire with real-time WebSocket updates!</p>
+</div>
+
+<div class="features">
+    <div class="feature-card">
+        <h3>📬 Real-time Notifications</h3>
+        <p>Send and receive notifications instantly across all connected clients.</p>
+        <a href="/Notifications" class="btn btn-primary">Try Notifications</a>
+    </div>
+    
+    <div class="feature-card">
+        <h3>💬 Live Chat</h3>
+        <p>Chat with others in real-time using Turbo Streams and SignalR.</p>
+        <a href="/Chat" class="btn btn-primary">Try Chat</a>
+    </div>
+</div>
+
+<div class="info">
+    <h2>How It Works</h2>
+    <ol>
+        <li><strong>SignalR Hub</strong>: Manages WebSocket connections and channels</li>
+        <li><strong>Turbo Streams</strong>: HTML fragments that update parts of the page</li>
+        <li><strong>Broadcaster Service</strong>: Sends updates to all subscribed clients</li>
+        <li><strong>JavaScript Client</strong>: Automatically reconnects and handles updates</li>
+    </ol>
+</div>
+
+@section Scripts {
+<script>
+    // Initialize Turbo SignalR connection (global instance)
+    const turboSignalR = new TurboSignalR();
+    turboSignalR.start();
+    
+    // Listen to connection events
+    document.addEventListener('turbo-signalr:connected', () => {
+        console.log('WireSignal: Connected to SignalR');
+    });
+    
+    document.addEventListener('turbo-signalr:error', (event) => {
+        console.error('WireSignal: Error', event.detail.error);
+    });
+</script>
+}

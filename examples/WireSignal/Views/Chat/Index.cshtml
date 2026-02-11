@@ -1,0 +1,62 @@
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<h1>Real-time Chat</h1>
+<p>Send messages and see them appear instantly for all users!</p>
+
+<div class="chat-demo">
+    <div class="chat-messages" id="messages">
+        @if (ViewBag.Messages != null)
+        {
+            @foreach (var msg in ViewBag.Messages)
+            {
+                <div class="chat-message">
+                    <strong>@msg.Username</strong>
+                    <span class="chat-time">@msg.Timestamp.ToString("HH:mm")</span>
+                    <p>@msg.Message</p>
+                </div>
+            }
+        }
+    </div>
+    
+    <div class="chat-form">
+        <form method="post" action="/Chat/SendMessage" id="chatForm">
+            <div class="form-group">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Your name" required />
+            </div>
+            
+            <div class="form-group">
+                <textarea id="message" name="message" class="form-control" rows="2" placeholder="Type your message..." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Subscribe to chat channel
+    const turboSignalR = new TurboSignalR();
+    turboSignalR.start().then(() => {
+        turboSignalR.subscribe('chat');
+        console.log('Subscribed to chat channel');
+    });
+    
+    // Auto-scroll to bottom when new messages arrive
+    document.addEventListener('turbo-signalr:streamReceived', (event) => {
+        const messagesDiv = document.getElementById('messages');
+        if (messagesDiv) {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    });
+    
+    // Clear form after submission
+    document.getElementById('chatForm').addEventListener('submit', function() {
+        setTimeout(() => {
+            document.getElementById('message').value = '';
+        }, 100);
+    });
+</script>
+}
