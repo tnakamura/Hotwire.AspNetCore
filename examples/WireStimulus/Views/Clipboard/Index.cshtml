@@ -1,0 +1,131 @@
+@{
+    ViewData["Title"] = "Clipboard Example";
+}
+
+<div class="card">
+    <h1>Stimulus Clipboard Example</h1>
+    <p>Copy text to the clipboard with a single click. The button provides visual feedback when text is successfully copied.</p>
+
+    <h2>Demo</h2>
+    
+    <div class="clipboard-demo" 
+         stimulus-controller="clipboard" 
+         stimulus-value-clipboard-success-duration="2000"
+         stimulus-class-clipboard-success="btn-success">
+        
+        <div class="form-group">
+            <label class="form-label">Text to Copy:</label>
+            <input stimulus-target="clipboard.source" 
+                   type="text" 
+                   value="Hello from Stimulus.AspNetCore!" 
+                   class="form-control" />
+        </div>
+        
+        <button stimulus-target="clipboard.button"
+                stimulus-action="click->clipboard#copy" 
+                class="btn btn-primary">
+            📋 Copy to Clipboard
+        </button>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <h3>Try Different Text:</h3>
+        
+        <div class="clipboard-demo" 
+             stimulus-controller="clipboard" 
+             stimulus-value-clipboard-success-duration="3000"
+             stimulus-class-clipboard-success="btn-success">
+            
+            <div class="form-group">
+                <input stimulus-target="clipboard.source" 
+                       type="text" 
+                       value="https://github.com/hotwired/stimulus" 
+                       class="form-control" />
+            </div>
+            
+            <button stimulus-target="clipboard.button"
+                    stimulus-action="click->clipboard#copy" 
+                    class="btn btn-primary">
+                Copy URL
+            </button>
+        </div>
+
+        <div class="clipboard-demo" 
+             stimulus-controller="clipboard" 
+             stimulus-value-clipboard-success-duration="1500"
+             stimulus-class-clipboard-success="btn-success">
+            
+            <div class="form-group">
+                <input stimulus-target="clipboard.source" 
+                       type="text" 
+                       value="dotnet add package Stimulus.AspNetCore" 
+                       class="form-control" />
+            </div>
+            
+            <button stimulus-target="clipboard.button"
+                    stimulus-action="click->clipboard#copy" 
+                    class="btn btn-primary">
+                Copy Command
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>How It Works</h2>
+    
+    <h3>JavaScript Controller</h3>
+    <p>The clipboard controller uses the modern Clipboard API:</p>
+    <pre><code>export default class extends Controller {
+  static targets = ["source", "button"]
+  static classes = ["success"]
+  static values = {
+    successDuration: { type: Number, default: 2000 }
+  }
+
+  copy(event) {
+    event.preventDefault()
+    
+    navigator.clipboard.writeText(this.sourceTarget.value)
+      .then(() => this.copied())
+      .catch(() => console.error("Failed to copy"))
+  }
+
+  copied() {
+    const originalText = this.buttonTarget.textContent
+    this.buttonTarget.textContent = "Copied!"
+    this.buttonTarget.classList.add(this.successClass)
+    
+    setTimeout(() => {
+      this.buttonTarget.textContent = originalText
+      this.buttonTarget.classList.remove(this.successClass)
+    }, this.successDurationValue)
+  }
+}</code></pre>
+
+    <h3>Razor View (Tag Helpers)</h3>
+    <pre><code>&lt;div stimulus-controller="clipboard" 
+     stimulus-value-clipboard-success-duration="2000"
+     stimulus-class-clipboard-success="btn-success"&gt;
+    
+    &lt;input stimulus-target="clipboard.source" 
+           type="text" 
+           value="Text to copy" 
+           class="form-control" /&gt;
+    
+    &lt;button stimulus-target="clipboard.button"
+            stimulus-action="click->clipboard#copy" 
+            class="btn btn-primary"&gt;
+        Copy to Clipboard
+    &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li><strong>Values:</strong> Configurable success message duration</li>
+        <li><strong>Targets:</strong> Source input and button for feedback</li>
+        <li><strong>Classes:</strong> Success state styling</li>
+        <li><strong>Clipboard API:</strong> Modern browser clipboard access</li>
+        <li><strong>Visual Feedback:</strong> Temporary button state change</li>
+    </ul>
+</div>

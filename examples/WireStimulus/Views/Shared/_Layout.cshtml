@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WireStimulus</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="/" class="brand">WireStimulus</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/Dropdown">Dropdown</a></li>
+                <li><a href="/Clipboard">Clipboard</a></li>
+                <li><a href="/Counter">Counter</a></li>
+                <li><a href="/Form">Validation</a></li>
+                <li><a href="/Slideshow">Slideshow</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@@hotwired/stimulus@@3.2.2/dist/stimulus.min.js"></script>
+    <script type="module" src="~/js/application.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

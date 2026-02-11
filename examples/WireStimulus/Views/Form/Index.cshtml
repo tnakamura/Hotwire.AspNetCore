@@ -1,0 +1,228 @@
+@{
+    ViewData["Title"] = "Form Validation Example";
+}
+
+<div class="card">
+    <h1>Stimulus Form Validation Example</h1>
+    <p>Real-time form validation with instant feedback. Watch as the form validates your input as you type!</p>
+
+    <h2>Demo: Registration Form</h2>
+    
+    <div stimulus-controller="form">
+        <form stimulus-action="submit->form#submit">
+            <div class="form-group">
+                <label class="form-label" for="name">Full Name *</label>
+                <input stimulus-target="form.input"
+                       stimulus-action="blur->form#validate"
+                       type="text" 
+                       id="name"
+                       name="name"
+                       class="form-control" 
+                       placeholder="Enter your full name" />
+                <div class="error-message" 
+                     stimulus-target="form.error" 
+                     data-for="name"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email Address *</label>
+                <input stimulus-target="form.input"
+                       stimulus-action="blur->form#validateEmail"
+                       type="email" 
+                       id="email"
+                       name="email"
+                       class="form-control" 
+                       placeholder="your.email@example.com" />
+                <div class="error-message" 
+                     stimulus-target="form.error" 
+                     data-for="email"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="username">Username *</label>
+                <input stimulus-target="form.input"
+                       stimulus-action="blur->form#validate"
+                       type="text" 
+                       id="username"
+                       name="username"
+                       class="form-control" 
+                       placeholder="Choose a username (min 3 characters)" />
+                <div class="error-message" 
+                     stimulus-target="form.error" 
+                     data-for="username"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password *</label>
+                <input stimulus-target="form.input"
+                       stimulus-action="blur->form#validate"
+                       type="password" 
+                       id="password"
+                       name="password"
+                       class="form-control" 
+                       placeholder="Enter a secure password (min 8 characters)" />
+                <div class="error-message" 
+                     stimulus-target="form.error" 
+                     data-for="password"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="bio">Bio (Optional)</label>
+                <textarea stimulus-target="form.input"
+                          stimulus-action="blur->form#validate"
+                          id="bio"
+                          name="bio"
+                          class="form-control" 
+                          rows="4"
+                          placeholder="Tell us about yourself..."></textarea>
+                <div class="error-message" 
+                     stimulus-target="form.error" 
+                     data-for="bio"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                ✅ Submit Form
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Demo: Contact Form with Real-time Validation</h2>
+    
+    <div stimulus-controller="form">
+        <form stimulus-action="submit->form#submit">
+            <div class="form-group">
+                <label class="form-label" for="contact-name">Name *</label>
+                <input stimulus-target="form.input"
+                       stimulus-action="input->form#validate blur->form#validate"
+                       type="text" 
+                       id="contact-name"
+                       name="contact-name"
+                       class="form-control" />
+                <div class="error-message" 
+                     stimulus-target="form.error" 
+                     data-for="contact-name"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="contact-email">Email *</label>
+                <input stimulus-target="form.input"
+                       stimulus-action="input->form#validateEmail blur->form#validateEmail"
+                       type="email" 
+                       id="contact-email"
+                       name="contact-email"
+                       class="form-control" />
+                <div class="error-message" 
+                     stimulus-target="form.error" 
+                     data-for="contact-email"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="message">Message *</label>
+                <textarea stimulus-target="form.input"
+                          stimulus-action="input->form#validate blur->form#validate"
+                          id="message"
+                          name="message"
+                          class="form-control" 
+                          rows="5"></textarea>
+                <div class="error-message" 
+                     stimulus-target="form.error" 
+                     data-for="message"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                📧 Send Message
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <h2>How It Works</h2>
+    
+    <h3>JavaScript Controller</h3>
+    <p>The form controller provides real-time validation with custom rules:</p>
+    <pre><code>export default class extends Controller {
+  static targets = ["input", "error"]
+
+  validate(event) {
+    const input = event.target
+    const errorTarget = this.errorTargets.find(
+      el => el.dataset.for === input.name
+    )
+    
+    const value = input.value.trim()
+    let errorMessage = ""
+
+    // Validation logic
+    if (!value) {
+      errorMessage = "This field is required"
+    }
+
+    errorTarget.textContent = errorMessage
+    input.classList.toggle("is-invalid", errorMessage !== "")
+    input.classList.toggle("is-valid", errorMessage === "")
+  }
+
+  validateEmail(event) {
+    const input = event.target
+    const emailPattern = /^[^\s&#64;]+&#64;[^\s&#64;]+\.[^\s&#64;]+$/
+    
+    let errorMessage = ""
+    if (!emailPattern.test(input.value)) {
+      errorMessage = "Invalid email format"
+    }
+
+    // Update UI with error...
+  }
+
+  submit(event) {
+    event.preventDefault()
+    
+    // Validate all inputs
+    this.inputTargets.forEach(input => {
+      this.validate({ target: input })
+    })
+
+    const hasErrors = this.errorTargets
+      .some(error => error.textContent !== "")
+    
+    if (!hasErrors) {
+      alert("Form submitted successfully!")
+    }
+  }
+}</code></pre>
+
+    <h3>Razor View (Tag Helpers)</h3>
+    <pre><code>&lt;div stimulus-controller="form"&gt;
+    &lt;form stimulus-action="submit->form#submit"&gt;
+        &lt;input stimulus-target="form.input"
+               stimulus-action="blur->form#validate"
+               type="text" 
+               name="name"
+               class="form-control" /&gt;
+        
+        &lt;div class="error-message" 
+             stimulus-target="form.error" 
+             data-for="name"&gt;&lt;/div&gt;
+        
+        &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li><strong>Real-time Validation:</strong> Validates on blur or input events</li>
+        <li><strong>Multiple Targets:</strong> Handles multiple inputs and error messages</li>
+        <li><strong>Custom Rules:</strong> Email, required, min length validations</li>
+        <li><strong>Visual Feedback:</strong> CSS classes for valid/invalid states</li>
+        <li><strong>Form Submission:</strong> Prevents submit if validation fails</li>
+        <li><strong>Data Attributes:</strong> Links errors to specific inputs</li>
+    </ul>
+
+    <div class="alert alert-info" style="margin-top: 1rem;">
+        <strong>Note:</strong> This is a client-side validation demonstration. 
+        In production, always validate on the server side as well for security.
+    </div>
+</div>

@@ -1,0 +1,88 @@
+@{
+    ViewData["Title"] = "Dropdown Example";
+}
+
+<div class="card">
+    <h1>Stimulus Dropdown Example</h1>
+    <p>Click the button to toggle the dropdown menu. The menu will automatically close when you click outside of it.</p>
+
+    <h2>Demo: Using Tag Helpers</h2>
+    
+    <div class="dropdown-wrapper" 
+         stimulus-controller="dropdown" 
+         stimulus-value-dropdown-open="false"
+         stimulus-class-dropdown-active="show"
+         stimulus-action="click@window->dropdown#hide">
+        
+        <button stimulus-action="click->dropdown#toggle" 
+                class="btn btn-primary">
+            Toggle Dropdown Menu
+        </button>
+        
+        <div stimulus-target="dropdown.menu" 
+             class="dropdown-menu">
+            <a class="dropdown-item" href="#action1">Action Item 1</a>
+            <a class="dropdown-item" href="#action2">Action Item 2</a>
+            <a class="dropdown-item" href="#action3">Action Item 3</a>
+            <div style="border-top: 1px solid #dee2e6; margin: 0.5rem 0;"></div>
+            <a class="dropdown-item" href="#separated">Separated Link</a>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>How It Works</h2>
+    
+    <h3>JavaScript Controller</h3>
+    <p>The dropdown controller manages the open/closed state and handles window clicks:</p>
+    <pre><code>export default class extends Controller {
+  static targets = ["menu"]
+  static classes = ["active"]
+  static values = { open: Boolean }
+
+  toggle(event) {
+    event.preventDefault()
+    this.openValue = !this.openValue
+  }
+
+  openValueChanged() {
+    if (this.openValue) {
+      this.menuTarget.classList.add(this.activeClass)
+    } else {
+      this.menuTarget.classList.remove(this.activeClass)
+    }
+  }
+
+  hide(event) {
+    if (!this.element.contains(event.target)) {
+      this.openValue = false
+    }
+  }
+}</code></pre>
+
+    <h3>Razor View (Tag Helpers)</h3>
+    <pre><code>&lt;div stimulus-controller="dropdown" 
+     stimulus-value-dropdown-open="false"
+     stimulus-class-dropdown-active="show"
+     stimulus-action="click@window->dropdown#hide"&gt;
+    
+    &lt;button stimulus-action="click->dropdown#toggle" 
+            class="btn btn-primary"&gt;
+        Toggle Dropdown
+    &lt;/button&gt;
+    
+    &lt;div stimulus-target="dropdown.menu" 
+         class="dropdown-menu"&gt;
+        &lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li><strong>Values:</strong> Boolean state tracking (<code>open</code>)</li>
+        <li><strong>Targets:</strong> References to the menu element</li>
+        <li><strong>Classes:</strong> CSS class names for active state</li>
+        <li><strong>Actions:</strong> Event handlers for toggle and hide</li>
+        <li><strong>Window Events:</strong> Global click detection for auto-close</li>
+    </ul>
+</div>
