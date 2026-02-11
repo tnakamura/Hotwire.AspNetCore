@@ -13,12 +13,13 @@ Hotwire.AspNetCore は、ASP.NET Core で Hotwire フレームワークを利用
 **主な発見**:
 - ✅ Turbo Drive、Turbo Frames と Turbo Streams の基本的な実装が完了
 - ✅ Turbo 8 の新機能（morph、refresh アクション）に対応 **（NEW）**
-- ✅ SignalR 統合によるリアルタイム Turbo Streams が実装済み **（NEW）**
-- ✅ Stimulus.AspNetCore の完全な実装が完了（5つの Tag Helper + 9つの拡張メソッド） **（NEW）**
-- ✅ .NET 10 環境で正常にビルド・テスト実行可能（全 44 テストがパス）**（UPDATED）**
+- ✅ Turbo カスタムアクションのサポートを実装（Rails 完全パリティ達成） **（NEW）**
+- ✅ SignalR 統合によるリアルタイム Turbo Streams が実装済み
+- ✅ Stimulus.AspNetCore の完全な実装が完了（5つの Tag Helper + 9つの拡張メソッド）
+- ✅ .NET 10 環境で正常にビルド・テスト実行可能（全 56 テストがパス）**（UPDATED）**
 - ✅ Turbo Drive の Tag Helper と拡張メソッドを実装
-- ✅ WireSignal、WireStimulus サンプルアプリで実用的な機能を提供 **（NEW）**
-- ✅ Rails 版の ActionCable、stimulus-rails に相当する機能が完成 **（UPDATED）**
+- ✅ WireSignal、WireStimulus、WireStream サンプルアプリで実用的な機能を提供 **（UPDATED）**
+- ✅ Rails 版の turbo-rails（カスタムアクション含む）、ActionCable、stimulus-rails に相当する機能が完成 **（UPDATED）**
 
 ---
 
@@ -67,7 +68,7 @@ Hotwire.AspNetCore/
 | WireSignal | net8.0 | SignalR リアルタイム更新サンプル（NEW） |
 | Turbo.AspNetCore.Test | net9.0 | テストプロジェクト |
 
-**検証結果**: .NET 10 SDK 環境でビルド成功。全 44 テストがパス（Turbo テスト 24 件 + Stimulus テスト 20 件）。（UPDATED）
+**検証結果**: .NET 10 SDK 環境でビルド成功。全 56 テストがパス（Turbo テスト 36 件 + Stimulus テスト 20 件）。（UPDATED）
 
 
 ---
@@ -749,7 +750,7 @@ document.addEventListener('turbo-signalr:streamReceived', (event) => {
   - チャンネル購読解除の検証
   - null/空チャンネル名のエラーハンドリング
 
-**テスト結果**: 全 24 テスト（Turbo）+ 20 テスト（Stimulus）= **合計 44 テストがパス**（.NET 9/10 で検証済み）**（UPDATED）**
+**テスト結果**: 全 36 テスト（Turbo）+ 20 テスト（Stimulus）= **合計 56 テストがパス**（.NET 9/10 で検証済み）**（UPDATED）**
 
 **追加されたテスト** (Turbo Drive 関連):
 1. `IsTurboDriveRequest_WithoutTurboFrameHeader_ReturnsTrue`: Turbo Frame ヘッダーがない HTML リクエストは Turbo Drive と判定
@@ -1134,6 +1135,78 @@ public class TurboStreamCustomActionTagHelper : TurboStreamTagHelper
 
 ---
 
+### 4.5 カスタムアクション（Custom Actions）**（NEW）**
+
+**実装状況**: ✅ 完全実装
+
+Turbo カスタムアクションは、標準アクション（append、replace など）を超えた独自の DOM 操作ロジックを定義できる機能です。Rails の `turbo_stream.action(:custom_action, ...)` と完全なパリティを実現しています。
+
+**実装内容**:
+
+1. **TurboStreamCustomActionTagHelper**: カスタムアクション用 Tag Helper
+   - 任意の属性をサポート
+   - 内容あり・なし両方に対応
+   - 標準の `<turbo-stream>` 構造を生成
+
+2. **TurboStreamCustomHtmlExtensions**: HTML 拡張メソッド
+   - `@Html.TurboStreamCustom("action", attributes)` 形式
+   - Razor テンプレート構文をサポート
+   - 属性名の自動変換（`data_value` → `data-value`）
+
+**使用例**:
+
+```html
+<!-- Tag Helper -->
+<turbo-stream-custom action="set_title" title="New Title"></turbo-stream-custom>
+<turbo-stream-custom action="notify" message="Success!" type="success"></turbo-stream-custom>
+<turbo-stream-custom action="slide_in" target="notifications">
+    <div class="alert">New item</div>
+</turbo-stream-custom>
+
+<!-- HTML 拡張メソッド -->
+@Html.TurboStreamCustom("highlight", new { target = "item-1", color = "#90EE90" })
+```
+
+**JavaScript 側**:
+
+```javascript
+Turbo.StreamActions.set_title = function() {
+  document.title = this.getAttribute("title");
+}
+
+Turbo.StreamActions.notify = function() {
+  const message = this.getAttribute("message");
+  const type = this.getAttribute("type") || "info";
+  // 通知を表示...
+}
+```
+
+**テスト**:
+- Tag Helper テスト: 5 件
+- HTML 拡張メソッドテスト: 7 件
+- 合計 12 件の新規テストを追加
+
+**サンプルアプリ（WireStream）**:
+- 5 つの実用的なカスタムアクション例
+  1. `set_title`: ページタイトルの動的変更
+  2. `notify`: Bootstrap アラート通知の表示
+  3. `slide_in`: スライドインアニメーション
+  4. `highlight`: 要素の一時的なハイライト
+  5. `console_log`: デバッグ用コンソールログ
+
+**ドキュメント**:
+- `docs/turbo-custom-actions-guide.md`: 包括的な使用ガイド
+- API リファレンス、ベストプラクティス、トラブルシューティングを含む
+
+**Rails パリティ**: ✅ 完全達成
+
+| Rails | Hotwire.AspNetCore |
+|-------|-------------------|
+| `turbo_stream.action(:my_action, attr: "value")` | `<turbo-stream-custom action="my_action" attr="value">` |
+| | `@Html.TurboStreamCustom("my_action", new { attr = "value" })` |
+
+---
+
 ## 5. .NET 10 対応状況と将来性
 
 ### 5.1 現在の対応状況
@@ -1436,7 +1509,7 @@ Turbo.js は CDN から読み込むことで、キャッシュを活用:
 - ✅ Turbo Drive と Stimulus の Tag Helper が使いやすい
 - ✅ WireDrive、WireSignal、WireStimulus サンプルアプリが実用的な使用例を提供 **（UPDATED）**
 - ✅ **包括的なドキュメント（実装計画、使用ガイド、API リファレンス）**
-- ✅ **全 44 テストがパス（Turbo 24 + Stimulus 20）（UPDATED）**
+- ✅ **全 56 テストがパス（Turbo 36 + Stimulus 20）（UPDATED）**
 - ✅ **本番環境対応（Azure SignalR、Redis バックプレーン対応）**
 
 **メンテナンス推奨度**: **非常に高**
@@ -1481,5 +1554,5 @@ Turbo.js は CDN から読み込むことで、キャッシュを活用:
 ---
 
 **調査担当**: GitHub Copilot Agent  
-**レポートバージョン**: 1.3  
-**最終更新**: 2026年2月11日（Stimulus.AspNetCore 完全実装を反映）
+**レポートバージョン**: 1.4  
+**最終更新**: 2026年2月11日（Turbo カスタムアクション実装を反映）
