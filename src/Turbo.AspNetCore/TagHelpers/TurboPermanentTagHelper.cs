@@ -11,7 +11,7 @@ namespace Turbo.AspNetCore.TagHelpers
         /// <summary>
         /// 要素の一意な ID（必須）
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
