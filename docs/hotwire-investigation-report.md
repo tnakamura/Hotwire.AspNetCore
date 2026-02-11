@@ -871,7 +871,7 @@ public IActionResult Subscribe()
 - Rails: `format.turbo_stream` で自動的にビューを選択
 - ASP.NET Core: 明示的に `TurboStream()` を呼び出し、ビュー名は通常の規約に従う
 - Rails: ActionCable との統合が標準装備（`turbo_stream_from`）
-- ASP.NET Core: WebSocket/SSE の統合は未実装（SignalR との統合が今後の拡張ポイント）
+- ASP.NET Core: SignalR との統合が完了（`ITurboStreamBroadcaster` サービス） **（UPDATED）**
 
 ### 3.3 機能の実装状況比較
 
@@ -893,7 +893,7 @@ public IActionResult Subscribe()
 | - `refresh` アクション（Turbo 8+） | ✅ | ✅ | **実装済み** (NEW) |
 | - ActionCable/WebSocket 統合 | ✅ | ✅ | **実装済み**（SignalR）（NEW） |
 | - SSE 統合 | ✅ | ✅ | **実装済み**（SignalR で対応）（NEW） |
-| - カスタムアクション | ✅ | ❌ | **未対応** |
+| - カスタムアクション | ✅ | ✅ | **実装済み**（NEW） |
 | **Stimulus** | | | |
 | - Stimulus.js 統合 | ✅ | ✅ | **実装済み**（Tag Helper + 拡張メソッド）（UPDATED） |
 | **その他** | | | |
@@ -1050,9 +1050,19 @@ public interface ITurboStreamBroadcaster
    - ✅ `TurboRefreshMethodMetaTagHelper` の実装
    - ✅ `TurboRefreshScrollMetaTagHelper` の実装
 
-#### **C. カスタム Turbo Stream アクション**
+#### **C. カスタム Turbo Stream アクション** ✅ **実装済み** (NEW)
 
-**説明**: ユーザー定義のカスタムアクションをサポート。
+**実装日**: 2026年2月11日  
+**現状**: カスタムアクションは完全に実装されました。
+
+**説明**: ユーザー定義のカスタムアクションをサポート。Rails の `turbo_stream.action(:custom_action, ...)` と完全なパリティを実現。
+
+**実装された機能**:
+- ✅ `TurboStreamCustomActionTagHelper` の実装
+- ✅ `TurboStreamCustomHtmlExtensions` の実装（`@Html.TurboStreamCustom`）
+- ✅ 12 件の単体テスト（Tag Helper 5 件 + 拡張メソッド 7 件）
+- ✅ WireStream サンプルアプリに5つの実用例
+- ✅ 包括的なドキュメント（`docs/turbo-custom-actions-guide.md`）
 
 **Rails での例**:
 ```javascript
@@ -1066,19 +1076,16 @@ Turbo.StreamActions.set_title = function() {
 <%= turbo_stream.action(:set_title, title: "New Title") %>
 ```
 
-**ASP.NET Core での実装案**:
-```csharp
-public class TurboStreamCustomActionTagHelper : TurboStreamTagHelper
-{
-    public string Action { get; set; }
-    
-    public override void Process(TagHelperContext context, TagHelperOutput output)
-    {
-        output.Attributes.SetAttribute("action", Action);
-        base.Process(context, output);
-    }
-}
+**ASP.NET Core での実装**:
+```html
+<!-- Tag Helper -->
+<turbo-stream-custom action="set_title" title="New Title"></turbo-stream-custom>
+
+<!-- HTML 拡張メソッド -->
+@Html.TurboStreamCustom("set_title", new { title = "New Title" })
 ```
+
+詳細は「4.5 カスタムアクション（Custom Actions）」セクションを参照してください。
 
 ### 4.2 優先度: 中
 
@@ -1473,9 +1480,13 @@ Turbo.js は CDN から読み込むことで、キャッシュを活用:
    - ✅ 8 件の新規テスト追加（合計 24 テスト）
    - ✅ ドキュメント更新とサンプルコード追加
 
-3. **カスタムアクションのサポート**
-   - 拡張可能な Tag Helper 基盤
-   - サンプルとドキュメント
+3. **カスタムアクションのサポート** **✅ 完了（2026年2月11日）（NEW）**
+   - ✅ `TurboStreamCustomActionTagHelper` の実装
+   - ✅ `TurboStreamCustomHtmlExtensions` の実装（`@Html.TurboStreamCustom`）
+   - ✅ WireStream サンプルアプリに5つの実用例を追加
+   - ✅ 12 件の単体テスト（Tag Helper 5 件 + 拡張メソッド 7 件）
+   - ✅ 包括的なドキュメント（`turbo-custom-actions-guide.md`）
+   - ✅ Rails 版との完全なパリティ達成
 
 #### **長期（6ヶ月〜）**
 
@@ -1486,11 +1497,7 @@ Turbo.js は CDN から読み込むことで、キャッシュを活用:
    - ✅ 20 件の単体テスト（すべてパス）
    - ✅ Rails 版（stimulus-rails）との機能パリティ達成
 
-2. **カスタムアクションのサポート**
-   - 拡張可能な Tag Helper 基盤
-   - サンプルとドキュメント
-
-3. **エコシステムの拡大**
+2. **エコシステムの拡大**
    - Blazor との統合ガイド
    - コミュニティからの貢献受け入れ体制
    - NuGet パッケージの継続的なメンテナンス
@@ -1554,5 +1561,5 @@ Turbo.js は CDN から読み込むことで、キャッシュを活用:
 ---
 
 **調査担当**: GitHub Copilot Agent  
-**レポートバージョン**: 1.4  
-**最終更新**: 2026年2月11日（Turbo カスタムアクション実装を反映）
+**レポートバージョン**: 1.5  
+**最終更新**: 2026年2月11日（実装状況の完全確認と反映、バージョン1.5）
