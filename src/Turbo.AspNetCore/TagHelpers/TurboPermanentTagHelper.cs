@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Text.RegularExpressions;
 
 namespace Turbo.AspNetCore.TagHelpers
 {
@@ -16,8 +17,18 @@ namespace Turbo.AspNetCore.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
-            output.Attributes.SetAttribute("id", Id);
-            output.Attributes.SetAttribute("data-turbo-permanent", "");
+            
+            // Validate ID to ensure it's a valid HTML ID (alphanumeric, hyphens, underscores)
+            if (!string.IsNullOrEmpty(Id) && Regex.IsMatch(Id, @"^[a-zA-Z][\w\-]*$"))
+            {
+                output.Attributes.SetAttribute("id", Id);
+                output.Attributes.SetAttribute("data-turbo-permanent", "");
+            }
+            else
+            {
+                // If ID is invalid, render without the attributes (graceful degradation)
+                output.Attributes.SetAttribute("data-turbo-permanent", "");
+            }
         }
     }
 }

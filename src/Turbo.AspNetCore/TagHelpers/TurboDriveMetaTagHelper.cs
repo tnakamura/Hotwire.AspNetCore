@@ -38,7 +38,12 @@ namespace Turbo.AspNetCore.TagHelpers
 
             if (!string.IsNullOrEmpty(Transition))
             {
-                sb.AppendLine($"<meta name=\"turbo-transition\" content=\"{Transition}\">");
+                // Validate transition value to prevent XSS
+                var validTransitions = new[] { "fade", "slide", "none" };
+                if (System.Array.IndexOf(validTransitions, Transition.ToLowerInvariant()) >= 0)
+                {
+                    sb.AppendLine($"<meta name=\"turbo-transition\" content=\"{Transition}\">");
+                }
             }
 
             output.Content.SetHtmlContent(sb.ToString());
