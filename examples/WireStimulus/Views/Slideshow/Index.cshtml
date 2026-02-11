@@ -1,0 +1,250 @@
+@{
+    ViewData["Title"] = "Slideshow Example";
+}
+
+<div class="card">
+    <h1>Stimulus Slideshow Example</h1>
+    <p>An image carousel with navigation controls, indicators, and optional autoplay functionality.</p>
+
+    <h2>Demo: Manual Navigation</h2>
+    
+    <div class="slideshow" 
+         stimulus-controller="slideshow" 
+         stimulus-value-slideshow-index="0"
+         stimulus-value-slideshow-autoplay="false">
+        
+        <div class="slideshow-slides" 
+             stimulus-action="mouseenter->slideshow#pauseAutoplay mouseleave->slideshow#resumeAutoplay">
+            
+            <div stimulus-target="slideshow.slide" class="slide active">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop" alt="Mountain landscape">
+                <div class="slide-content">
+                    <h3>Beautiful Mountains</h3>
+                    <p>Explore breathtaking mountain landscapes</p>
+                </div>
+            </div>
+            
+            <div stimulus-target="slideshow.slide" class="slide">
+                <img src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&h=400&fit=crop" alt="Ocean sunset">
+                <div class="slide-content">
+                    <h3>Ocean Sunset</h3>
+                    <p>Witness stunning coastal sunsets</p>
+                </div>
+            </div>
+            
+            <div stimulus-target="slideshow.slide" class="slide">
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop" alt="Forest path">
+                <div class="slide-content">
+                    <h3>Forest Adventures</h3>
+                    <p>Discover peaceful forest trails</p>
+                </div>
+            </div>
+            
+            <div stimulus-target="slideshow.slide" class="slide">
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=400&fit=crop" alt="Desert landscape">
+                <div class="slide-content">
+                    <h3>Desert Wonders</h3>
+                    <p>Experience vast desert landscapes</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slideshow-controls">
+            <button stimulus-target="slideshow.prev"
+                    stimulus-action="click->slideshow#previous" 
+                    class="slideshow-btn">
+                ‹
+            </button>
+            <button stimulus-target="slideshow.next"
+                    stimulus-action="click->slideshow#next" 
+                    class="slideshow-btn">
+                ›
+            </button>
+        </div>
+        
+        <div class="slideshow-indicators">
+            <button stimulus-target="slideshow.indicator"
+                    stimulus-action="click->slideshow#goToSlide"
+                    data-index="0" 
+                    class="indicator active"></button>
+            <button stimulus-target="slideshow.indicator"
+                    stimulus-action="click->slideshow#goToSlide"
+                    data-index="1" 
+                    class="indicator"></button>
+            <button stimulus-target="slideshow.indicator"
+                    stimulus-action="click->slideshow#goToSlide"
+                    data-index="2" 
+                    class="indicator"></button>
+            <button stimulus-target="slideshow.indicator"
+                    stimulus-action="click->slideshow#goToSlide"
+                    data-index="3" 
+                    class="indicator"></button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Demo: Autoplay Slideshow</h2>
+    <p>This slideshow automatically advances every 3 seconds. Hover over it to pause.</p>
+    
+    <div class="slideshow" 
+         stimulus-controller="slideshow" 
+         stimulus-value-slideshow-index="0"
+         stimulus-value-slideshow-autoplay="true"
+         stimulus-value-slideshow-interval="3000">
+        
+        <div class="slideshow-slides"
+             stimulus-action="mouseenter->slideshow#pauseAutoplay mouseleave->slideshow#resumeAutoplay">
+            
+            <div stimulus-target="slideshow.slide" class="slide active">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop" alt="Slide 1">
+                <div class="slide-content">
+                    <h3>Slide 1</h3>
+                    <p>Autoplay enabled - 3 second intervals</p>
+                </div>
+            </div>
+            
+            <div stimulus-target="slideshow.slide" class="slide">
+                <img src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&h=400&fit=crop" alt="Slide 2">
+                <div class="slide-content">
+                    <h3>Slide 2</h3>
+                    <p>Hover to pause autoplay</p>
+                </div>
+            </div>
+            
+            <div stimulus-target="slideshow.slide" class="slide">
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop" alt="Slide 3">
+                <div class="slide-content">
+                    <h3>Slide 3</h3>
+                    <p>Move mouse away to resume</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slideshow-controls">
+            <button stimulus-action="click->slideshow#previous" 
+                    class="slideshow-btn">
+                ‹
+            </button>
+            <button stimulus-action="click->slideshow#next" 
+                    class="slideshow-btn">
+                ›
+            </button>
+        </div>
+        
+        <div class="slideshow-indicators">
+            <button stimulus-target="slideshow.indicator"
+                    stimulus-action="click->slideshow#goToSlide"
+                    data-index="0" 
+                    class="indicator active"></button>
+            <button stimulus-target="slideshow.indicator"
+                    stimulus-action="click->slideshow#goToSlide"
+                    data-index="1" 
+                    class="indicator"></button>
+            <button stimulus-target="slideshow.indicator"
+                    stimulus-action="click->slideshow#goToSlide"
+                    data-index="2" 
+                    class="indicator"></button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>How It Works</h2>
+    
+    <h3>JavaScript Controller</h3>
+    <p>The slideshow controller manages slide navigation and autoplay:</p>
+    <pre><code>export default class extends Controller {
+  static targets = ["slide", "prev", "next", "indicator"]
+  static values = {
+    index: { type: Number, default: 0 },
+    autoplay: { type: Boolean, default: false },
+    interval: { type: Number, default: 5000 }
+  }
+
+  connect() {
+    this.showCurrentSlide()
+    if (this.autoplayValue) {
+      this.startAutoplay()
+    }
+  }
+
+  disconnect() {
+    this.stopAutoplay()
+  }
+
+  next() {
+    this.indexValue = (this.indexValue + 1) % this.slideTargets.length
+  }
+
+  previous() {
+    this.indexValue = this.indexValue === 0 
+      ? this.slideTargets.length - 1 
+      : this.indexValue - 1
+  }
+
+  goToSlide(event) {
+    this.indexValue = parseInt(event.currentTarget.dataset.index)
+  }
+
+  indexValueChanged() {
+    this.showCurrentSlide()
+  }
+
+  showCurrentSlide() {
+    this.slideTargets.forEach((slide, index) => {
+      slide.classList.toggle("active", index === this.indexValue)
+    })
+    
+    this.indicatorTargets.forEach((indicator, index) => {
+      indicator.classList.toggle("active", index === this.indexValue)
+    })
+  }
+
+  startAutoplay() {
+    this.autoplayTimer = setInterval(() => {
+      this.next()
+    }, this.intervalValue)
+  }
+
+  stopAutoplay() {
+    if (this.autoplayTimer) {
+      clearInterval(this.autoplayTimer)
+    }
+  }
+}</code></pre>
+
+    <h3>Razor View (Tag Helpers)</h3>
+    <pre><code>&lt;div stimulus-controller="slideshow" 
+     stimulus-value-slideshow-index="0"
+     stimulus-value-slideshow-autoplay="true"
+     stimulus-value-slideshow-interval="3000"&gt;
+    
+    &lt;div class="slideshow-slides"&gt;
+        &lt;div stimulus-target="slideshow.slide" class="slide active"&gt;
+            &lt;img src="image1.jpg" alt="Slide 1"&gt;
+        &lt;/div&gt;
+        &lt;div stimulus-target="slideshow.slide" class="slide"&gt;
+            &lt;img src="image2.jpg" alt="Slide 2"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;button stimulus-action="click-&gt;slideshow#previous"&gt;‹&lt;/button&gt;
+    &lt;button stimulus-action="click-&gt;slideshow#next"&gt;›&lt;/button&gt;
+    
+    &lt;button stimulus-target="slideshow.indicator"
+            stimulus-action="click-&gt;slideshow#goToSlide"
+            data-index="0"&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li><strong>Multiple Targets:</strong> Slides, navigation buttons, and indicators</li>
+        <li><strong>Values:</strong> Current index, autoplay state, and interval timing</li>
+        <li><strong>Autoplay:</strong> Optional automatic slide advancement</li>
+        <li><strong>Pause on Hover:</strong> User can pause autoplay by hovering</li>
+        <li><strong>Direct Navigation:</strong> Click indicators to jump to specific slides</li>
+        <li><strong>Lifecycle Hooks:</strong> <code>connect()</code> and <code>disconnect()</code> for setup/cleanup</li>
+        <li><strong>Circular Navigation:</strong> Wraps around from last to first slide</li>
+    </ul>
+</div>

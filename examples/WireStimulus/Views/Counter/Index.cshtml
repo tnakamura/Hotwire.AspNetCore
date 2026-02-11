@@ -1,0 +1,168 @@
+@{
+    ViewData["Title"] = "Counter Example";
+}
+
+<div class="card">
+    <h1>Stimulus Counter Example</h1>
+    <p>A simple counter with increment, decrement, and reset functionality. The counter demonstrates reactive values and custom step sizes.</p>
+
+    <h2>Demo: Default Counter</h2>
+    
+    <div stimulus-controller="counter" 
+         stimulus-value-counter-count="0"
+         stimulus-value-counter-step="1">
+        
+        <div class="counter-display">
+            Count: <span stimulus-target="counter.output">0</span>
+        </div>
+        
+        <div class="counter-controls">
+            <button stimulus-action="click->counter#decrement" 
+                    class="btn btn-warning">
+                ➖ Decrement
+            </button>
+            
+            <button stimulus-action="click->counter#reset" 
+                    class="btn btn-secondary">
+                🔄 Reset
+            </button>
+            
+            <button stimulus-action="click->counter#increment" 
+                    class="btn btn-success">
+                ➕ Increment
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Demo: Counter with Custom Step</h2>
+    <p>This counter starts at 100 and increments/decrements by 10:</p>
+    
+    <div stimulus-controller="counter" 
+         stimulus-value-counter-count="100"
+         stimulus-value-counter-step="10">
+        
+        <div class="counter-display">
+            <span stimulus-target="counter.output">100</span>
+        </div>
+        
+        <div class="counter-controls">
+            <button stimulus-action="click->counter#decrement" 
+                    class="btn btn-warning">
+                ➖ -10
+            </button>
+            
+            <button stimulus-action="click->counter#reset" 
+                    class="btn btn-secondary">
+                🔄 Reset
+            </button>
+            
+            <button stimulus-action="click->counter#increment" 
+                    class="btn btn-success">
+                ➕ +10
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Demo: Large Steps</h2>
+    <p>This counter starts at 1000 and changes by 50:</p>
+    
+    <div stimulus-controller="counter" 
+         stimulus-value-counter-count="1000"
+         stimulus-value-counter-step="50">
+        
+        <div class="counter-display">
+            <span stimulus-target="counter.output">1000</span>
+        </div>
+        
+        <div class="counter-controls">
+            <button stimulus-action="click->counter#decrement" 
+                    class="btn btn-warning">
+                ⬇️ -50
+            </button>
+            
+            <button stimulus-action="click->counter#reset" 
+                    class="btn btn-secondary">
+                🔄 Reset to 1000
+            </button>
+            
+            <button stimulus-action="click->counter#increment" 
+                    class="btn btn-success">
+                ⬆️ +50
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>How It Works</h2>
+    
+    <h3>JavaScript Controller</h3>
+    <p>The counter controller uses Stimulus values for reactive state management:</p>
+    <pre><code>export default class extends Controller {
+  static targets = ["output"]
+  static values = {
+    count: { type: Number, default: 0 },
+    step: { type: Number, default: 1 }
+  }
+
+  connect() {
+    this.updateOutput()
+  }
+
+  increment() {
+    this.countValue += this.stepValue
+  }
+
+  decrement() {
+    this.countValue -= this.stepValue
+  }
+
+  reset() {
+    this.countValue = 0
+  }
+
+  countValueChanged() {
+    this.updateOutput()
+  }
+
+  updateOutput() {
+    this.outputTarget.textContent = this.countValue
+  }
+}</code></pre>
+
+    <h3>Razor View (Tag Helpers)</h3>
+    <pre><code>&lt;div stimulus-controller="counter" 
+     stimulus-value-counter-count="10"
+     stimulus-value-counter-step="5"&gt;
+    
+    &lt;h2&gt;Count: &lt;span stimulus-target="counter.output"&gt;0&lt;/span&gt;&lt;/h2&gt;
+    
+    &lt;button stimulus-action="click-&gt;counter#increment" 
+            class="btn btn-success"&gt;
+        + Increment
+    &lt;/button&gt;
+    
+    &lt;button stimulus-action="click-&gt;counter#decrement" 
+            class="btn btn-warning"&gt;
+        - Decrement
+    &lt;/button&gt;
+    
+    &lt;button stimulus-action="click-&gt;counter#reset" 
+            class="btn btn-secondary"&gt;
+        Reset
+    &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li><strong>Values:</strong> Count state and configurable step size</li>
+        <li><strong>Targets:</strong> Output element for displaying the count</li>
+        <li><strong>Reactivity:</strong> Automatic UI updates when values change</li>
+        <li><strong>Value Callbacks:</strong> <code>countValueChanged()</code> automatically called</li>
+        <li><strong>Initialization:</strong> <code>connect()</code> sets up initial state</li>
+    </ul>
+</div>
