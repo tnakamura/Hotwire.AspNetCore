@@ -1,0 +1,23 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/examples/">
+    <Project Path="examples/WireDrive/WireDrive.csproj" />
+    <Project Path="examples/WireFrame/WireFrame.csproj" />
+    <Project Path="examples/WireSignal/WireSignal.csproj" />
+    <Project Path="examples/WireStimulus/WireStimulus.csproj" />
+    <Project Path="examples/WireStream/WireStream.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Hotwire.AspNetCore/Hotwire.AspNetCore.csproj" />
+    <Project Path="src/Stimulus.AspNetCore/Stimulus.AspNetCore.csproj" />
+    <Project Path="src/Turbo.AspNetCore/Turbo.AspNetCore.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Stimulus.AspNetCore.Test/Stimulus.AspNetCore.Test.csproj" />
+    <Project Path="test/Turbo.AspNetCore.Test/Turbo.AspNetCore.Test.csproj" />
+  </Folder>
+</Solution>
