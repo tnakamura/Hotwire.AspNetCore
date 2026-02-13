@@ -22,7 +22,11 @@ namespace WireStream.Controllers
         [HttpPost]
         public IActionResult Subscribe()
         {
-            return this.TurboStream();
+            if (HttpContext.Request.IsTurboStreamRequest())
+            {
+                return this.TurboStream();
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()
