@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Turbo.AspNetCore.Hubs;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Turbo.AspNetCore
 {
@@ -23,6 +24,7 @@ namespace Turbo.AspNetCore
         private readonly IRazorViewEngine _razorViewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TurboStreamBroadcaster"/> class.
@@ -31,16 +33,19 @@ namespace Turbo.AspNetCore
         /// <param name="razorViewEngine">Razor view engine for rendering views</param>
         /// <param name="tempDataProvider">Temp data provider</param>
         /// <param name="serviceProvider">Service provider</param>
+        /// <param name="httpContextAccessor">HTTP context accessor for obtaining current request context</param>
         public TurboStreamBroadcaster(
             IHubContext<TurboStreamsHub> hubContext,
             IRazorViewEngine razorViewEngine,
             ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider,
+            IHttpContextAccessor httpContextAccessor)
         {
             _hubContext = hubContext ?? throw new ArgumentNullException(nameof(hubContext));
             _razorViewEngine = razorViewEngine ?? throw new ArgumentNullException(nameof(razorViewEngine));
             _tempDataProvider = tempDataProvider ?? throw new ArgumentNullException(nameof(tempDataProvider));
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         /// <summary>
@@ -116,8 +121,10 @@ namespace Turbo.AspNetCore
         /// </summary>
         private async Task<string> RenderViewToStringAsync(string viewName, object model)
         {
-            var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
-            var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
+            var currentHttpContext = _httpContextAccessor.HttpContext;
+            var httpContext = currentHttpContext ?? new DefaultHttpContext { RequestServices = _serviceProvider };
+            var routeData = currentHttpContext?.GetRouteData() ?? new RouteData();
+            var actionContext = new ActionContext(httpContext, routeData, new ActionDescriptor());
 
             var viewResult = _razorViewEngine.FindView(actionContext, viewName, false);
 

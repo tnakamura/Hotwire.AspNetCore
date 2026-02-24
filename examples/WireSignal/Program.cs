@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
 // Add Turbo Stream Broadcaster service
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ITurboStreamBroadcaster, TurboStreamBroadcaster>();
 
 // Add Razor Pages for view rendering
