@@ -5,9 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <script type="module">
-        import * as Turbo from '@("https://cdn.skypack.dev/@hotwired/turbo")';
-    </script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@latest/dist/turbo.es2017-esm.min.js"></script>
     <title>ASP.NET Core with Hotwire</title>
 </head>
 <body>
@@ -31,7 +29,7 @@
 
         <div style="width: 50%; margin: 2em auto;">
             <div id="newsletter">
-                <form asp-controller="Home" asp-action="Subscribe" method="post">
+                <form asp-controller="Home" asp-action="Subscribe" method="post" data-turbo-stream>
                     <div>
                         <label for="name">Name:</label>
                         <input type="text" name="name" id="name" placeholder="Enter your name" />
