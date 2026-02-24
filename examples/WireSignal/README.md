@@ -87,7 +87,7 @@ dotnet run
 builder.Services.AddSignalR();
 
 // Add Turbo Stream Broadcaster
-builder.Services.AddScoped<ITurboStreamBroadcaster, TurboStreamBroadcaster>();
+builder.Services.AddTurboStreamBroadcaster();
 
 // Map SignalR Hub
 app.MapHub<TurboStreamsHub>("/hubs/turbo-streams");

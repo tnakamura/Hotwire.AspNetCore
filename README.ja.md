@@ -243,7 +243,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
 
 // Turbo Stream Broadcaster を追加
-builder.Services.AddScoped<ITurboStreamBroadcaster, TurboStreamBroadcaster>();
+builder.Services.AddTurboStreamBroadcaster();
 
 var app = builder.Build();
 
