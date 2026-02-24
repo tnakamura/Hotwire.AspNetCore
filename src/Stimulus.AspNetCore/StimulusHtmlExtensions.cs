@@ -5,12 +5,12 @@ using System.Linq;
 namespace Stimulus.AspNetCore
 {
     /// <summary>
-    /// Stimulus data 属性を生成するための拡張メソッド
+    /// Extension methods for generating Stimulus data attributes.
     /// </summary>
     public static class StimulusHtmlExtensions
     {
         /// <summary>
-        /// Stimulus コントローラー属性を生成
+        /// Generates a Stimulus controller attribute.
         /// </summary>
         public static IDictionary<string, object> StimulusController(
             this IHtmlHelper html, 
@@ -23,7 +23,7 @@ namespace Stimulus.AspNetCore
         }
 
         /// <summary>
-        /// Stimulus コントローラー属性を生成（複数）
+        /// Generates Stimulus controller attributes (multiple controllers).
         /// </summary>
         public static IDictionary<string, object> StimulusController(
             this IHtmlHelper html, 
@@ -36,7 +36,7 @@ namespace Stimulus.AspNetCore
         }
 
         /// <summary>
-        /// Stimulus アクション属性を生成
+        /// Generates a Stimulus action attribute.
         /// </summary>
         public static IDictionary<string, object> StimulusAction(
             this IHtmlHelper html, 
@@ -49,7 +49,7 @@ namespace Stimulus.AspNetCore
         }
 
         /// <summary>
-        /// Stimulus アクション属性を生成（複数）
+        /// Generates Stimulus action attributes (multiple actions).
         /// </summary>
         public static IDictionary<string, object> StimulusAction(
             this IHtmlHelper html, 
@@ -62,7 +62,7 @@ namespace Stimulus.AspNetCore
         }
 
         /// <summary>
-        /// Stimulus ターゲット属性を生成
+        /// Generates a Stimulus target attribute.
         /// </summary>
         public static IDictionary<string, object> StimulusTarget(
             this IHtmlHelper html, 
@@ -76,7 +76,7 @@ namespace Stimulus.AspNetCore
         }
 
         /// <summary>
-        /// Stimulus ターゲット属性を生成（複数ターゲット）
+        /// Generates a Stimulus target attribute (multiple targets).
         /// </summary>
         public static IDictionary<string, object> StimulusTarget(
             this IHtmlHelper html, 
@@ -90,7 +90,7 @@ namespace Stimulus.AspNetCore
         }
 
         /// <summary>
-        /// Stimulus 値属性を生成
+        /// Generates a Stimulus value attribute.
         /// </summary>
         public static IDictionary<string, object> StimulusValue(
             this IHtmlHelper html, 
@@ -105,7 +105,7 @@ namespace Stimulus.AspNetCore
         }
 
         /// <summary>
-        /// Stimulus クラス属性を生成
+        /// Generates a Stimulus class attribute.
         /// </summary>
         public static IDictionary<string, object> StimulusClass(
             this IHtmlHelper html, 
@@ -120,7 +120,7 @@ namespace Stimulus.AspNetCore
         }
 
         /// <summary>
-        /// 複数の Stimulus 属性を結合
+        /// Combines multiple Stimulus attributes.
         /// </summary>
         public static IDictionary<string, object> StimulusAttributes(
             this IHtmlHelper html,
@@ -134,7 +134,7 @@ namespace Stimulus.AspNetCore
                 {
                     if (combined.ContainsKey(kvp.Key))
                     {
-                        // data-action などは結合
+                        // Merge values for attributes such as data-action.
                         combined[kvp.Key] = $"{combined[kvp.Key]} {kvp.Value}";
                     }
                     else

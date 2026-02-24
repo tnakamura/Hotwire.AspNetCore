@@ -5,7 +5,7 @@ using System.Linq;
 namespace Stimulus.AspNetCore.TagHelpers
 {
     /// <summary>
-    /// Stimulus 値を HTML 要素に設定する Tag Helper
+    /// Tag Helper that sets Stimulus values on HTML elements.
     /// </summary>
     /// <example>
     /// &lt;div stimulus-value-dropdown-open="false"&gt;&lt;/div&gt;
@@ -18,8 +18,8 @@ namespace Stimulus.AspNetCore.TagHelpers
             new Dictionary<string, string>();
 
         /// <summary>
-        /// 動的に Stimulus 値を受け付ける
-        /// 例: stimulus-value-dropdown-open="true"
+        /// Accepts Stimulus values dynamically.
+        /// Example: stimulus-value-dropdown-open="true"
         /// </summary>
         [HtmlAttributeName("stimulus-value-", DictionaryAttributePrefix = "stimulus-value-")]
         public IDictionary<string, string> Values
@@ -31,14 +31,14 @@ namespace Stimulus.AspNetCore.TagHelpers
         {
             foreach (var kvp in Values)
             {
-                // stimulus-value-dropdown-open → data-dropdown-open-value
-                var key = kvp.Key; // 例: "dropdown-open"
+                // stimulus-value-dropdown-open -> data-dropdown-open-value
+                var key = kvp.Key; // Example: "dropdown-open"
                 var value = kvp.Value;
                 
                 output.Attributes.SetAttribute($"data-{key}-value", value);
             }
             
-            // stimulus-value-* 属性自体は削除
+            // Remove stimulus-value-* attributes themselves.
             var attributesToRemove = output.Attributes
                 .Where(attr => attr.Name.StartsWith("stimulus-value-"))
                 .ToList();

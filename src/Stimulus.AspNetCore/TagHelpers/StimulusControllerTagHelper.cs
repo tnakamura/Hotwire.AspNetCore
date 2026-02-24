@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace Stimulus.AspNetCore.TagHelpers
 {
     /// <summary>
-    /// Stimulus コントローラーを HTML 要素に接続する Tag Helper
+    /// Tag Helper that connects a Stimulus controller to an HTML element.
     /// </summary>
     /// <example>
     /// &lt;div stimulus-controller="dropdown"&gt;&lt;/div&gt;
@@ -13,7 +13,7 @@ namespace Stimulus.AspNetCore.TagHelpers
     public class StimulusControllerTagHelper : TagHelper
     {
         /// <summary>
-        /// Stimulus コントローラー名（複数指定可能、スペース区切り）
+        /// Stimulus controller name (multiple values allowed, space-separated).
         /// </summary>
         [HtmlAttributeName("stimulus-controller")]
         public string Controller { get; set; } = string.Empty;
@@ -25,7 +25,7 @@ namespace Stimulus.AspNetCore.TagHelpers
                 output.Attributes.SetAttribute("data-controller", Controller.Trim());
             }
             
-            // stimulus-controller 属性自体は削除
+            // Remove the stimulus-controller attribute itself.
             output.Attributes.RemoveAll("stimulus-controller");
         }
     }

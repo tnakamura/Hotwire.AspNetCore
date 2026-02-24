@@ -4,13 +4,13 @@ using System.Text.RegularExpressions;
 namespace Turbo.AspNetCore.TagHelpers
 {
     /// <summary>
-    /// Turbo Drive でページ遷移時に保持される永続的な要素を定義
+    /// Defines a persistent element that is preserved across Turbo Drive page transitions.
     /// </summary>
     [HtmlTargetElement("turbo-permanent")]
     public class TurboPermanentTagHelper : TagHelper
     {
         /// <summary>
-        /// 要素の一意な ID（必須）
+        /// Unique ID for the element (required).
         /// </summary>
         public string Id { get; set; } = string.Empty;
 

@@ -5,7 +5,7 @@ using System.Linq;
 namespace Stimulus.AspNetCore.TagHelpers
 {
     /// <summary>
-    /// Stimulus CSS クラス名を HTML 要素に設定する Tag Helper
+    /// Tag Helper that sets Stimulus CSS class names on HTML elements.
     /// </summary>
     /// <example>
     /// &lt;div stimulus-class-dropdown-active="highlight"&gt;&lt;/div&gt;
@@ -18,8 +18,8 @@ namespace Stimulus.AspNetCore.TagHelpers
             new Dictionary<string, string>();
 
         /// <summary>
-        /// 動的に Stimulus CSS クラスを受け付ける
-        /// 例: stimulus-class-dropdown-active="show"
+        /// Accepts Stimulus CSS classes dynamically.
+        /// Example: stimulus-class-dropdown-active="show"
         /// </summary>
         [HtmlAttributeName("stimulus-class-", DictionaryAttributePrefix = "stimulus-class-")]
         public IDictionary<string, string> Classes
@@ -31,14 +31,14 @@ namespace Stimulus.AspNetCore.TagHelpers
         {
             foreach (var kvp in Classes)
             {
-                // stimulus-class-dropdown-active → data-dropdown-active-class
-                var key = kvp.Key; // 例: "dropdown-active"
+                // stimulus-class-dropdown-active -> data-dropdown-active-class
+                var key = kvp.Key; // Example: "dropdown-active"
                 var value = kvp.Value;
                 
                 output.Attributes.SetAttribute($"data-{key}-class", value);
             }
             
-            // stimulus-class-* 属性自体は削除
+            // Remove stimulus-class-* attributes themselves.
             var attributesToRemove = output.Attributes
                 .Where(attr => attr.Name.StartsWith("stimulus-class-"))
                 .ToList();

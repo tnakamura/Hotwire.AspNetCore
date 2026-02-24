@@ -16,18 +16,18 @@ namespace Turbo.AspNetCore
         }
 
         /// <summary>
-        /// Turbo Drive によるリクエストかどうかを判定
+        /// Determines whether the request is a Turbo Drive request.
         /// </summary>
         public static bool IsTurboDriveRequest(this HttpRequest request)
         {
-            // Turbo Drive は "Turbo-Frame" ヘッダーが存在しない通常のリクエスト
-            // かつ Accept ヘッダーに text/html が含まれる
+            // A Turbo Drive request is a normal request without the "Turbo-Frame" header
+            // and with text/html included in the Accept header.
             return !request.Headers.ContainsKey("turbo-frame") &&
                    request.GetTypedHeaders().Accept.Any(x => x.MediaType == "text/html");
         }
 
         /// <summary>
-        /// Turbo によるリクエストかどうかを判定（Drive/Frame/Stream のいずれか）
+        /// Determines whether the request is a Turbo request (Drive/Frame/Stream).
         /// </summary>
         public static bool IsTurboRequest(this HttpRequest request)
         {

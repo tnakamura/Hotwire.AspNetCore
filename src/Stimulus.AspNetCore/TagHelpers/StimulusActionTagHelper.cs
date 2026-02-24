@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace Stimulus.AspNetCore.TagHelpers
 {
     /// <summary>
-    /// Stimulus アクションを HTML 要素に接続する Tag Helper
+    /// Tag Helper that connects Stimulus actions to HTML elements.
     /// </summary>
     /// <example>
     /// &lt;button stimulus-action="click->dropdown#toggle"&gt;Toggle&lt;/button&gt;
@@ -13,8 +13,8 @@ namespace Stimulus.AspNetCore.TagHelpers
     public class StimulusActionTagHelper : TagHelper
     {
         /// <summary>
-        /// Stimulus アクション（フォーマット: "event->controller#method"）
-        /// 複数指定可能（スペース区切り）
+        /// Stimulus action (format: "event->controller#method").
+        /// Multiple values can be specified (space-separated).
         /// </summary>
         [HtmlAttributeName("stimulus-action")]
         public string Action { get; set; } = string.Empty;
@@ -23,7 +23,7 @@ namespace Stimulus.AspNetCore.TagHelpers
         {
             if (!string.IsNullOrWhiteSpace(Action))
             {
-                // 既存の data-action と統合
+                // Merge with an existing data-action attribute.
                 var existingAction = output.Attributes["data-action"]?.Value?.ToString();
                 if (!string.IsNullOrWhiteSpace(existingAction))
                 {
@@ -36,7 +36,7 @@ namespace Stimulus.AspNetCore.TagHelpers
                 }
             }
             
-            // stimulus-action 属性自体は削除
+            // Remove the stimulus-action attribute itself.
             output.Attributes.RemoveAll("stimulus-action");
         }
     }

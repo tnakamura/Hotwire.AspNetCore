@@ -5,7 +5,7 @@ using System.Linq;
 namespace Stimulus.AspNetCore.TagHelpers
 {
     /// <summary>
-    /// Stimulus ターゲットを HTML 要素に設定する Tag Helper
+    /// Tag Helper that sets Stimulus targets on HTML elements.
     /// </summary>
     /// <example>
     /// &lt;div stimulus-target="dropdown.menu"&gt;&lt;/div&gt;
@@ -15,8 +15,8 @@ namespace Stimulus.AspNetCore.TagHelpers
     public class StimulusTargetTagHelper : TagHelper
     {
         /// <summary>
-        /// Stimulus ターゲット（フォーマット: "controller.target" または "target"）
-        /// 複数指定可能（スペース区切り）
+        /// Stimulus target (format: "controller.target" or "target").
+        /// Multiple values can be specified (space-separated).
         /// </summary>
         [HtmlAttributeName("stimulus-target")]
         public string Target { get; set; } = string.Empty;
@@ -33,12 +33,12 @@ namespace Stimulus.AspNetCore.TagHelpers
                     
                     if (parts.Length == 2)
                     {
-                        // "controller.target" 形式
+                        // "controller.target" format.
                         var controller = parts[0].Trim();
                         var targetName = parts[1].Trim();
                         var attributeName = $"data-{controller}-target";
                         
-                        // 既存の target 属性と統合
+                        // Merge with an existing target attribute.
                         var existingTarget = output.Attributes[attributeName]?.Value?.ToString();
                         if (!string.IsNullOrWhiteSpace(existingTarget))
                         {
@@ -53,7 +53,7 @@ namespace Stimulus.AspNetCore.TagHelpers
                 }
             }
             
-            // stimulus-target 属性自体は削除
+            // Remove the stimulus-target attribute itself.
             output.Attributes.RemoveAll("stimulus-target");
         }
     }
