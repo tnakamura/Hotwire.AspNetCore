@@ -28,11 +28,11 @@ namespace Turbo.AspNetCore
         /// <summary>
         /// Initializes a new instance of the <see cref="TurboStreamBroadcaster"/> class.
         /// </summary>
-        /// <param name="hubContext">SignalR hub context for TurboStreamsHub</param>
-        /// <param name="razorViewEngine">Razor view engine for rendering views</param>
-        /// <param name="tempDataProvider">Temp data provider</param>
-        /// <param name="serviceProvider">Service provider</param>
-        /// <param name="httpContextAccessor">HTTP context accessor for obtaining current request context</param>
+        /// <param name="hubContext">The SignalR hub context for <see cref="TurboStreamsHub"/>.</param>
+        /// <param name="razorViewEngine">The Razor view engine used to render views.</param>
+        /// <param name="tempDataProvider">The temp data provider.</param>
+        /// <param name="serviceProvider">The service provider.</param>
+        /// <param name="httpContextAccessor">The HTTP context accessor used to obtain the current request context.</param>
         public TurboStreamBroadcaster(
             IHubContext<TurboStreamsHub> hubContext,
             IRazorViewEngine razorViewEngine,
@@ -50,6 +50,9 @@ namespace Turbo.AspNetCore
         /// <summary>
         /// Broadcasts a Turbo Stream HTML fragment to all clients subscribed to a channel.
         /// </summary>
+        /// <param name="channel">The channel name.</param>
+        /// <param name="turboStreamHtml">The Turbo Stream HTML fragment to broadcast.</param>
+        /// <returns>A task that represents the asynchronous broadcast operation.</returns>
         public async Task BroadcastAsync(string channel, string turboStreamHtml)
         {
             if (string.IsNullOrWhiteSpace(channel))
@@ -68,6 +71,10 @@ namespace Turbo.AspNetCore
         /// <summary>
         /// Broadcasts a Turbo Stream by rendering a partial view to all clients in a channel.
         /// </summary>
+        /// <param name="channel">The channel name.</param>
+        /// <param name="viewName">The name of the view to render.</param>
+        /// <param name="model">The model passed to the view.</param>
+        /// <returns>A task that represents the asynchronous broadcast operation.</returns>
         public async Task BroadcastViewAsync(string channel, string viewName, object model = null)
         {
             if (string.IsNullOrWhiteSpace(channel))
@@ -87,6 +94,9 @@ namespace Turbo.AspNetCore
         /// <summary>
         /// Broadcasts a Turbo Stream HTML fragment to a specific connection.
         /// </summary>
+        /// <param name="connectionId">The target SignalR connection ID.</param>
+        /// <param name="turboStreamHtml">The Turbo Stream HTML fragment to broadcast.</param>
+        /// <returns>A task that represents the asynchronous broadcast operation.</returns>
         public async Task BroadcastToConnectionAsync(string connectionId, string turboStreamHtml)
         {
             if (string.IsNullOrWhiteSpace(connectionId))
@@ -105,6 +115,8 @@ namespace Turbo.AspNetCore
         /// <summary>
         /// Broadcasts a Turbo Stream HTML fragment to all connected clients.
         /// </summary>
+        /// <param name="turboStreamHtml">The Turbo Stream HTML fragment to broadcast.</param>
+        /// <returns>A task that represents the asynchronous broadcast operation.</returns>
         public async Task BroadcastToAllAsync(string turboStreamHtml)
         {
             if (string.IsNullOrWhiteSpace(turboStreamHtml))
@@ -118,6 +130,9 @@ namespace Turbo.AspNetCore
         /// <summary>
         /// Renders a Razor view to a string.
         /// </summary>
+        /// <param name="viewName">The name of the view to render.</param>
+        /// <param name="model">The model passed to the view.</param>
+        /// <returns>A task that represents the asynchronous operation, containing the rendered HTML string.</returns>
         private async Task<string> RenderViewToStringAsync(string viewName, object model)
         {
             var currentHttpContext = _httpContextAccessor.HttpContext;
