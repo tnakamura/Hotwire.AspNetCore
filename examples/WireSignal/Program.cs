@@ -1,5 +1,4 @@
 using Turbo.AspNetCore;
-using Turbo.AspNetCore.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +31,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 // Map SignalR Hub for Turbo Streams
-app.MapHub<TurboStreamsHub>("/hubs/turbo-streams");
+app.MapTurboStreamsHub("/hubs/turbo-streams");
 
 app.MapControllerRoute(
     name: "default",
