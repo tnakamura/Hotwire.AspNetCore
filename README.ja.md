@@ -3,7 +3,7 @@
 ASP.NET Core 向けの [Hotwire](https://hotwired.dev/) 実装ライブラリです。
 
 [![Tests](https://img.shields.io/badge/tests-56%20passing-brightgreen)](test/)
-[![.NET](https://img.shields.io/badge/.NET-Standard%202.0%2B-blue)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-8%20%7C%209%20%7C%2010-blue)](https://dotnet.microsoft.com/)
 
 ## 概要
 
@@ -397,8 +397,8 @@ dotnet run
 
 ## 要件
 
-- .NET Standard 2.0+ (ライブラリ)
-- .NET 6.0+ (サンプルアプリ)
+- .NET 8.0 / 9.0 / 10.0 (ライブラリ)
+- .NET 10.0+ (サンプルアプリ)
 
 ## パッケージ
 

@@ -58,15 +58,15 @@ Hotwire.AspNetCore/
 
 | プロジェクト | ターゲットフレームワーク | 備考 |
 |------------|---------------------|------|
-| Turbo.AspNetCore | netstandard2.0 | 幅広い .NET バージョンに対応、SignalR 統合を含む（UPDATED） |
-| Hotwire.AspNetCore | netstandard2.0 | 同上 |
-| Stimulus.AspNetCore | netstandard2.0 | 完全実装済み（Tag Helpers + 拡張メソッド）（UPDATED） |
-| Stimulus.AspNetCore.Test | net9.0 | テストプロジェクト（20 テスト）（NEW） |
-| WireFrame | net6.0 | サンプルアプリ（.NET 6 は EOL 警告あり） |
-| WireStream | net6.0 | 同上 |
-| WireDrive | net6.0 | Turbo Drive サンプルアプリ |
-| WireSignal | net8.0 | SignalR リアルタイム更新サンプル（NEW） |
-| Turbo.AspNetCore.Test | net9.0 | テストプロジェクト |
+| Turbo.AspNetCore | net8.0 / net9.0 / net10.0 | マルチターゲット、SignalR 統合を含む（UPDATED） |
+| Hotwire.AspNetCore | net8.0 / net9.0 / net10.0 | 同上 |
+| Stimulus.AspNetCore | net8.0 / net9.0 / net10.0 | 完全実装済み（Tag Helpers + 拡張メソッド）（UPDATED） |
+| Stimulus.AspNetCore.Test | net8.0 / net9.0 / net10.0 | テストプロジェクト（20 テスト）（UPDATED） |
+| WireFrame | net10.0 | サンプルアプリ |
+| WireStream | net10.0 | 同上 |
+| WireDrive | net10.0 | Turbo Drive サンプルアプリ |
+| WireSignal | net10.0 | SignalR リアルタイム更新サンプル（UPDATED） |
+| Turbo.AspNetCore.Test | net8.0 / net9.0 / net10.0 | テストプロジェクト |
 
 **検証結果**: .NET 10 SDK 環境でビルド成功。全 56 テストがパス（Turbo テスト 36 件 + Stimulus テスト 20 件）。（UPDATED）
 

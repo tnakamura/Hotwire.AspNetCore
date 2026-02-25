@@ -3,7 +3,7 @@
 A [Hotwire](https://hotwired.dev/) implementation library for ASP.NET Core.
 
 [![Tests](https://img.shields.io/badge/tests-56%20passing-brightgreen)](test/)
-[![.NET](https://img.shields.io/badge/.NET-Standard%202.0%2B-blue)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-8%20%7C%209%20%7C%2010-blue)](https://dotnet.microsoft.com/)
 
 ## Overview
 
@@ -397,8 +397,8 @@ For details, see the [WireSignal README](examples/WireSignal/README.md).
 
 ## Requirements
 
-- .NET Standard 2.0+ (library)
-- .NET 6.0+ (sample apps)
+- .NET 8.0 / 9.0 / 10.0 (library)
+- .NET 10.0+ (sample apps)
 
 ## Packages
 
