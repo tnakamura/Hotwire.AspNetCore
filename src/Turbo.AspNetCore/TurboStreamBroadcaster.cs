@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -7,11 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Turbo.AspNetCore.Hubs;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Turbo.AspNetCore
 {
