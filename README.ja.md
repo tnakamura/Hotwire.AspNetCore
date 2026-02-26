@@ -79,16 +79,14 @@ dotnet add package Stimulus.AspNetCore
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     
+    @* Turbo.js を読み込み *@
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@@latest/dist/turbo.es2017-esm.min.js"></script>
+    
     @* Turbo Drive を有効化 *@
     <turbo-drive-meta enabled="true" transition="fade" />
 </head>
 <body>
     @RenderBody()
-    
-    @* Turbo.js を読み込み *@
-    <script type="module">
-        import * as Turbo from 'https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.12/+esm';
-    </script>
 </body>
 ```
 

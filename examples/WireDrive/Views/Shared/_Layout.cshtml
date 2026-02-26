@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WireDrive.styles.css" asp-append-version="true" />
     
+    @* Turbo.js の読み込み *@
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@@latest/dist/turbo.es2017-esm.min.js"></script>
+
     @* Turbo Drive メタタグ *@
     <turbo-drive-meta enabled="true" transition="fade" />
 </head>
@@ -67,11 +70,6 @@
             &copy; 2026 - WireDrive - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    
-    @* Turbo.js の読み込み *@
-    <script type="module">
-        import * as Turbo from 'https://cdn.jsdelivr.net/npm/@@hotwired/turbo@@8.0.12/+esm';
-    </script>
     
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

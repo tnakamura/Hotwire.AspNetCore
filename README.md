@@ -79,16 +79,14 @@ dotnet add package Stimulus.AspNetCore
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     
+    @* Load Turbo.js *@
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@@latest/dist/turbo.es2017-esm.min.js"></script>
+    
     @* Enable Turbo Drive *@
     <turbo-drive-meta enabled="true" transition="fade" />
 </head>
 <body>
     @RenderBody()
-    
-    @* Load Turbo.js *@
-    <script type="module">
-        import * as Turbo from 'https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.12/+esm';
-    </script>
 </body>
 ```
 
