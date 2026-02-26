@@ -1,62 +1,43 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@latest/dist/turbo.es2017-esm.min.js"></script>
-    <title>ASP.NET Core with Hotwire</title>
-</head>
-<body>
-    <header>
-        <nav>
-            <a asp-controller="Home" asp-action="Index">Home</a>
-            <a asp-controller="CustomActions" asp-action="Index">Custom Actions</a>
-            <a href="/contact">Contact</a>
-            <a href="/about">About</a>
-        </nav>
-        <h1>Turbo Streams</h1>
-        <p>bring your application to life using turbo streams!</p>
-    </header>
+﻿@{
+    ViewData["Title"] = "ASP.NET Core with Hotwire";
+}
 
-    <main>
-        <p id="subscriber-count" style="padding: 1em; background-color: lightyellow; text-align: center;">
-            You have 2 subscribers
-        </p>
+<h1>Turbo Streams</h1>
+<p>bring your application to life using turbo streams!</p>
 
-        <hr />
+<p id="subscriber-count" style="padding: 1em; background-color: lightyellow; text-align: center;">
+    You have 2 subscribers
+</p>
 
-        <div style="width: 50%; margin: 2em auto;">
-            <div id="newsletter">
-                <form asp-controller="Home" asp-action="Subscribe" method="post">
-                    <div>
-                        <label for="name">Name:</label>
-                        <input type="text" name="name" id="name" placeholder="Enter your name" />
-                    </div>
+<hr />
 
-                    <br />
-
-                    <div>
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="email" placeholder="Enter your email" />
-                    </div>
-
-                    <br />
-                    <button type="submit">Subscribe</button>
-                </form>
+<div style="width: 50%; margin: 2em auto;">
+    <div id="newsletter">
+        <form asp-controller="Home" asp-action="Subscribe" method="post">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" placeholder="Enter your name" />
             </div>
-        </div>
 
-        <hr />
+            <br />
 
-        <div style="width: 50%; margin: 0 auto;">
-            <h3>Subscriber List</h3>
-            <ul id="subscriber-list">
-                <li>Joel Spolsky</li>
-                <li>Jason Fried</li>
-            </ul>
-        </div>
-    </main>
-</body>
-</html>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter your email" />
+            </div>
+
+            <br />
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+</div>
+
+<hr />
+
+<div style="width: 50%; margin: 0 auto;">
+    <h3>Subscriber List</h3>
+    <ul id="subscriber-list">
+        <li>Joel Spolsky</li>
+        <li>Jason Fried</li>
+    </ul>
+</div>

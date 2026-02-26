@@ -1,1 +1,28 @@
-﻿@RenderBody()
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	@if (!(ViewData["DisableSimpleCss"] as bool? ?? false))
+	{
+		<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+	}
+	<script type="module" src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@latest/dist/turbo.es2017-esm.min.js"></script>
+	@RenderSection("Styles", required: false)
+	<title>@(ViewData["Title"] ?? "ASP.NET Core with Hotwire")</title>
+</head>
+<body>
+	<header>
+		<nav>
+			<a asp-controller="Home" asp-action="Index">Home</a>
+			<a asp-controller="CustomActions" asp-action="Index">Custom Actions</a>
+			<a asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</nav>
+	</header>
+	<main>
+		@RenderBody()
+	</main>
+	@RenderSection("Scripts", required: false)
+</body>
+</html>
