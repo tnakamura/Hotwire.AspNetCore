@@ -6,20 +6,20 @@ public class OrderViewModel
 {
     public int? ProductId { get; set; }
 
-    [Required(ErrorMessage = "お名前を入力してください")]
-    [Display(Name = "お名前")]
+    [Required(ErrorMessage = "Please enter your name")]
+    [Display(Name = "Name")]
     public string CustomerName { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "メールアドレスを入力してください")]
-    [EmailAddress(ErrorMessage = "有効なメールアドレスを入力してください")]
-    [Display(Name = "メールアドレス")]
+    [Required(ErrorMessage = "Please enter your email address")]
+    [EmailAddress(ErrorMessage = "Please enter a valid email address")]
+    [Display(Name = "Email Address")]
     public string Email { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "住所を入力してください")]
-    [Display(Name = "住所")]
+    [Required(ErrorMessage = "Please enter your address")]
+    [Display(Name = "Address")]
     public string Address { get; set; } = string.Empty;
 
-    [Display(Name = "コメント")]
+    [Display(Name = "Comments")]
     public string? Comments { get; set; }
 }
 

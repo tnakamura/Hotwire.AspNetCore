@@ -1,14 +1,14 @@
 @model WireDrive.Models.OrderViewModel
 @{
-    ViewData["Title"] = "新規注文";
+    ViewData["Title"] = "New Order";
 }
 
 <div class="container">
-    <h1 class="display-4 mb-4">新規注文</h1>
+    <h1 class="display-4 mb-4">New Order</h1>
     
     <div class="alert alert-info">
-        <strong>📝 Turbo Drive Demo:</strong> このフォームは Turbo Drive により高速化されています。
-        フォームを送信しても、音楽プレーヤーの再生は継続されます。
+        <strong>📝 Turbo Drive Demo:</strong> This form is accelerated by Turbo Drive.
+        Even after submitting the form, music playback continues.
     </div>
     
     <div class="row">
@@ -40,8 +40,8 @@
                 <input type="hidden" asp-for="ProductId" />
                 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg">注文を確定</button>
-                    <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">キャンセル</a>
+                    <button type="submit" class="btn btn-primary btn-lg">Confirm Order</button>
+                    <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Cancel</a>
                 </div>
             </form>
         </div>
@@ -49,12 +49,12 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">ご注文の流れ</h5>
+                    <h5 class="card-title">Order Flow</h5>
                     <ol>
-                        <li>必要事項を入力</li>
-                        <li>注文を確定</li>
-                        <li>確認メールを受信</li>
-                        <li>商品をお届け</li>
+                        <li>Enter the required information</li>
+                        <li>Confirm your order</li>
+                        <li>Receive a confirmation email</li>
+                        <li>Product delivery</li>
                     </ol>
                 </div>
             </div>

@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WireDrive.styles.css" asp-append-version="true" />
     
-    @* Turbo.js の読み込み *@
+    @* Load Turbo.js *@
     <script type="module" src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@@latest/dist/turbo.es2017-esm.min.js"></script>
 
-    @* Turbo Drive メタタグ *@
+    @* Turbo Drive meta tag *@
     <turbo-drive-meta enabled="true" transition="fade" />
 </head>
 <body>
@@ -46,12 +46,12 @@
         </nav>
     </header>
     
-    @* Turbo Drive デモ: ページ遷移しても保持される音楽プレーヤー *@
+    @* Turbo Drive demo: music player that persists across page navigation *@
     <turbo-permanent id="music-player">
         <div class="container mb-3">
             <div class="alert alert-info">
-                <strong>🎵 Turbo Drive Demo:</strong> この音楽プレーヤーは <code>data-turbo-permanent</code> 属性により、
-                ページ遷移しても再生が継続されます。
+                <strong>🎵 Turbo Drive Demo:</strong> This music player uses the <code>data-turbo-permanent</code> attribute,
+                so playback continues even when you navigate between pages.
                 <audio controls style="width: 100%; margin-top: 10px;">
                     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
                 </audio>

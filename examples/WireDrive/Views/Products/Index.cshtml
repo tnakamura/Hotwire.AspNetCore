@@ -4,11 +4,11 @@
 }
 
 <div class="container">
-    <h1 class="display-4 mb-4">製品一覧</h1>
+    <h1 class="display-4 mb-4">Product Catalog</h1>
     
     <div class="alert alert-info">
-        <strong>💡 Turbo Drive Demo:</strong> 製品をクリックして詳細ページに移動しても、
-        音楽プレーヤーの再生は継続されます。ページ遷移が非常に高速であることに注目してください。
+        <strong>💡 Turbo Drive Demo:</strong> Even when you click a product and move to the details page,
+        music playback continues. Notice how fast the page transition is.
     </div>
     
     <div class="row">
@@ -21,9 +21,9 @@
                         <h5 class="card-title">@product.Name</h5>
                         <p class="card-text">@product.Description</p>
                         <p class="card-text">
-                            <strong>価格:</strong> $@product.Price.ToString("F2")
+                            <strong>Price:</strong> $@product.Price.ToString("F2")
                         </p>
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@product.Id">詳細を見る</a>
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@product.Id">View Details</a>
                     </div>
                 </div>
             </div>
@@ -31,6 +31,6 @@
     </div>
     
     <div class="mt-4">
-        <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">ホームに戻る</a>
+        <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Back to Home</a>
     </div>
 </div>

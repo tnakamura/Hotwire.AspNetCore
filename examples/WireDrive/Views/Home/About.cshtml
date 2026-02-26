@@ -4,38 +4,38 @@
 
 <div class="text-center">
     <h1 class="display-4">About WireDrive</h1>
-    <p class="lead">Turbo Drive のデモンストレーションアプリケーション</p>
+    <p class="lead">A demonstration application for Turbo Drive</p>
 </div>
 
 <div class="row mt-4">
     <div class="col-md-12">
-        <h2>Turbo Drive とは？</h2>
+        <h2>What is Turbo Drive?</h2>
         <p>
-            Turbo Drive は、リンクとフォーム送信を AJAX 化し、ページ全体の再読み込みを防ぐことで、
-            Web アプリケーションを高速化するライブラリです。
+            Turbo Drive is a library that enhances links and form submissions with AJAX,
+            preventing full-page reloads and making web applications faster.
         </p>
         
-        <h3 class="mt-4">特徴</h3>
+        <h3 class="mt-4">Features</h3>
         <ul>
-            <li><strong>高速なページ遷移</strong>: &lt;body&gt; の内容のみを置換し、&lt;head&gt; のリソースは再利用</li>
-            <li><strong>プログレッシブエンハンスメント</strong>: JavaScript 無効時でも動作</li>
-            <li><strong>永続的な要素</strong>: ページ遷移しても状態を保持する要素（音楽プレーヤーなど）</li>
-            <li><strong>簡単な統合</strong>: 既存の ASP.NET Core アプリに簡単に追加可能</li>
+            <li><strong>Fast page navigation</strong>: Replaces only the &lt;body&gt; content and reuses &lt;head&gt; resources</li>
+            <li><strong>Progressive enhancement</strong>: Works even when JavaScript is disabled</li>
+            <li><strong>Persistent elements</strong>: Keeps stateful elements across page transitions (such as a music player)</li>
+            <li><strong>Easy integration</strong>: Can be added to existing ASP.NET Core apps with minimal effort</li>
         </ul>
         
-        <h3 class="mt-4">試してみよう</h3>
+        <h3 class="mt-4">Try it out</h3>
         <p>
-            上部のナビゲーションバーのリンクをクリックしてページ遷移してみてください。
-            音楽プレーヤーの再生を開始してからページを移動すると、再生が継続されることが確認できます。
+            Click the links in the top navigation bar to move between pages.
+            Start playback in the music player first, then navigate to confirm that playback continues.
         </p>
         
         <div class="alert alert-success mt-4">
-            <strong>💡 ヒント:</strong> ブラウザの開発者ツールのネットワークタブを開いて、
-            ページ遷移時にどのリソースがリクエストされているか確認してみてください。
+            <strong>💡 Tip:</strong> Open your browser developer tools and check the Network tab
+            to see which resources are requested during page navigation.
         </div>
     </div>
 </div>
 
 <div class="text-center mt-4">
-    <a class="btn btn-primary" asp-controller="Products" asp-action="Index">製品一覧を見る</a>
+    <a class="btn btn-primary" asp-controller="Products" asp-action="Index">View Product Catalog</a>
 </div>
