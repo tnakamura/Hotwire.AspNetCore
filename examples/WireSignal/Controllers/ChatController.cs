@@ -39,7 +39,7 @@ namespace WireSignal.Controllers
 
             if (Request.IsTurboRequest())
             {
-                return this.TurboStream("_ChatMessage", chatMessage);
+                return NoContent();
             }
 
             return RedirectToAction("Index");

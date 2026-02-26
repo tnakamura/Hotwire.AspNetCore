@@ -36,7 +36,7 @@ namespace WireSignal.Controllers
 
             if (Request.IsTurboRequest())
             {
-                return this.TurboStream("_Notification", notification);
+                return NoContent();
             }
 
             return RedirectToAction("Index");
