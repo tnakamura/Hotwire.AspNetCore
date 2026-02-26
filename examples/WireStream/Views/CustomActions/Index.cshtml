@@ -20,7 +20,7 @@
         </div>
         <div class="card-body">
             <p>Change the browser tab title dynamically.</p>
-            <form asp-action="SetTitle" method="post" data-turbo-stream>
+            <form asp-action="SetTitle" method="post" turbo-stream>
                 <div class="mb-3">
                     <label for="titleInput" class="form-label">New Title:</label>
                     <input type="text" class="form-control" id="titleInput" name="title" 
@@ -38,7 +38,7 @@
         </div>
         <div class="card-body">
             <p>Display a Bootstrap alert notification using custom action.</p>
-            <form asp-action="ShowNotification" method="post" data-turbo-stream class="row g-3">
+            <form asp-action="ShowNotification" method="post" turbo-stream class="row g-3">
                 <div class="col-md-8">
                     <label for="messageInput" class="form-label">Message:</label>
                     <input type="text" class="form-control" id="messageInput" name="message" 
@@ -67,7 +67,7 @@
         </div>
         <div class="card-body">
             <p>Add items to a list with a smooth slide-in animation.</p>
-            <form asp-action="AddItemWithAnimation" method="post" data-turbo-stream class="mb-3">
+            <form asp-action="AddItemWithAnimation" method="post" turbo-stream class="mb-3">
                 <div class="input-group">
                     <input type="text" class="form-control" name="itemText" 
                            placeholder="Enter item text..." required>
@@ -98,15 +98,15 @@
                     Item 3 - Click button to highlight
                 </div>
             </div>
-            <form asp-action="HighlightItem" method="post" data-turbo-stream class="d-inline me-2">
+            <form asp-action="HighlightItem" method="post" turbo-stream class="d-inline me-2">
                 <input type="hidden" name="itemId" value="item-1">
                 <button type="submit" class="btn btn-outline-primary">Highlight Item 1</button>
             </form>
-            <form asp-action="HighlightItem" method="post" data-turbo-stream class="d-inline me-2">
+            <form asp-action="HighlightItem" method="post" turbo-stream class="d-inline me-2">
                 <input type="hidden" name="itemId" value="item-2">
                 <button type="submit" class="btn btn-outline-primary">Highlight Item 2</button>
             </form>
-            <form asp-action="HighlightItem" method="post" data-turbo-stream class="d-inline">
+            <form asp-action="HighlightItem" method="post" turbo-stream class="d-inline">
                 <input type="hidden" name="itemId" value="item-3">
                 <button type="submit" class="btn btn-outline-primary">Highlight Item 3</button>
             </form>
@@ -120,7 +120,7 @@
         </div>
         <div class="card-body">
             <p>Send a message to the browser console for debugging. Check the browser's developer console.</p>
-            <form asp-action="DebugLog" method="post" data-turbo-stream>
+            <form asp-action="DebugLog" method="post" turbo-stream>
                 <div class="mb-3">
                     <label for="logMessage" class="form-label">Log Message:</label>
                     <input type="text" class="form-control" id="logMessage" name="message" 
