@@ -9,6 +9,11 @@
  * @requires @hotwired/turbo
  */
 
+(() => {
+    if (typeof window !== 'undefined' && window.TurboSignalR) {
+        return;
+    }
+
 class TurboSignalRConnection {
     /**
      * Creates a new Turbo SignalR connection
@@ -263,3 +268,5 @@ if (typeof window !== 'undefined') {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = TurboSignalRConnection;
 }
+
+})();

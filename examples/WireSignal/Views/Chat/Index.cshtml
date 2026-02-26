@@ -37,26 +37,37 @@
 
 @section Scripts {
 <script>
-    // Subscribe to chat channel
-    const turboSignalR = new TurboSignalR();
-    turboSignalR.start().then(() => {
-        turboSignalR.subscribe('chat');
-        console.log('Subscribed to chat channel');
-    });
-    
-    // Auto-scroll to bottom when new messages arrive
-    document.addEventListener('turbo-signalr:streamReceived', (event) => {
-        const messagesDiv = document.getElementById('messages');
-        if (messagesDiv) {
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    (() => {
+        const wireSignal = window.wireSignal ?? (window.wireSignal = {});
+        const turboSignalR = wireSignal.turboSignalR ?? (wireSignal.turboSignalR = new TurboSignalR());
+
+        turboSignalR.start().then(() => {
+            turboSignalR.subscribe('chat');
+            console.log('Subscribed to chat channel');
+        });
+
+        if (!wireSignal.chatStreamHandlerAttached) {
+            document.addEventListener('turbo-signalr:streamReceived', () => {
+                const messagesDiv = document.getElementById('messages');
+                if (messagesDiv) {
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                }
+            });
+            wireSignal.chatStreamHandlerAttached = true;
         }
-    });
-    
-    // Clear form after submission
-    document.getElementById('chatForm').addEventListener('submit', function() {
-        setTimeout(() => {
-            document.getElementById('message').value = '';
-        }, 100);
-    });
+
+        const chatForm = document.getElementById('chatForm');
+        if (chatForm && !chatForm.dataset.clearMessageOnSubmitBound) {
+            chatForm.addEventListener('submit', () => {
+                setTimeout(() => {
+                    const messageInput = document.getElementById('message');
+                    if (messageInput) {
+                        messageInput.value = '';
+                    }
+                }, 100);
+            });
+            chatForm.dataset.clearMessageOnSubmitBound = 'true';
+        }
+    })();
 </script>
 }

@@ -43,16 +43,21 @@
 
 @section Scripts {
 <script>
-    // Subscribe to notifications channel
-    const turboSignalR = new TurboSignalR();
-    turboSignalR.start().then(() => {
-        turboSignalR.subscribe('notifications');
-        console.log('Subscribed to notifications channel');
-    });
-    
-    // Show a visual indicator when new notifications arrive
-    document.addEventListener('turbo-signalr:streamReceived', (event) => {
-        console.log('Notification received!');
-    });
+    (() => {
+        const wireSignal = window.wireSignal ?? (window.wireSignal = {});
+        const turboSignalR = wireSignal.turboSignalR ?? (wireSignal.turboSignalR = new TurboSignalR());
+
+        turboSignalR.start().then(() => {
+            turboSignalR.subscribe('notifications');
+            console.log('Subscribed to notifications channel');
+        });
+
+        if (!wireSignal.notificationStreamHandlerAttached) {
+            document.addEventListener('turbo-signalr:streamReceived', () => {
+                console.log('Notification received!');
+            });
+            wireSignal.notificationStreamHandlerAttached = true;
+        }
+    })();
 </script>
 }

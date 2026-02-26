@@ -11,6 +11,9 @@
     
     <!-- Turbo -->
     <script src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@@latest"></script>
+
+    <!-- Turbo SignalR Integration -->
+    <script src="~/js/turbo-signalr.js" asp-append-version="true" data-turbo-track="reload"></script>
 </head>
 <body>
     <header>
@@ -38,9 +41,6 @@
         </div>
     </footer>
 
-    <!-- Turbo SignalR Integration -->
-    <script src="~/js/turbo-signalr.js"></script>
-    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

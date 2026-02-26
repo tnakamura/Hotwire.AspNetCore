@@ -34,17 +34,25 @@
 
 @section Scripts {
 <script>
-    // Initialize Turbo SignalR connection (global instance)
-    const turboSignalR = new TurboSignalR();
-    turboSignalR.start();
-    
-    // Listen to connection events
-    document.addEventListener('turbo-signalr:connected', () => {
-        console.log('WireSignal: Connected to SignalR');
-    });
-    
-    document.addEventListener('turbo-signalr:error', (event) => {
-        console.error('WireSignal: Error', event.detail.error);
-    });
+    (() => {
+        const wireSignal = window.wireSignal ?? (window.wireSignal = {});
+        const turboSignalR = wireSignal.turboSignalR ?? (wireSignal.turboSignalR = new TurboSignalR());
+
+        turboSignalR.start();
+
+        if (!wireSignal.connectedHandlerAttached) {
+            document.addEventListener('turbo-signalr:connected', () => {
+                console.log('WireSignal: Connected to SignalR');
+            });
+            wireSignal.connectedHandlerAttached = true;
+        }
+
+        if (!wireSignal.errorHandlerAttached) {
+            document.addEventListener('turbo-signalr:error', (event) => {
+                console.error('WireSignal: Error', event.detail.error);
+            });
+            wireSignal.errorHandlerAttached = true;
+        }
+    })();
 </script>
 }
