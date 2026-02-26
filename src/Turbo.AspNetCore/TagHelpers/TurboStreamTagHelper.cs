@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using System;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Turbo.AspNetCore.TagHelpers
 {
@@ -15,9 +16,30 @@ namespace Turbo.AspNetCore.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "turbo-stream";
-            output.PreContent.SetHtmlContent("<template>");
-            output.PostContent.SetHtmlContent("</template>");
+            var content = output.Content.GetContent().Trim();
+            if (!IsTemplateRoot(content))
+            {
+                output.PreContent.SetHtmlContent("<template>");
+                output.PostContent.SetHtmlContent("</template>");
+            }
+
             base.Process(context, output);
+        }
+
+        private static bool IsTemplateRoot(string content)
+        {
+            if (!content.StartsWith("<template", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            var openTagEnd = content.IndexOf('>');
+            if (openTagEnd < 0)
+            {
+                return false;
+            }
+
+            return content.EndsWith("</template>", StringComparison.OrdinalIgnoreCase);
         }
     }
 

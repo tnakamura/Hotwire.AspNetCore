@@ -171,4 +171,67 @@ public class TurboStreamCustomActionTagHelperTest
         Assert.Contains("<template>", output.PreContent.GetContent());
         Assert.Contains("</template>", output.PostContent.GetContent());
     }
+
+    [Fact]
+    public void CustomAction_WithNonTemplateRootContent_WrapsWithTemplate()
+    {
+        // Arrange
+        var tagHelper = new TurboStreamCustomActionTagHelper
+        {
+            Action = "notify"
+        };
+        var context = new TagHelperContext(
+            new TagHelperAttributeList(),
+            new Dictionary<object, object>(),
+            Guid.NewGuid().ToString("N"));
+
+        var output = new TagHelperOutput(
+            "turbo-stream-custom",
+            new TagHelperAttributeList(),
+            (useCachedResult, encoder) => Task.FromResult<TagHelperContent>(
+                new DefaultTagHelperContent()));
+
+        output.Content.SetHtmlContent("<div>hello</div>");
+
+        // Act
+        tagHelper.Process(context, output);
+
+        // Assert
+        Assert.Equal("turbo-stream", output.TagName);
+        Assert.Equal("notify", output.Attributes["action"].Value);
+        Assert.Equal("<template>", output.PreContent.GetContent());
+        Assert.Equal("</template>", output.PostContent.GetContent());
+    }
+
+    [Fact]
+    public void CustomAction_WithTemplateRootContent_DoesNotWrapAgain()
+    {
+        // Arrange
+        var tagHelper = new TurboStreamCustomActionTagHelper
+        {
+            Action = "notify"
+        };
+        var context = new TagHelperContext(
+            new TagHelperAttributeList(),
+            new Dictionary<object, object>(),
+            Guid.NewGuid().ToString("N"));
+
+        var output = new TagHelperOutput(
+            "turbo-stream-custom",
+            new TagHelperAttributeList(),
+            (useCachedResult, encoder) => Task.FromResult<TagHelperContent>(
+                new DefaultTagHelperContent()));
+
+        output.Content.SetHtmlContent("<template><div>hello</div></template>");
+
+        // Act
+        tagHelper.Process(context, output);
+
+        // Assert
+        Assert.Equal("turbo-stream", output.TagName);
+        Assert.Equal("notify", output.Attributes["action"].Value);
+        Assert.Equal(string.Empty, output.PreContent.GetContent());
+        Assert.Equal(string.Empty, output.PostContent.GetContent());
+        Assert.Equal("<template><div>hello</div></template>", output.Content.GetContent());
+    }
 }
