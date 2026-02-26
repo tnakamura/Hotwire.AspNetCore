@@ -10,7 +10,7 @@ public class TurboHttpRequestExtensionsTest
     public void IsTurboFrameRequestTest(string key, bool expected)
     {
         var context = new DefaultHttpContext();
-        context.Request.Headers.Add(key, "");
+        context.Request.Headers[key] = "";
 
         Assert.Equal(expected, context.Request.IsTurboFrameRequest());
     }

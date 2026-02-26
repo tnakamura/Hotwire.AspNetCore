@@ -27,7 +27,7 @@ namespace Turbo.AspNetCore
         public static IHtmlContent TurboStreamCustom(
             this IHtmlHelper html,
             string action,
-            object attributes = null)
+            object? attributes = null)
         {
             return TurboStreamCustom(html, action, attributes, content: null);
         }
@@ -49,8 +49,8 @@ namespace Turbo.AspNetCore
         public static IHtmlContent TurboStreamCustom(
             this IHtmlHelper html,
             string action,
-            object attributes,
-            Func<object, IHtmlContent> content)
+            object? attributes,
+            Func<object?, IHtmlContent>? content)
         {
             if (string.IsNullOrEmpty(action))
             {

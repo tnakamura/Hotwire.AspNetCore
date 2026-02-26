@@ -75,7 +75,7 @@ namespace Turbo.AspNetCore
         /// <param name="viewName">The name of the view to render.</param>
         /// <param name="model">The model passed to the view.</param>
         /// <returns>A task that represents the asynchronous broadcast operation.</returns>
-        public async Task BroadcastViewAsync(string channel, string viewName, object model = null)
+        public async Task BroadcastViewAsync(string channel, string viewName, object? model = null)
         {
             if (string.IsNullOrWhiteSpace(channel))
             {
@@ -133,7 +133,7 @@ namespace Turbo.AspNetCore
         /// <param name="viewName">The name of the view to render.</param>
         /// <param name="model">The model passed to the view.</param>
         /// <returns>A task that represents the asynchronous operation, containing the rendered HTML string.</returns>
-        private async Task<string> RenderViewToStringAsync(string viewName, object model)
+        private async Task<string> RenderViewToStringAsync(string viewName, object? model)
         {
             var currentHttpContext = _httpContextAccessor.HttpContext;
             var httpContext = currentHttpContext ?? new DefaultHttpContext { RequestServices = _serviceProvider };

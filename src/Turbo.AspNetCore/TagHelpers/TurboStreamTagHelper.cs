@@ -51,7 +51,7 @@ namespace Turbo.AspNetCore.TagHelpers
         /// <summary>
         /// Gets or sets the target element ID.
         /// </summary>
-        public string Target { get; set; }
+        public string? Target { get; set; }
 
         /// <summary>
         /// Gets the Turbo Stream action name.
@@ -79,7 +79,7 @@ namespace Turbo.AspNetCore.TagHelpers
         /// <summary>
         /// Gets or sets the target selector for multiple elements.
         /// </summary>
-        public string Targets { get; set; }
+        public string? Targets { get; set; }
 
         /// <summary>
         /// Gets the Turbo Stream action name.
@@ -236,7 +236,7 @@ namespace Turbo.AspNetCore.TagHelpers
         /// <summary>
         /// Gets or sets the optional request identifier used for refresh deduplication.
         /// </summary>
-        public string RequestId { get; set; }
+        public string? RequestId { get; set; }
 
         /// <summary>
         /// Processes the tag helper output and sets the <c>refresh</c> action attributes.

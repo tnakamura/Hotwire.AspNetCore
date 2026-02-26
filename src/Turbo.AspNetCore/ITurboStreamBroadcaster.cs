@@ -24,7 +24,7 @@ namespace Turbo.AspNetCore
         /// <param name="viewName">Partial view name to render (e.g., "_Notification")</param>
         /// <param name="model">Model to pass to the view</param>
         /// <returns>A task representing the asynchronous broadcast operation</returns>
-        Task BroadcastViewAsync(string channel, string viewName, object model = null);
+        Task BroadcastViewAsync(string channel, string viewName, object? model = null);
 
         /// <summary>
         /// Broadcasts a Turbo Stream HTML fragment to a specific connection.

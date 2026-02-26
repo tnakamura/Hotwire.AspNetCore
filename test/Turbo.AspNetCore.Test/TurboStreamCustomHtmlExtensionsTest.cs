@@ -63,7 +63,7 @@ public class TurboStreamCustomHtmlExtensionsTest
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() =>
-            htmlHelper.TurboStreamCustom(null, null));
+            htmlHelper.TurboStreamCustom(null!, null));
     }
 
     [Fact]

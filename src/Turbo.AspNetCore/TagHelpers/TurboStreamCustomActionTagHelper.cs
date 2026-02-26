@@ -25,7 +25,7 @@ namespace Turbo.AspNetCore.TagHelpers
         /// registered in JavaScript via Turbo.StreamActions.
         /// </summary>
         [HtmlAttributeName("action")]
-        public string Action { get; set; }
+        public string? Action { get; set; }
 
         /// <summary>
         /// Processes the tag helper and sets the action attribute.

@@ -31,7 +31,7 @@ namespace Turbo.AspNetCore
             ITurboStreamBroadcaster broadcaster,
             string channel,
             string viewName,
-            object model = null)
+            object? model = null)
         {
             if (broadcaster == null)
             {

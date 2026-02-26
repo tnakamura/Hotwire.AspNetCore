@@ -57,7 +57,7 @@ namespace Turbo.AspNetCore.Hubs
         /// </summary>
         /// <param name="exception">Exception that caused the disconnection, if any</param>
         /// <returns>A task representing the asynchronous operation</returns>
-        public override async Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
             await base.OnDisconnectedAsync(exception);
         }
