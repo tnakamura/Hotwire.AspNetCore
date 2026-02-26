@@ -1,34 +1,16 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@latest/dist/turbo.es2017-esm.min.js"></script>
-    <title>Wireframe</title>
-</head>
-<body>
-    <header>
-        <nav>
-            <a asp-controller="Home" asp-action="Index">Home</a>
-            <a asp-controller="Home" asp-action="Contact">Contact</a>
-            <a asp-controller="Home" asp-action="About">About</a>
-        </nav>
+﻿@{
+    ViewData["Title"] = "Wireframe";
+}
 
-        <h1>Learn Hotwire</h1>
+<h1>Learn Hotwire</h1>
 
-        <p>Yes, you can really use Hotwire without Rails. Give it a try!</p>
-    </header>
-    <main>
-        <h1>Gallery</h1>
-        <turbo-frame id="gallery">
-            <img src="~/images/ocean.jpg" alt="Ocean" width="500" height="400">
+<p>Yes, you can really use Hotwire without Rails. Give it a try!</p>
 
-            <div>
-                <a asp-controller="Gallery" asp-action="Forest">Next (forest)</a>
-            </div>
-        </turbo-frame>
-    </main>
-</body>
-</html>
+<h2>Gallery</h2>
+<turbo-frame id="gallery">
+    <img src="~/images/ocean.jpg" alt="Ocean" width="500" height="400">
+
+    <div>
+        <a asp-controller="Gallery" asp-action="Forest">Next (forest)</a>
+    </div>
+</turbo-frame>
