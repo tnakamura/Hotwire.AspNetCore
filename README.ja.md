@@ -9,8 +9,6 @@ ASP.NET Core 向けの [Hotwire](https://hotwired.dev/) 実装ライブラリで
 
 Hotwire は、JavaScript を最小限に抑えながら、高速でモダンな Web アプリケーションを構築するためのアプローチです。このライブラリは、ASP.NET Core アプリケーションで Hotwire を簡単に使用できるようにします。
 
-**Rails パリティ達成**: このライブラリは、Ruby on Rails の turbo-rails、ActionCable、stimulus-rails と同等の機能を提供します。
-
 ## 機能
 
 ### ✅ Turbo Drive
