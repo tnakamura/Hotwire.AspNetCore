@@ -9,8 +9,6 @@ A [Hotwire](https://hotwired.dev/) implementation library for ASP.NET Core.
 
 Hotwire is an approach for building fast, modern web applications while minimizing the use of JavaScript. This library makes it easy to use Hotwire in ASP.NET Core applications.
 
-**Rails Parity Achieved**: This library provides equivalent functionality to Ruby on Rails' turbo-rails, ActionCable, and stimulus-rails.
-
 ## Features
 
 ### ✅ Turbo Drive
