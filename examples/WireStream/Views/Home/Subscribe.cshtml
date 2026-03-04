@@ -1,4 +1,7 @@
-﻿<turbo-stream-replace target="subscriber-count">
+﻿@{
+    Layout = null;
+}
+<turbo-stream-replace target="subscriber-count">
     <p id="subscriber-count" style="padding: 1em; background-color: lightyellow; text-align: center;">
         You have @Random.Shared.Next(100) subscribers.
     </p>

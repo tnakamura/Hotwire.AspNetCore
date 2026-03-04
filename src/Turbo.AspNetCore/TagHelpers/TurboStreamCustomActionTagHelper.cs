@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Turbo.AspNetCore.TagHelpers
@@ -28,11 +29,28 @@ namespace Turbo.AspNetCore.TagHelpers
         public string? Action { get; set; }
 
         /// <summary>
+        /// Additional attributes passed to <c>turbo-stream-custom</c>.
+        /// These are emitted to the resulting <c>turbo-stream</c> element.
+        /// </summary>
+        [HtmlAttributeName(DictionaryAttributePrefix = "")]
+        public IDictionary<string, string?> AdditionalAttributes { get; set; } = new Dictionary<string, string?>();
+
+        /// <summary>
         /// Processes the tag helper and sets the action attribute.
         /// All other attributes will be passed through to the turbo-stream element automatically.
         /// </summary>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
+            foreach (var attribute in AdditionalAttributes)
+            {
+                if (attribute.Key.Equals("action", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                output.Attributes.SetAttribute(attribute.Key, attribute.Value);
+            }
+
             // Set the action attribute
             if (!string.IsNullOrEmpty(Action))
             {

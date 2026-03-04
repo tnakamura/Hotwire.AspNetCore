@@ -1,6 +1,9 @@
+@{
+    Layout = null;
+}
 <turbo-stream-custom action="slide_in" target="animated-items">
     <div class="list-group-item">
-        <strong>@ViewBag.ItemText</strong>
-        <small class="text-muted">Added at @ViewBag.Timestamp</small>
+        <strong>@Model.itemText</strong>
+        <small class="text-muted">Added at @Model.timestamp</small>
     </div>
 </turbo-stream-custom>

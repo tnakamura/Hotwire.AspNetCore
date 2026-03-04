@@ -1,1 +1,4 @@
-<turbo-stream-custom action="notify" message="@ViewBag.Message" type="@ViewBag.Type"></turbo-stream-custom>
+@{
+    Layout = null;
+}
+<turbo-stream-custom action="notify" message="@Model.message" type="@Model.type"></turbo-stream-custom>
