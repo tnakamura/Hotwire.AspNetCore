@@ -14,6 +14,7 @@
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<Description>Use Stimulus in your ASP.NET Core app</Description>
   </PropertyGroup>
 
   <ItemGroup>
