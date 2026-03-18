@@ -12,7 +12,7 @@ public static class TagParser
         return value
             .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .Distinct(StringComparer.OrdinalIgnoreCase)
-            .Select(tag => new Tag(tag))
+            .Select(tag => new Tag(tag.ToLowerInvariant()))
             .ToArray();
     }
 }
