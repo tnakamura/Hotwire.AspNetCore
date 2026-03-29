@@ -29,6 +29,16 @@ Concise summary in English covering:
 - **Priority Recommendations**: Actionable next steps
 - **Use Case Assessment**: When to use (and not use) this library
 
+### 3. [Hotwire.AspNetCore 紹介ブログ記事 (Japanese)](./hotwire-aspnetcore-intro-blog-ja.md)
+**File**: `hotwire-aspnetcore-intro-blog-ja.md`
+
+日本語の紹介記事。以下の内容を含みます：
+
+- **開発動機**: MVC/Razor Pages と Blazor の間を埋める狙い
+- **ライブラリの特徴**: Turbo Drive / Frames / Streams / SignalR / Stimulus
+- **使い方**: 導入手順と最小構成サンプル
+- **実装の工夫ポイント**: ソースコードに基づく設計上の意図
+
 ## 🎯 Quick Findings
 
 ### ✅ Implemented Features
