@@ -1,6 +1,6 @@
 # Hotwire.AspNetCore のリリースとアーキテクチャ解説
 
-[Hotwire.AspNetCore](https://github.com/tnakamura/Hotwire.AspNetCore) を公開しました。ASP.NET Core で「少しリッチな」画面体験を作りたいときに、MVC / Razor Pages から大きく逸脱せずに Turbo の流儀を持ち込めるライブラリです。
+[Hotwire.AspNetCore](https://github.com/tnakamura/Hotwire.AspNetCore) を公開しました（2026年3月時点）。ASP.NET Core で「少しリッチな」画面体験を作りたいときに、MVC / Razor Pages から大きく逸脱せずに Turbo の流儀を持ち込めるライブラリです。
 
 * [https://github.com/tnakamura/Hotwire.AspNetCore](https://github.com/tnakamura/Hotwire.AspNetCore)
 
@@ -26,7 +26,7 @@
 - Stimulus 本体: `/src/Stimulus.AspNetCore/`
 - サンプル: `/examples/WireDrive`, `/examples/WireFrame`, `/examples/WireStream`, `/examples/WireSignal`, `/examples/WireStimulus`
 
-テストは `Turbo.AspNetCore.Test` と `Stimulus.AspNetCore.Test` があり、いずれも通る状態です。
+テストは `Turbo.AspNetCore.Test` と `Stimulus.AspNetCore.Test` があり、`dotnet test Hotwire.AspNetCore.slnx` で継続的に確認しています。
 
 導入手順（最短）
 ---
