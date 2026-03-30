@@ -1,124 +1,56 @@
-# ASP.NET Core にちょうどいいリッチさを。Hotwire.AspNetCore を作った理由と使い方
+# Hotwire.AspNetCore のリリースとアーキテクチャ解説
 
-こんにちは。この記事では、`Hotwire.AspNetCore` を開発した背景、ライブラリの特徴、実際の使い方、そして実装時に工夫したポイントをまとめます。
+[Hotwire.AspNetCore](https://github.com/tnakamura/Hotwire.AspNetCore) を公開しました。ASP.NET Core で「少しリッチな」画面体験を作りたいときに、MVC / Razor Pages から大きく逸脱せずに Turbo の流儀を持ち込めるライブラリです。
 
-## 開発の動機
+* [https://github.com/tnakamura/Hotwire.AspNetCore](https://github.com/tnakamura/Hotwire.AspNetCore)
 
-ASP.NET Core で「少しリッチな Web アプリ」を作りたいとき、選択肢が極端だと感じていました。
+開発動機は明確で、ASP.NET Core で UI 体験を上げようとすると、MVC / Razor Pages の延長で頑張るか、Blazor へ寄せるかの二択になりがちだったことです。もちろん Blazor は強力ですが、既存の MVC / Razor Pages 資産を活かしながら「部分更新」「高速遷移」「サーバー主導のリアルタイム更新」を小さく導入したいケースも多い。そこで Rails の Hotwire がちょうど良い落としどころに見えたので、ASP.NET Core 向けに実装しました。
 
-- MVC / Razor Pages のままでは、画面の一部更新やリアルタイム更新を行うのに手作業が増える
-- かといって Blazor に寄せると、構成や開発体験が大きく変わる
+この記事では、まず何ができるのかと導入方法を整理し、その後にソースコードベースで実装時の工夫を解説します。
 
-この「MVC/Razor Pages と Blazor の間」を埋めるアプローチとして、Rails の Hotwire がちょうど良さそうだと感じ、ASP.NET Core で扱いやすい形で実装してみたのが `Hotwire.AspNetCore` です。
-
+ライブラリで何ができるか
 ---
 
-## Hotwire.AspNetCore の特徴
+現在の `Hotwire.AspNetCore` は、Turbo を中心に次の機能を提供しています。
 
-### 1. Turbo Drive
+- **Turbo Drive**: ページ遷移高速化（`turbo-drive-meta`, `turbo-permanent`）
+- **Turbo Frames**: 部分差し替え
+- **Turbo Streams**: append / replace / remove などのサーバー主導 DOM 更新
+- **Turbo Streams Custom Actions**: 標準外アクションを拡張
+- **SignalR Integration**: Turbo Stream をリアルタイム push
+- **Stimulus Integration**（別パッケージ `Stimulus.AspNetCore`）
 
-ページ遷移を高速化するための機能です。リンククリックやフォーム送信を Turbo が扱い、フルリロードを減らします。
+実装位置:
 
-- `turbo-drive-meta` Tag Helper で有効化・遷移設定
-- `turbo-permanent` Tag Helper で永続要素を定義
-- `Request.IsTurboDriveRequest()` でサーバー側判定
+- Turbo 本体: `/src/Turbo.AspNetCore/`
+- Stimulus 本体: `/src/Stimulus.AspNetCore/`
+- サンプル: `/examples/WireDrive`, `/examples/WireFrame`, `/examples/WireStream`, `/examples/WireSignal`, `/examples/WireStimulus`
 
-関連実装:
+テストは `Turbo.AspNetCore.Test` と `Stimulus.AspNetCore.Test` があり、現状は 56 テスト（48 + 20）が通る状態です。
 
-- `/src/Turbo.AspNetCore/TagHelpers/TurboDriveMetaTagHelper.cs`
-- `/src/Turbo.AspNetCore/TagHelpers/TurboPermanentTagHelper.cs`
-- `/src/Turbo.AspNetCore/TurboHttpRequestExtensions.cs`
-
-### 2. Turbo Frames
-
-ページの一部だけを差し替える機能です。Razor Pages / MVC でも自然に段階導入できます。
-
-- `turbo-frame` Tag Helper 対応
-- `Request.IsTurboFrameRequest()` で判定可能
-
-関連実装:
-
-- `/src/Turbo.AspNetCore/TagHelpers/TurboFrameTagHelper.cs`
-- `/src/Turbo.AspNetCore/TurboHttpRequestExtensions.cs`
-
-### 3. Turbo Streams（標準 + カスタム）
-
-サーバーから HTML 片を返して DOM 更新を指示します。
-
-- 主要アクション（append / prepend / replace / update / remove / before / after）
-- 複数要素向け `*_all` 系
-- Turbo 8 系の `morph` / `refresh`
-- カスタムアクション定義（`turbo-stream-custom`、`Html.TurboStreamCustom(...)`）
-
-関連実装:
-
-- `/src/Turbo.AspNetCore/TagHelpers/TurboStreamTagHelper.cs`
-- `/src/Turbo.AspNetCore/TagHelpers/TurboStreamCustomActionTagHelper.cs`
-- `/src/Turbo.AspNetCore/TurboStreamCustomHtmlExtensions.cs`
-- `/src/Turbo.AspNetCore/TurboControllerExtensions.cs`
-
-### 4. SignalR 連携（リアルタイム配信）
-
-Turbo Stream を SignalR で push できるので、通知・チャット・ダッシュボード更新などをサーバー主導で実現できます。
-
-- `TurboStreamsHub` でチャネル購読モデルを提供
-- `ITurboStreamBroadcaster` で channel / connection / all 宛て配信
-- `turbo-signalr.js` でクライアント接続・再接続・再購読
-
-関連実装:
-
-- `/src/Turbo.AspNetCore/Hubs/TurboStreamsHub.cs`
-- `/src/Turbo.AspNetCore/TurboStreamBroadcaster.cs`
-- `/src/Turbo.AspNetCore/TurboEndpointRouteBuilderExtensions.cs`
-- `/src/Turbo.AspNetCore/wwwroot/js/turbo-signalr.js`
-
-### 5. Stimulus 連携（別パッケージ）
-
-`Stimulus.AspNetCore` で、`stimulus-*` 属性を Tag Helper / Html Helper で扱いやすくしています。
-
-関連実装:
-
-- `/src/Stimulus.AspNetCore/TagHelpers/*`
-- `/src/Stimulus.AspNetCore/StimulusHtmlExtensions.cs`
-
+導入手順（最短）
 ---
 
-## 使い方（最小構成）
-
-### 1) パッケージ導入
+導入は段階的にできるようにしてあります。最小だと次の 4 ステップです。
 
 ```bash
 dotnet add package Hotwire.AspNetCore
 ```
 
-または個別導入:
-
-```bash
-dotnet add package Turbo.AspNetCore
-dotnet add package Stimulus.AspNetCore
-```
-
-### 2) Tag Helper を登録
-
-`Views/_ViewImports.cshtml`
-
 ```csharp
+// Views/_ViewImports.cshtml
 @addTagHelper *, Turbo.AspNetCore
 @addTagHelper *, Stimulus.AspNetCore
 ```
 
-### 3) Turbo.js を読み込み、Turbo Drive を有効化
-
-`Views/Shared/_Layout.cshtml`
-
 ```html
+<!-- Views/Shared/_Layout.cshtml -->
 <script type="module" src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@latest/dist/turbo.es2017-esm.min.js"></script>
 <turbo-drive-meta enabled="true" transition="fade" />
 ```
 
-### 4) Controller で Turbo Stream 判定して返す
-
 ```csharp
+// Controller
 using Turbo.AspNetCore;
 
 public IActionResult Create(MessageViewModel model)
@@ -132,112 +64,180 @@ public IActionResult Create(MessageViewModel model)
 }
 ```
 
-### 5) View で Turbo Stream を返す
-
 ```html
+<!-- _Message.cshtml -->
 <turbo-stream-append target="messages">
   <div class="message">@Model.Content</div>
 </turbo-stream-append>
 ```
 
-### 6) SignalR でリアルタイム配信（必要な場合）
-
-`Program.cs`
+リアルタイム配信が必要なら、SignalR 側を追加します。
 
 ```csharp
 builder.Services.AddSignalR();
 builder.Services.AddTurboStreamBroadcaster();
 
 var app = builder.Build();
-app.MapTurboStreamsHub();
+app.MapTurboStreamsHub(); // default: /hubs/turbo-streams
 ```
-
-サーバー側で配信:
 
 ```csharp
 await _broadcaster.BroadcastViewAsync("notifications", "_Notification", model);
 ```
 
-クライアント側では `turbo-signalr.js` を読み込み、チャネル購読します。
+これで Turbo Stream の HTML フラグメントを SignalR 経由で配信できます。
 
+実装の工夫 1: リクエスト判定を単純化する拡張メソッド
 ---
 
-## ソースコードを読んでわかった「実装時の工夫ポイント」
+Controller で毎回ヘッダー判定を書くのは冗長なので、`TurboHttpRequestExtensions` に判定を集約しています。
 
-### 1) リクエスト判定を拡張メソッドに集約
+```csharp
+public static bool IsTurboDriveRequest(this HttpRequest request)
+{
+    return !request.Headers.ContainsKey("turbo-frame") &&
+           request.GetTypedHeaders().Accept.Any(x => x.MediaType == "text/html");
+}
+```
 
-`TurboHttpRequestExtensions` に判定ロジックを寄せることで、Controller 側は `if (Request.IsTurboStreamRequest())` のように短く書けます。
-
-特に `IsTurboDriveRequest()` は、`turbo-frame` ヘッダー有無と `Accept: text/html` の組み合わせで判定しており、Turbo の振る舞いに沿った実装になっています。
+`IsTurboFrameRequest()`, `IsTurboStreamRequest()`, `IsTurboRequest()` も同居させることで、分岐はアプリ側で簡潔に書けます。
 
 - `/src/Turbo.AspNetCore/TurboHttpRequestExtensions.cs`
 
-### 2) Turbo Stream Tag Helper の継承設計で重複を削減
+実装の工夫 2: Turbo Stream TagHelper の継承設計
+---
 
-`TurboStreamTagHelper`（基底）→ `TurboStreamActionTagHelper` / `TurboStreamActionAllTagHelper`（中間）→ 各アクション（具象）という構造です。
+Turbo Stream の標準アクションは種類が多いですが、各 TagHelper で同じ処理を繰り返すと保守性が落ちます。そこで 3 層の継承にしています。
 
-- 共通処理（`<turbo-stream>` への変換、`<template>` 自動ラップ）を基底に集約
-- 各アクションは `Action` プロパティを返すだけ
+- `TurboStreamTagHelper`（共通: `turbo-stream` 変換 + `<template>` 包装）
+- `TurboStreamActionTagHelper`（単一 target）
+- `TurboStreamActionAllTagHelper`（複数 targets）
 
-これにより、アクション追加時の差分を小さく保ちつつ、挙動の一貫性を維持しやすくしています。
+```csharp
+public abstract class TurboStreamActionTagHelper : TurboStreamTagHelper
+{
+    public string? Target { get; set; }
+    private protected abstract string Action { get; }
+
+    public override void Process(TagHelperContext context, TagHelperOutput output)
+    {
+        output.Attributes.SetAttribute("target", Target);
+        output.Attributes.SetAttribute("action", Action);
+        base.Process(context, output);
+    }
+}
+
+public sealed class TurboStreamAppendTagHelper : TurboStreamActionTagHelper
+{
+    private protected override string Action => "append";
+}
+```
+
+この形により、追加アクション実装は `Action` の差分だけで済みます。Turbo 8 系の `morph` / `refresh` を増やしたときも、既存設計に自然に載せられました。
 
 - `/src/Turbo.AspNetCore/TagHelpers/TurboStreamTagHelper.cs`
 
-### 3) カスタムアクションで「任意属性」を受け取れる設計
+実装の工夫 3: Custom Action の属性受け渡し
+---
 
-`TurboStreamCustomActionTagHelper` では `DictionaryAttributePrefix = ""` を使い、`action` 以外の属性を柔軟に受け取って出力へ渡しています。
+カスタムアクションは、利用側の JavaScript 実装に合わせて任意属性を運びたいので、固定属性列挙ではなく辞書受けを採用しています。
 
-これにより、JS 側の `Turbo.StreamActions.xxx` と組み合わせるだけで、用途別のカスタムストリームを追加できます。
+```csharp
+[HtmlAttributeName(DictionaryAttributePrefix = "")]
+public IDictionary<string, string?> AdditionalAttributes { get; set; }
+    = new Dictionary<string, string?>();
+```
+
+```csharp
+foreach (var attribute in AdditionalAttributes)
+{
+    if (attribute.Key.Equals("action", StringComparison.OrdinalIgnoreCase))
+    {
+        continue;
+    }
+    output.Attributes.SetAttribute(attribute.Key, attribute.Value);
+}
+```
+
+これで `turbo-stream-custom` から渡した任意属性を、`<turbo-stream ...>` にそのまま反映できます。
 
 - `/src/Turbo.AspNetCore/TagHelpers/TurboStreamCustomActionTagHelper.cs`
 - `/src/Turbo.AspNetCore/TurboStreamCustomHtmlExtensions.cs`
 
-### 4) SignalR Broadcaster で「View を文字列化して配信」
+実装の工夫 4: SignalR 配信で View を直接レンダリング
+---
 
-`TurboStreamBroadcaster` は `IRazorViewEngine` を使ってビューをレンダリングし、その HTML を SignalR で配信します。
+`TurboStreamBroadcaster` は、単純な文字列送信だけでなく、Razor View をレンダリングして送る経路を持っています。
 
-さらに `IHttpContextAccessor` から現在の `HttpContext` が取れない場合に備え、`DefaultHttpContext` を補う実装になっており、実行コンテキストの違いに耐える作りです。
+```csharp
+public async Task BroadcastViewAsync(string channel, string viewName, object? model = null)
+{
+    var html = await RenderViewToStringAsync(viewName, model);
+    await BroadcastAsync(channel, html);
+}
+```
+
+さらに `HttpContext` が取れないケース（非HTTPコンテキスト）向けに `DefaultHttpContext` を補う実装にして、配信処理の実行コンテキスト依存を減らしています。
+
+```csharp
+var currentHttpContext = _httpContextAccessor.HttpContext;
+var httpContext = currentHttpContext ?? new DefaultHttpContext { RequestServices = _serviceProvider };
+```
 
 - `/src/Turbo.AspNetCore/TurboStreamBroadcaster.cs`
 
-### 5) クライアント接続の復旧戦略
+実装の工夫 5: 再接続と再購読をクライアント側で吸収
+---
 
-`turbo-signalr.js` では自動再接続と、再接続後のチャネル再購読を実装しています。運用で起きがちな瞬断に強いのは実務的に重要です。
+`turbo-signalr.js` は、接続断の復帰後にチャネル再購読まで行います。
+
+```javascript
+this.connection.onreconnected((connectionId) => {
+    this.dispatchEvent('reconnected', { connectionId });
+    this.resubscribeChannels();
+});
+```
+
+指数バックオフの再接続も入れてあり、運用で遭遇しがちな一時断に対して、アプリ側コードを増やさず耐えられるようにしています。
 
 - `/src/Turbo.AspNetCore/wwwroot/js/turbo-signalr.js`
 
-### 6) API の導入障壁を下げる拡張メソッド
+実装の工夫 6: 導入コストを下げる API デザイン
+---
+
+利用側が覚える API を減らすため、主要な配線は拡張メソッド化しています。
 
 - `AddTurboStreamBroadcaster()`（DI 登録）
-- `MapTurboStreamsHub()`（エンドポイントマッピング）
-- `TurboStream(...)`（Controller 返却）
+- `MapTurboStreamsHub()`（ルーティング）
+- `TurboStream(...)`（Controller 応答）
 
-といった拡張メソッドで、利用側コードの定型を短くできるようにしています。
+```csharp
+services.AddHttpContextAccessor();
+services.TryAddScoped<ITurboStreamBroadcaster, TurboStreamBroadcaster>();
+```
+
+```csharp
+return endpoints.MapHub<TurboStreamsHub>(pattern);
+```
 
 - `/src/Turbo.AspNetCore/TurboServiceCollectionExtensions.cs`
 - `/src/Turbo.AspNetCore/TurboEndpointRouteBuilderExtensions.cs`
 - `/src/Turbo.AspNetCore/TurboControllerExtensions.cs`
 
+どんなケースで効くか
 ---
 
-## どんなときに向いているか
+向いているのは、次のようなプロジェクトです。
 
-- 既存の MVC / Razor Pages を活かしつつ、画面体験を一段リッチにしたい
-- SPA に全面移行するほどではないが、部分更新やリアルタイム性は欲しい
-- サーバーサイドレンダリング中心で開発したい
+- MVC / Razor Pages を維持しつつ UX を上げたい
+- SPA 全面移行は重いが、部分更新や push 更新は欲しい
+- サーバーサイドレンダリングを中心に進めたい
 
-## 補足（正直な注意点）
+逆に、クライアントに重い状態管理を全面的に寄せたい場合は、Blazor / SPA のほうが適します。
 
-- Turbo / Stimulus は JavaScript ランタイム前提
-- SignalR を複数インスタンス運用する場合は、バックプレーン構成を別途検討する必要あり
-- カスタムアクションは Tag Helper 側だけで完結せず、クライアント JS 側実装が必要
-
+まとめ
 ---
 
-## まとめ
+`Hotwire.AspNetCore` は、ASP.NET Core で「リッチさ」と「既存資産活用」を両立させるために作ったライブラリです。MVC / Razor Pages の開発体験を保ちながら、Turbo Drive / Frames / Streams と SignalR を段階導入できます。
 
-`Hotwire.AspNetCore` は、ASP.NET Core において「MVC/Razor Pages の延長で、ちょうどいいリッチさ」を実現するための選択肢です。
-
-Blazor ほど大きくアーキテクチャを振らず、かつ jQuery 的な局所ハックにも寄りすぎない。そんな中間地点を、Turbo Drive / Frames / Streams と SignalR 連携で埋められるように設計しました。
-
-まずは Turbo Drive と Turbo Streams の小さな導入から始めて、必要に応じて SignalR や Stimulus を足していくのがおすすめです。
+まずは Turbo Drive と Turbo Streams を小さく導入し、必要になったら SignalR と Stimulus を足す、という進め方が最も効果的です。
