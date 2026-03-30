@@ -435,6 +435,17 @@ dotnet test
 
 **Test results**: All 56 tests (36 Turbo + 20 Stimulus) passing ✅
 
+## Coverage
+
+```bash
+# Collect coverage (Coverlet)
+dotnet test --collect:"XPlat Code Coverage"
+
+# Restore local tools and generate HTML report (ReportGenerator)
+dotnet tool restore
+dotnet tool run reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coveragereport"
+```
+
 ## Project Structure
 
 ```
