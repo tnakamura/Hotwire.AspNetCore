@@ -1,10 +1,10 @@
 # Hotwire.AspNetCore のリリースとアーキテクチャ解説
 
-[Hotwire.AspNetCore](https://github.com/tnakamura/Hotwire.AspNetCore) を公開しました（2026年3月時点）。ASP.NET Core で「少しリッチな」画面体験を作りたいときに、MVC / Razor Pages から大きく逸脱せずに Turbo の流儀を持ち込めるライブラリです。
+[Hotwire.AspNetCore](https://github.com/tnakamura/Hotwire.AspNetCore) を公開しました（2026年3月時点）。ASP.NET Core で「少しリッチな」画面体験を作りたいときに、MVC / Razor Pages から大きく逸脱せずに Turbo の流儀を持ち込めるライブラリです。既存資産を活かしたまま、体験を一段引き上げたいなら、かなり手応えのある選択肢になっています。
 
 * [https://github.com/tnakamura/Hotwire.AspNetCore](https://github.com/tnakamura/Hotwire.AspNetCore)
 
-開発動機は明確で、ASP.NET Core で UI 体験を上げようとすると、MVC / Razor Pages の延長で頑張るか、Blazor へ寄せるかの二択になりがちだったことです。もちろん Blazor は強力ですが、既存の MVC / Razor Pages 資産を活かしながら「部分更新」「高速遷移」「サーバー主導のリアルタイム更新」を小さく導入したいケースも多い。そこで Rails の Hotwire がちょうど良い落としどころに見えたので、ASP.NET Core 向けに実装しました。
+開発動機は明確で、ASP.NET Core で UI 体験を上げようとすると、MVC / Razor Pages の延長で頑張るか、Blazor へ寄せるかの二択になりがちだったことです。もちろん Blazor は強力ですが、既存の MVC / Razor Pages 資産を活かしながら「部分更新」「高速遷移」「サーバー主導のリアルタイム更新」を小さく導入したいケースも多い。そこで Rails の Hotwire がちょうど良い落としどころに見えたので、ASP.NET Core 向けに実装しました。実際、ここが刺さるプロジェクトでは開発スピードと UX の両立がぐっと楽になります。
 
 この記事では、まず何ができるのかと導入方法を整理し、その後にソースコードベースで実装時の工夫を解説します。
 
@@ -31,7 +31,7 @@
 導入手順（最短）
 ---
 
-導入は段階的にできるようにしてあります。最小だと次の 4 ステップです。
+導入は段階的にできるようにしてあります。最小だと次の 4 ステップです。最初の一歩はかなり軽く、まず触って効果を見てほしいです。
 
 ```bash
 dotnet add package Hotwire.AspNetCore
@@ -227,7 +227,7 @@ return endpoints.MapHub<TurboStreamsHub>(pattern);
 どんなケースで効くか
 ---
 
-向いているのは、次のようなプロジェクトです。
+向いているのは、次のようなプロジェクトです。特に「既存の Razor を捨てずに、画面体験だけ今すぐ上げたい」というチームには強くハマります。
 
 - MVC / Razor Pages を維持しつつ UX を上げたい
 - SPA 全面移行は重いが、部分更新や push 更新は欲しい
@@ -238,6 +238,6 @@ return endpoints.MapHub<TurboStreamsHub>(pattern);
 まとめ
 ---
 
-`Hotwire.AspNetCore` は、ASP.NET Core で「リッチさ」と「既存資産活用」を両立させるために作ったライブラリです。MVC / Razor Pages の開発体験を保ちながら、Turbo Drive / Frames / Streams と SignalR を段階導入できます。
+`Hotwire.AspNetCore` は、ASP.NET Core で「リッチさ」と「既存資産活用」を両立させるために作ったライブラリです。MVC / Razor Pages の開発体験を保ちながら、Turbo Drive / Frames / Streams と SignalR を段階導入できます。大きな作り直しをしなくても、ユーザーが体感できる改善を積み上げられるのが最大の魅力です。
 
-まずは Turbo Drive と Turbo Streams を小さく導入し、必要になったら SignalR と Stimulus を足す、という進め方が最も効果的です。
+まずは Turbo Drive と Turbo Streams を小さく導入し、必要になったら SignalR と Stimulus を足す、という進め方が最も効果的です。ぜひ手元の画面で一度動かしてみてください。想像以上に「ちょうどいいリッチさ」がすぐに手に入ります。
