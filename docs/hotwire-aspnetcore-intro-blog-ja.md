@@ -26,7 +26,7 @@
 - Stimulus 本体: `/src/Stimulus.AspNetCore/`
 - サンプル: `/examples/WireDrive`, `/examples/WireFrame`, `/examples/WireStream`, `/examples/WireSignal`, `/examples/WireStimulus`
 
-テストは `Turbo.AspNetCore.Test` と `Stimulus.AspNetCore.Test` があり、現状は 56 テスト（48 + 20）が通る状態です。
+テストは `Turbo.AspNetCore.Test`（48件）と `Stimulus.AspNetCore.Test`（20件）があり、いずれも通る状態です。
 
 導入手順（最短）
 ---
